@@ -34,6 +34,7 @@
       neofetch
     ];
   };
+  services.getty.autologinUser = "sinan";
 
   # system
   environment.systemPackages = with pkgs; [
