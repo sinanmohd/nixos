@@ -24,8 +24,6 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      git
-      tmux
       w3m
       neofetch
     ];
@@ -34,6 +32,10 @@
 
   # system
   environment.systemPackages = with pkgs; [
+    tmux
+    file
+    openssl
+    git
     htop
     curl
     neovim
