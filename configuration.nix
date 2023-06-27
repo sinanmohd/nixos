@@ -13,10 +13,6 @@
   };
 
   # netwroking
-  networking = {
-    hostName = "cez";
-    wireless.iwd.enable = true;
-  };
   time.timeZone = "Asia/Kolkata";
 
   # sound.
