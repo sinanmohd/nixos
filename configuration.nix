@@ -12,17 +12,17 @@
     efi.canTouchEfiVariables = true;
   };
 
-  # netwroking
+  # networking
   time.timeZone = "Asia/Kolkata";
 
-  # sound.
+  # sound
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
   # users
   users.users.sinan = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" ];
     packages = with pkgs; [
       w3m
       neofetch
