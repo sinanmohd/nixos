@@ -26,6 +26,7 @@
     packages = with pkgs; [
       w3m
       neofetch
+      ps_mem
     ];
   };
   services.getty.autologinUser = "sinan";
