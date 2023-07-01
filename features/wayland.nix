@@ -44,6 +44,11 @@ in
 	sha256 = "1wns3g7r7g5gcc8vcrffrvvx1cfp33myb80l0p6pv6qaflvb5i0a";
       };
     }))
+    mpv
+    qemu
+    OVMFFull
+    element-desktop
+    firefox
     dbus-xdp-environment
     swaylock
     swayidle
@@ -56,6 +61,12 @@ in
     mako
     wayland
     xdg-utils
+    imv
+    libnotify
+    wob
+    wlr-randr
+    nerdfonts
+    tor-browser-bundle-bin
     # gtk
     configure-gtk
     dracula-theme # gtk theme

@@ -33,10 +33,17 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [
+      nnn
+      shellcheck
+      ffmpeg-full
+      gnumake
+      rtorrent
       nixos-option
-      w3m
+      pass
+      gcc
       neofetch
       ps_mem
+      brightnessctl
     ];
   };
   services.getty.autologinUser = user;
@@ -45,6 +52,8 @@ in
   environment = {
     binsh = "${pkgs.dash}/bin/dash";
     systemPackages = with pkgs; [
+      unzip
+      bc
       file
       openssl
       git
@@ -52,6 +61,7 @@ in
       curl
       neovim
       wget
+      tree
     ];
   };
   system.stateVersion = "23.05";
