@@ -40,7 +40,6 @@ in
 
   # system
   environment.systemPackages = with pkgs; [
-    tmux
     file
     openssl
     git
