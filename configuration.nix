@@ -31,6 +31,7 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [
+      nixos-option
       w3m
       neofetch
       ps_mem
