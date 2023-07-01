@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  user = "sinan";
+in
 {
   imports =
     [ # include the results of the hardware scan.
@@ -24,7 +27,7 @@
   };
 
   # users
-  users.users.sinan = {
+  users.users.${user} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [
@@ -33,7 +36,7 @@
       ps_mem
     ];
   };
-  services.getty.autologinUser = "sinan";
+  services.getty.autologinUser = user;
 
   # system
   environment.systemPackages = with pkgs; [
