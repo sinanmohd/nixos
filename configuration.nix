@@ -40,14 +40,17 @@ in
   services.getty.autologinUser = user;
 
   # system
-  environment.systemPackages = with pkgs; [
-    file
-    openssl
-    git
-    htop
-    curl
-    neovim
-    wget
-  ];
+  environment = {
+    binsh = "${pkgs.dash}/bin/dash";
+    systemPackages = with pkgs; [
+      file
+      openssl
+      git
+      htop
+      curl
+      neovim
+      wget
+    ];
+  };
   system.stateVersion = "23.05";
 }
