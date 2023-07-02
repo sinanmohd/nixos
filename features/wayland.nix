@@ -44,6 +44,7 @@ in
 	sha256 = "1wns3g7r7g5gcc8vcrffrvvx1cfp33myb80l0p6pv6qaflvb5i0a";
       };
     }))
+    pinentry-gnome
     mpv
     qemu
     OVMFFull
@@ -88,4 +89,8 @@ in
   fonts.enableDefaultFonts = true;
   programs.dconf.enable = true;
   programs.xwayland.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryFlavor = "gnome3";
+  };
 }
