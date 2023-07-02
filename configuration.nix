@@ -7,6 +7,8 @@ in
   imports =
     [ # include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./hardware/cez.nix
+      ./features/wayland.nix
     ];
 
   # boot
