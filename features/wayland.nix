@@ -68,6 +68,7 @@ in
     wlr-randr
     nerdfonts
     tor-browser-bundle-bin
+    wtype
     # gtk
     configure-gtk
     dracula-theme # gtk theme
