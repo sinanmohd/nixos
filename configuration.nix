@@ -5,8 +5,8 @@ let
 in
 {
   imports =
-    [ # include the results of the hardware scan.
-      ./hardware-configuration.nix
+    [
+      ./hardware-configuration.nix # hw scan
       ./hardware/cez.nix
       ./features/wayland.nix
     ];
