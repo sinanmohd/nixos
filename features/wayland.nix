@@ -44,6 +44,7 @@ in
 	sha256 = "1wns3g7r7g5gcc8vcrffrvvx1cfp33myb80l0p6pv6qaflvb5i0a";
       };
     }))
+    zathura
     pinentry-gnome
     mpv
     qemu
