@@ -68,6 +68,8 @@ in
     ];
   };
   system.stateVersion = "23.05";
+  nix.settings.experimental-features = [ "nix-command" ];
+
   programs.bash.promptInit = ''
     PROMPT_COLOR="1;31m"
     [ "$UID" -ne 0 ] &&
