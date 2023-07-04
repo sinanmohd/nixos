@@ -86,11 +86,15 @@ in
 
   # font
   fonts = {
-    fonts = [ pkgs.terminus-nerdfont ];
+    fonts = [ pkgs.terminus-nerdfont pkgs.dm-sans ];
     enableDefaultFonts = true;
     fontconfig = {
       hinting.style = "hintfull";
-      defaultFonts.monospace = [ "Terminess Nerd Font" ];
+      defaultFonts = {
+        monospace = [ "Terminess Nerd Font" ];
+        serif = [ "DeepMind Sans" ];
+        sansSerif = [ "DeepMind Sans" ];
+      };
     };
   };
 
