@@ -33,6 +33,7 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [
+      android-tools
       geoipWithDatabase
       dig
       nnn
