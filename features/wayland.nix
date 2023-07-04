@@ -67,7 +67,6 @@ in
     libnotify
     wob
     wlr-randr
-    nerdfonts
     tor-browser-bundle-bin
     wtype
     # gtk
@@ -85,10 +84,19 @@ in
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
+  # font
+  fonts = {
+    fonts = [ pkgs.terminus-nerdfont ];
+    enableDefaultFonts = true;
+    fontconfig = {
+      hinting.style = "hintfull";
+      defaultFonts.monospace = [ "Terminess Nerd Font" ];
+    };
+  };
+
   # misc
   security.polkit.enable = true;
   hardware.opengl.enable = true;
-  fonts.enableDefaultFonts = true;
   programs.dconf.enable = true;
   programs.xwayland.enable = true;
   programs.gnupg.agent = {
