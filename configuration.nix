@@ -9,6 +9,7 @@ in
       ./hardware-configuration.nix # hw scan
       ./hardware/cez.nix
       ./features/wayland.nix
+      ./features/kaysshfs.nix
     ];
 
   # boot
