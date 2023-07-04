@@ -33,6 +33,8 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     packages = with pkgs; [
+      geoipWithDatabase
+      dig
       nnn
       shellcheck
       ffmpeg-full
@@ -52,6 +54,7 @@ in
   environment = {
     binsh = "${pkgs.dash}/bin/dash";
     systemPackages = with pkgs; [
+      dash
       unzip
       bc
       file
