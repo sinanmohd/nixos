@@ -36,8 +36,8 @@ let
     name = "dwl-sinan";
     src = fetchgit {
       url = "https://git.sinanmohd.com/dwl";
-      rev = "2edd9f1448d4d8641c3cff3b0112694d2636241c";
-      sha256 = "1wns3g7r7g5gcc8vcrffrvvx1cfp33myb80l0p6pv6qaflvb5i0a";
+      rev = "f708547efb0b3afe4149f6eb7bcc685fc39f351a";
+      sha256 = "04rb90hasicm4aj51403hjxyyszm87qiqz6phrjy3364vkqvrx3c";
     };
   });
 in
