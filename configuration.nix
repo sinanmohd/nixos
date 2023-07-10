@@ -54,6 +54,10 @@ in
   # system
   environment = {
     binsh = "${pkgs.dash}/bin/dash";
+    shellAliases = {
+      ls = "ls --color=auto --group-directories-first";
+      grep = "grep --color=auto";
+    };
     systemPackages = with pkgs; [
       dash
       unzip
