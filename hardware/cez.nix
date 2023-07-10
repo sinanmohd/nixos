@@ -1,6 +1,12 @@
 { config, ... }:
 
 {
+  imports =
+    [
+      ../features/wayland.nix
+      ../features/kaysshfs.nix
+    ];
+
   networking = {
     hostName = "cez";
     wireless.iwd.enable = true;
