@@ -5,6 +5,7 @@
     [
       ../features/wayland.nix
       ../features/kaysshfs.nix
+      ../features/development.nix
     ];
 
   networking = {
