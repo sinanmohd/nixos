@@ -100,12 +100,16 @@ in
   };
 
   # misc
-  security.polkit.enable = true;
   hardware.opengl.enable = true;
-  programs.dconf.enable = true;
-  programs.xwayland.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryFlavor = "gnome3";
+
+  programs = {
+    dconf.enable = true;
+    xwayland.enable = true;
+    gnupg.agent = {
+      enable = true;
+      pinentryFlavor = "gnome3";
+    };
   };
+
+  security.polkit.enable = true;
 }
