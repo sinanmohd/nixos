@@ -111,5 +111,8 @@ in
     };
   };
 
-  security.polkit.enable = true;
+  security = {
+    polkit.enable = true;
+    pam.services.swaylock.text = "auth include login";
+  };
 }
