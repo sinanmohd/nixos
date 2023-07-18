@@ -51,7 +51,7 @@ in
     grim
     slurp
     wl-clipboard
-    wmenu
+    wmenu-sinan
     mako
     wayland
     xdg-utils
