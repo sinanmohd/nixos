@@ -76,7 +76,7 @@ in
 
   # nix
   nix = {
-    settings.experimental-features = [ "nix-command" ];
+    settings.experimental-features = [ "nix-command" "flakes" ];
     nixPath =
       options.nix.nixPath.default ++
       [ "nixpkgs-overlays=/etc/nixos/overlays/" ]
