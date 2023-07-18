@@ -31,15 +31,6 @@ let
           gsettings set $gnome_schema gtk-theme 'Dracula'
         '';
   };
-
-  dwl-sinan = with pkgs; dwl.overrideAttrs (oldAttrs: {
-    name = "dwl-sinan";
-    src = fetchgit {
-      url = "https://git.sinanmohd.com/dwl";
-      rev = "f708547efb0b3afe4149f6eb7bcc685fc39f351a";
-      sha256 = "04rb90hasicm4aj51403hjxyyszm87qiqz6phrjy3364vkqvrx3c";
-    };
-  });
 in
 {
   # pkgs

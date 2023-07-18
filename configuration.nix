@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, options, ... }:
 
 let
   user = "sinan";
@@ -73,8 +73,25 @@ in
     ];
   };
   system.stateVersion = "23.05";
-  nix.settings.experimental-features = [ "nix-command" ];
 
+  # nix
+  nix = {
+    settings.experimental-features = [ "nix-command" ];
+    nixPath =
+      options.nix.nixPath.default ++
+      [ "nixpkgs-overlays=/etc/nixos/overlays/" ]
+    ;
+  };
+  nixpkgs.overlays = with builtins;
+    if pathExists ./overlays then
+      map
+        (overlay: import ./overlays/${overlay})
+        (attrNames (readDir ./overlays))
+    else
+      options.nixpkgs.overlays.default
+  ;
+
+  # programs
   programs = {
     adb.enable = true;
     bash.promptInit = ''
