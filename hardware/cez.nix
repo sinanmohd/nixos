@@ -1,12 +1,11 @@
 { config, ... }:
 
 {
-  imports =
-    [
+  imports = [
       ../features/wayland.nix
       ../features/kaysshfs.nix
       ../features/development.nix
-    ];
+  ];
 
   networking = {
     hostName = "cez";

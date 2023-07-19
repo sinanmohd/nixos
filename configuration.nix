@@ -4,11 +4,10 @@ let
   user = "sinan";
 in
 {
-  imports =
-    [
+  imports = [
       ./hardware-configuration.nix # hw scan
       ./hardware/cez.nix
-    ];
+  ];
 
   # boot
   boot = {
