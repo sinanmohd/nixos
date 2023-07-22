@@ -43,6 +43,8 @@ in
       nixos-option
       pass
       gcc
+      lua
+      luajit
       neofetch
       ps_mem
       brightnessctl
