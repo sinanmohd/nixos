@@ -33,6 +33,7 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" "adbusers" ];
     packages = with pkgs; [
+      yt-dlp
       geoipWithDatabase
       dig
       nnn
