@@ -75,6 +75,7 @@ in
     ];
   };
   system.stateVersion = "23.05";
+  services.dbus.implementation = "broker";
 
   # nix
   nix = {
