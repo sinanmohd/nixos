@@ -38,7 +38,7 @@ in
       dig
       nnn
       shellcheck
-      ffmpeg-full
+      ffmpeg
       gnumake
       rtorrent
       nixos-option
