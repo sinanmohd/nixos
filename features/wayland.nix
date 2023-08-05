@@ -10,7 +10,6 @@
     qemu
     OVMFFull
     element-desktop
-    firefox
     swaylock
     swayidle
     swaybg
@@ -53,6 +52,13 @@
     gnupg.agent = {
       enable = true;
       pinentryFlavor = "gnome3";
+    };
+    firefox = {
+      enable = true;
+      preferences = {
+        "media.ffmpeg.vaapi.enabled" = true;
+        "gfx.webrender.all" = true;
+      };
     };
   };
 
