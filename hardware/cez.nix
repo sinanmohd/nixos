@@ -7,13 +7,19 @@
       ../features/development.nix
   ];
 
+  boot = {
+    initrd.luks.reusePassphrases = true;
+    consoleLogLevel = 3;
+  };
+
   networking = {
     hostName = "cez";
     wireless.iwd.enable = true;
   };
 
-  boot = {
-    initrd.luks.reusePassphrases = true;
-    consoleLogLevel = 3;
+  sound.enable = true;
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
   };
 }

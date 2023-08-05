@@ -21,13 +21,6 @@ in
   # networking
   time.timeZone = "Asia/Kolkata";
 
-  # sound
-  sound.enable = true;
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
   # users
   users.users.${user} = {
     isNormalUser = true;
