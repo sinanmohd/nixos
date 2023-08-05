@@ -1,19 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
-  # https://github.com/emersion/xdg-desktop-portal-wlr/wiki/"It-doesn't-work"-Troubleshooting-Checklist
-  dbus-xdp-environment = pkgs.writeTextFile {
-    name = "dbus-xdp-environment";
-    destination = "/bin/dbus-xdp-environment";
-    executable = true;
-
-    text = ''
-        dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots
-        systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
-        systemctl --user start pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
-      '';
-  };
-
   # gtk theming: https://github.com/swaywm/sway/wiki/GTK-3-settings-on-Wayland
   # for gsettings to work, we need to tell it where the schemas are
   # using the XDG_DATA_DIR environment variable
@@ -43,7 +30,6 @@ in
     OVMFFull
     element-desktop
     firefox
-    dbus-xdp-environment
     swaylock
     swayidle
     swaybg
@@ -61,20 +47,10 @@ in
     wlr-randr
     tor-browser-bundle-bin
     wtype
-    # gtk
     configure-gtk
     dracula-theme # gtk theme
-    gnome3.adwaita-icon-theme  # default gnome cursors
     glib # gsettings
   ];
-
-  # xdg desktop portal
-  services.dbus.enable = true;
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  };
 
   # font
   fonts = {
@@ -93,6 +69,7 @@ in
   # misc
   hardware.opengl.enable = true;
 
+  services.dbus.enable = true;
   programs = {
     dconf.enable = true;
     xwayland.enable = true;
