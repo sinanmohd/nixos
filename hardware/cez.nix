@@ -17,7 +17,13 @@
     wireless.iwd.enable = true;
   };
 
-  sound.enable = true;
+  sound = {
+    enable = true;
+    extraConfig = ''
+       defaults.pcm.card 1
+       defaults.ctl.card 1
+    '';
+  };
   services.pipewire = {
     enable = true;
     pulse.enable = true;
