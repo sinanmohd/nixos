@@ -14,6 +14,7 @@
 
   networking = {
     hostName = "cez";
+    dhcpcd.wait = "background";
     wireless.iwd.enable = true;
   };
 
