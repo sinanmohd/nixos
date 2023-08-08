@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = [ pkgs.tmux ];
+  environment.systemPackages = with pkgs; [
+    tmux
+  ];
 }

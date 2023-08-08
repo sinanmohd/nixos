@@ -5,8 +5,8 @@ let
 in
 {
   imports = [
-      ./hardware-configuration.nix # hw scan
-      ./hardware/cez.nix
+    ./hardware-configuration.nix # hw scan
+    ./hardware/cez.nix
   ];
 
   # boot
@@ -24,7 +24,10 @@ in
   # users
   users.users.${user} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "adbusers" ];
+    extraGroups = [
+      "wheel"
+      "adbusers"
+    ];
     packages = with pkgs; [
       yt-dlp
       geoipWithDatabase
@@ -72,11 +75,13 @@ in
 
   # nix
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
-    nixPath =
-      options.nix.nixPath.default ++
-      [ "nixpkgs-overlays=/etc/nixos/overlays/" ]
-    ;
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    nixPath = options.nix.nixPath.default ++ [
+      "nixpkgs-overlays=/etc/nixos/overlays/"
+    ];
   };
   nixpkgs.overlays = with builtins;
     if pathExists ./overlays then

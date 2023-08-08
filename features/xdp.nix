@@ -11,12 +11,14 @@ let
         dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots
         systemctl --user stop pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
         systemctl --user start pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-wlr
-      '';
+    '';
   };
 in
 {
   # pkgs
-  environment.systemPackages = [ dbus-xdp-environment ];
+  environment.systemPackages = [
+    dbus-xdp-environment
+  ];
 
   # xdg desktop portal
   xdg.portal = {

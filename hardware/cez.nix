@@ -2,9 +2,9 @@
 
 {
   imports = [
-      ../features/wayland.nix
-      ../features/kaysshfs.nix
-      ../features/development.nix
+    ../features/wayland.nix
+    ../features/kaysshfs.nix
+    ../features/development.nix
   ];
 
   boot = {
