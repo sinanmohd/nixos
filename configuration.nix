@@ -79,9 +79,6 @@ in
       "nix-command"
       "flakes"
     ];
-    nixPath = options.nix.nixPath.default ++ [
-      "nixpkgs-overlays=/etc/nixos/overlays/"
-    ];
   };
   nixpkgs.overlays = with builtins;
     if pathExists ./overlays then
