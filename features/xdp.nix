@@ -16,9 +16,7 @@ let
 in
 {
   # pkgs
-  environment.systemPackages = [
-    dbus-xdp-environment
-  ];
+  environment.systemPackages = [ dbus-xdp-environment ];
 
   # xdg desktop portal
   xdg.portal = {

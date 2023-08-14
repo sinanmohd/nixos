@@ -21,8 +21,8 @@
   sound = {
     enable = true;
     extraConfig = ''
-       defaults.pcm.card 1
-       defaults.ctl.card 1
+      defaults.pcm.card 1
+      defaults.ctl.card 1
     '';
   };
   services.pipewire = {

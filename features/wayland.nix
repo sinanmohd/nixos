@@ -39,15 +39,9 @@
     fontconfig = {
       hinting.style = "hintfull";
       defaultFonts = {
-        monospace = [
-          "Terminess Nerd Font"
-        ];
-        serif = [
-          "DeepMind Sans"
-        ];
-        sansSerif = [
-          "DeepMind Sans"
-        ];
+        monospace = [ "Terminess Nerd Font" ];
+        serif = [ "DeepMind Sans" ];
+        sansSerif = [ "DeepMind Sans" ];
       };
     };
   };
