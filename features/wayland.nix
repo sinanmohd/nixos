@@ -31,13 +31,13 @@
 
   # font
   fonts = {
-    fonts = with pkgs; [
+    packages = with pkgs; [
       terminus-nerdfont
       dm-sans
     ];
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     fontconfig = {
-      hinting.style = "hintfull";
+      hinting.style = "full";
       defaultFonts = {
         monospace = [ "Terminess Nerd Font" ];
         serif = [ "DeepMind Sans" ];
