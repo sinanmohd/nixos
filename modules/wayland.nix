@@ -51,7 +51,10 @@
   # misc
   services = {
     seatd.enable = true;
-    dbus.enable = true;
+    dbus = {
+      implementation = "broker";
+      enable = true;
+    };
   };
 
   programs = {

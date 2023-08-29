@@ -1,4 +1,4 @@
-{ pkgs, options, ... }:
+{ pkgs, lib, ... }:
 
 let
   user = "sinan";
@@ -72,23 +72,17 @@ in
     ];
   };
   system.stateVersion = "23.05";
-  services.dbus.implementation = "broker";
 
   # nix
-  nix = {
-    settings.experimental-features = [
+  nix.settings.experimental-features = [
       "nix-command"
       "flakes"
-    ];
-  };
-  nixpkgs.overlays = with builtins;
-    if pathExists ./overlays then
-      map
-        (overlay: import ./overlays/${overlay})
-        (attrNames (readDir ./overlays))
-    else
-      options.nixpkgs.overlays.default
-  ;
+  ];
+  nixpkgs.overlays = with builtins; lib.mkIf (pathExists ./overlays) (
+    map
+      (overlay: import ./overlays/${overlay})
+      (attrNames (readDir ./overlays))
+  );
 
   # programs
   programs = {
