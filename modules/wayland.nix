@@ -61,6 +61,7 @@
       preferences = {
         "media.ffmpeg.vaapi.enabled" = true;
         "gfx.webrender.all" = true;
+        "identity.fxaccounts.enabled" = false;
       };
     };
   };
