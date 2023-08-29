@@ -1,10 +1,10 @@
-{ config, ... }:
+{ ... }:
 
 {
   imports = [
-    ../features/wayland.nix
-    ../features/kaysshfs.nix
-    ../features/development.nix
+    ../modules/wayland.nix
+    ../modules/kaysshfs.nix
+    ../modules/dev.nix
   ];
 
   boot = {

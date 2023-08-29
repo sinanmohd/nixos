@@ -1,4 +1,4 @@
-{ config, pkgs, options, ... }:
+{ pkgs, options, ... }:
 
 let
   user = "sinan";
@@ -6,7 +6,7 @@ in
 {
   imports = [
     ./hardware-configuration.nix # hw scan
-    ./hardware/cez.nix
+    ./hosts/cez.nix
   ];
 
   # boot

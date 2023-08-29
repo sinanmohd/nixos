@@ -1,9 +1,7 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
-  system.fsPackages = with pkgs; [
-    sshfs
-  ];
+  system.fsPackages = with pkgs; [ sshfs ];
 
   fileSystems."/mnt/kay" = {
     device = "sinansftp@sinanmohd.com:";

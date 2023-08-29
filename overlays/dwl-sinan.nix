@@ -1,6 +1,4 @@
-final: prev:
-
-{
+final: prev: {
   dwl-sinan = prev.dwl.overrideAttrs (finalAttrs: prevAttrs:
     {
       pname = prevAttrs.pname + "-sinan";
