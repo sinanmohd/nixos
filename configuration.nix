@@ -26,6 +26,7 @@ in
     isNormalUser = true;
     extraGroups = [
       "wheel"
+      "seat"
       "adbusers"
     ];
     packages = with pkgs; [

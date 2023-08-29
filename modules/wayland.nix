@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  imports = [ ./seatd.nix ];
+
   # pkgs
   environment.systemPackages = with pkgs; [
     dwl-sinan
@@ -47,9 +49,11 @@
   };
 
   # misc
-  hardware.opengl.enable = true;
+  services = {
+    seatd.enable = true;
+    dbus.enable = true;
+  };
 
-  services.dbus.enable = true;
   programs = {
     xwayland.enable = true;
     gnupg.agent = {
@@ -66,8 +70,6 @@
     };
   };
 
-  security = {
-    polkit.enable = true;
-    pam.services.swaylock.text = "auth include login";
-  };
+  security.pam.services.swaylock.text = "auth include login";
+  hardware.opengl.enable = true;
 }
