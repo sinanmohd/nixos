@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [ ./seatd.nix ];
@@ -6,29 +6,31 @@
   # pkgs
   environment.systemPackages = with pkgs; [
     dwl-sinan
-    zathura
+    wmenu-sinan
     pinentry-gnome
-    mpv
-    qemu
-    OVMFFull
-    element-desktop
     swaylock
     swayidle
     swaybg
     foot
-    grim
-    slurp
     wl-clipboard
-    wmenu-sinan
     mako
     wayland
     xdg-utils
-    imv
     libnotify
     wob
     wlr-randr
-    tor-browser-bundle-bin
+  ];
+  users.users.${config.passthru.user}.packages = with pkgs; [
+    zathura
+    mpv
+    imv
     wtype
+    tor-browser-bundle-bin
+    qemu
+    OVMFFull
+    element-desktop
+    grim
+    slurp
   ];
 
   # font

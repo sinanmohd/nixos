@@ -1,13 +1,15 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 let
-  user = "sinan";
+  user = config.passthru.user;
 in
 {
   imports = [
     ./hardware-configuration.nix # hw scan
     ./hosts/cez.nix
   ];
+
+  passthru.user = "sinan";
 
   # boot
   boot = {
@@ -35,16 +37,8 @@ in
       geoipWithDatabase
       dig
       nnn
-      shellcheck
       ffmpeg
-      gnumake
       rtorrent
-      nixos-option
-      pass
-      gcc
-      lua
-      luajit
-      neofetch
       ps_mem
       brightnessctl
     ];
@@ -63,13 +57,10 @@ in
       unzip
       bc
       file
-      openssl
       git
       htop
       curl
       neovim
-      wget
-      tree
     ];
   };
   system.stateVersion = "23.05";
