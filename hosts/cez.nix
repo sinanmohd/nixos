@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -10,6 +10,7 @@
   boot = {
     initrd.luks.reusePassphrases = true;
     consoleLogLevel = 3;
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   networking = {
