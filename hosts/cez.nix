@@ -3,7 +3,7 @@
 {
   imports = [
     ../modules/wayland.nix
-    ../modules/kaysshfs.nix
+    ../modules/sshfs.nix
     ../modules/dev.nix
   ];
 
