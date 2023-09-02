@@ -42,7 +42,6 @@ in
       brightnessctl
     ];
   };
-  services.getty.autologinUser = user;
 
   # system
   environment = {

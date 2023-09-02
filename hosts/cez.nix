@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
+let
+  user = config.userdata.user;
+in
 {
   imports = [
     ../modules/wayland.nix
@@ -12,13 +15,6 @@
     consoleLogLevel = 3;
     kernelPackages = pkgs.linuxPackages_latest;
   };
-
-  networking = {
-    hostName = "cez";
-    dhcpcd.wait = "background";
-    wireless.iwd.enable = true;
-  };
-
   sound = {
     enable = true;
     extraConfig = ''
@@ -26,8 +22,18 @@
       defaults.ctl.card 1
     '';
   };
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
+
+  networking = {
+    hostName = "cez";
+    dhcpcd.wait = "background";
+    wireless.iwd.enable = true;
+  };
+
+  services = {
+    getty.autologinUser = user;
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+    };
   };
 }
