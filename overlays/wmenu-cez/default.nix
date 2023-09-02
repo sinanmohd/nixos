@@ -1,4 +1,6 @@
-final: prev: {
+final: prev:
+
+{
   wmenu-sinan = prev.wmenu.overrideAttrs (finalAttrs: prevAttrs:
     {
       pname = prevAttrs.pname + "-sinan";

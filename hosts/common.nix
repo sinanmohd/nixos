@@ -6,9 +6,8 @@ let
 in
 {
   imports = [
-    ./hardware-configuration.nix # hw scan
-    ./modules/userdata.nix
-    ./hosts/cez.nix
+    ../modules/userdata.nix
+    ../modules/dev.nix
   ];
 
   # boot
@@ -23,6 +22,7 @@ in
 
   # networking
   time.timeZone = "Asia/Kolkata";
+  networking.useDHCP = lib.mkDefault true;
 
   # users
   users.users.${user} = {
@@ -41,6 +41,7 @@ in
       rtorrent
       ps_mem
       brightnessctl
+      neofetch
     ];
   };
 
@@ -66,14 +67,10 @@ in
 
   # nix
   nix.settings.experimental-features = [
-      "nix-command"
-      "flakes"
+    "flakes"
+    "nix-command"
   ];
-  nixpkgs.overlays = with builtins; lib.mkIf (pathExists ./overlays) (
-    map
-      (overlay: import ./overlays/${overlay})
-      (attrNames (readDir ./overlays))
-  );
+  nixpkgs.overlays = (import ../overlays);
 
   # programs
   programs = {

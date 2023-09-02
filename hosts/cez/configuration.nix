@@ -5,9 +5,10 @@ let
 in
 {
   imports = [
-    ../modules/wayland.nix
-    ../modules/sshfs.nix
-    ../modules/dev.nix
+    ./hardware-configuration.nix
+    ../../modules/wayland.nix
+    ../../modules/sshfs.nix
+    ../common.nix
   ];
 
   boot = {
