@@ -32,6 +32,7 @@ in
       "adbusers"
     ] ++ groups;
     packages = with pkgs; [
+      pass
       yt-dlp
       geoipWithDatabase
       dig
