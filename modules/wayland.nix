@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
 
+let
+  user = config.userdata.user;
+in
 {
   imports = [ ./seatd.nix ];
 
@@ -20,7 +23,7 @@
     wob
     wlr-randr
   ];
-  users.users.${config.passthru.user}.packages = with pkgs; [
+  users.users.${user}.packages = with pkgs; [
     zathura
     mpv
     imv
@@ -75,6 +78,7 @@
     };
   };
 
+  userdata.groups = [ "seat" ];
   security.pam.services.swaylock.text = "auth include login";
   hardware.opengl.enable = true;
 }

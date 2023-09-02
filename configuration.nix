@@ -1,15 +1,15 @@
 { config, pkgs, lib, ... }:
 
 let
-  user = config.passthru.user;
+  user = config.userdata.user;
+  groups = config.userdata.groups;
 in
 {
   imports = [
     ./hardware-configuration.nix # hw scan
+    ./modules/userdata.nix
     ./hosts/cez.nix
   ];
-
-  passthru.user = "sinan";
 
   # boot
   boot = {
@@ -29,9 +29,8 @@ in
     isNormalUser = true;
     extraGroups = [
       "wheel"
-      "seat"
       "adbusers"
-    ];
+    ] ++ groups;
     packages = with pkgs; [
       yt-dlp
       geoipWithDatabase
