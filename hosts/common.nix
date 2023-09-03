@@ -3,6 +3,7 @@
 let
   user = config.userdata.user;
   groups = config.userdata.groups;
+  host = config.networking.hostName;
 in
 {
   imports = [
@@ -61,6 +62,8 @@ in
       htop
       curl
       neovim
+      age
+      sops
     ];
   };
   system.stateVersion = "23.05";
@@ -71,6 +74,12 @@ in
     "nix-command"
   ];
   nixpkgs.overlays = (import ../overlays);
+
+  # sops
+  sops = {
+    defaultSopsFile = "./${host}/secrets.yaml";
+    age.keyFile = "/var/secrets/sops-nix/key.txt";
+  };
 
   # programs
   programs = {
