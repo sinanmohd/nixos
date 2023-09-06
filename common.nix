@@ -6,9 +6,11 @@ let
   host = config.networking.hostName;
 in
 {
+  disabledModules = [ "services/networking/pppd.nix" ];
   imports = [
     ./modules/userdata.nix
     ./modules/dev.nix
+    ./modules/pppd.nix
   ];
 
   # boot
