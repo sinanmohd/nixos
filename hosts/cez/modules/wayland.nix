@@ -4,12 +4,12 @@ let
   user = config.userdata.user;
 in
 {
-  imports = [ ./seatd.nix ];
+  imports = [ ../../../modules/seatd.nix ];
 
   # pkgs
   environment.systemPackages = with pkgs; [
     dwl-sinan
-    wmenu-sinan
+    wmenu
     pinentry-gnome
     swaylock
     swayidle

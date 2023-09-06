@@ -7,8 +7,8 @@ let
 in
 {
   imports = [
-    ../modules/userdata.nix
-    ../modules/dev.nix
+    ./modules/userdata.nix
+    ./modules/dev.nix
   ];
 
   # boot
@@ -73,7 +73,9 @@ in
     "flakes"
     "nix-command"
   ];
-  nixpkgs.overlays = (import ../overlays);
+  nixpkgs.overlays = [
+    (import ./overlays/dwl-sinan.nix)
+  ];
 
   # sops
   sops = {

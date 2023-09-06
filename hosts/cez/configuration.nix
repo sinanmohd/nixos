@@ -6,9 +6,13 @@ in
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/wayland.nix
-    ../../modules/sshfs.nix
-    ../common.nix
+    ./modules/wayland.nix
+    ./modules/sshfs.nix
+    ../../common.nix
+  ];
+
+  nixpkgs.overlays = [
+    (import ./overlays/wmenu.nix)
   ];
 
   boot = {
