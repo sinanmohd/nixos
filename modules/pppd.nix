@@ -27,6 +27,24 @@ in
       description = lib.mdDoc "default config for pppd";
     };
 
+    secret = {
+      chap = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = lib.mdDoc "path to chap secret for pppd";
+      };
+      pap = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = lib.mdDoc "path to pap secret for pppd";
+      };
+      srp = mkOption {
+        type = types.nullOr types.path;
+        default = null;
+        description = lib.mdDoc "path to srp secret for pppd";
+      };
+    };
+
     script = mkOption {
       default = {};
       description = lib.mdoc ''
@@ -144,6 +162,15 @@ in
       '';
     };
 
+    enabledSec = let
+      l = attrNames cfg.secret;
+      f = (s: cfg.secret.${s} != null);
+    in filter f l;
+    mkSec = sec : {
+      name = "ppp/${sec}-secrets";
+      value.source = cfg.secret.${sec};
+    };
+
     mkSystemd = peerCfg: {
       name = "pppd-${peerCfg.name}";
       value = {
@@ -223,6 +250,7 @@ in
     etcFiles = listToAttrs (map mkPeers enabledConfigs) //
                listToAttrs (map mkMsh shTypes) //
                listToAttrs (map mkUsh enabledSh) //
+               listToAttrs (map mkSec enabledSec) //
                defaultCfg;
 
     systemdConfigs = listToAttrs (map mkSystemd enabledConfigs);
