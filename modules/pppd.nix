@@ -72,6 +72,11 @@ in
               default = "";
               description = lib.mdDoc "Shell commands to be executed.";
             };
+            runtimeInputs = mkOption {
+              type = types.listOf types.package;
+              default = [];
+              description = lib.mdDoc "dependencies of the shell script";
+            };
           };
         }
       ));
@@ -157,6 +162,7 @@ in
       value.mode = "0755";
       value.text = ''
         #!/bin/sh
+        export PATH="${makeBinPath shCfg.runtimeInputs}:$PATH"
 
         ${shCfg.text}
       '';
