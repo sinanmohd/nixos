@@ -84,7 +84,7 @@ in
 
   # sops
   sops = {
-    defaultSopsFile = "./${host}/secrets.yaml";
+    defaultSopsFile = ./hosts/${host}/secrets.yaml;
     age.keyFile = "/var/secrets/sops-nix/key.txt";
   };
 

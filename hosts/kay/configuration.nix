@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/network.nix
     ../../common.nix
   ];
 
