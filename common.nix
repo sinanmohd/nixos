@@ -3,6 +3,7 @@
 let
   user = config.userdata.user;
   groups = config.userdata.groups;
+  pubKeys = config.userdata.pubKeys;
   host = config.networking.hostName;
 in
 {
@@ -47,6 +48,7 @@ in
       brightnessctl
       neofetch
     ];
+    openssh.authorizedKeys.keys = pubKeys;
   };
 
   # system
