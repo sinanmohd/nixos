@@ -4,8 +4,6 @@ let
   user = config.userdata.user;
 in
 {
-  imports = [ ../../../modules/seatd.nix ];
-
   # pkgs
   environment.systemPackages = with pkgs; [
     dwl-sinan

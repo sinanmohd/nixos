@@ -11,6 +11,7 @@ in
     ./modules/userdata.nix
     ./modules/dev.nix
     ./modules/pppd.nix
+    ./modules/seatd.nix
   ];
 
   # boot
