@@ -12,6 +12,7 @@ in
     };
     groups = mkOption {
       type = types.listOf types.str;
+      default = [];
       description = mdDoc "Groups the owner should be in";
     };
     domain = mkOption {
