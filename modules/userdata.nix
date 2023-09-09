@@ -10,6 +10,11 @@ in
       default = "sinan";
       description = mdDoc "Owner's username";
     };
+    description = mkOption {
+      type = types.str;
+      default = "sinanmohd";
+      description = mdDoc "Owner's description";
+    };
     groups = mkOption {
       type = types.listOf types.str;
       default = [];
@@ -19,6 +24,11 @@ in
       type = types.str;
       default = "sinanmohd.com";
       description = mdDoc "Owner's domain";
+    };
+    email = mkOption {
+      type = types.str;
+      default = "sinan@firemail.cc";
+      description = mdDoc "Owner's email";
     };
     pubKeys = mkOption {
       type = types.listOf types.str;
