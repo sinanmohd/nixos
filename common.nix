@@ -8,12 +8,16 @@ let
   host = config.networking.hostName;
 in
 {
-  disabledModules = [ "services/networking/pppd.nix" ];
+  disabledModules = [
+    "services/networking/pppd.nix"
+    "system/boot/systemd/logind.nix"
+  ];
   imports = [
     ./modules/userdata.nix
     ./modules/dev.nix
     ./modules/pppd.nix
     ./modules/seatd.nix
+    ./modules/logind.nix
   ];
 
   # boot
