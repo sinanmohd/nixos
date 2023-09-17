@@ -14,7 +14,10 @@ in
 
     peers = [{
       publicKey = "wJMyQDXmZO4MjYRk6NK4+J6ZKWLTTZygAH+OwbPjOiw=";
-      allowedIPs = [ "0.0.0.0/0" ];
+      allowedIPs = [
+        "10.0.1.0/24"
+        "104.16.0.0/12"
+      ];
       endpoint = "${domain}:51820";
       persistentKeepalive = 25;
     }];
