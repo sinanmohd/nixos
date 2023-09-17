@@ -7,6 +7,7 @@ in
   sops.secrets."misc/wireguard" = {};
 
   networking.wg-quick.interfaces."wg" = {
+    autostart = false;
     address = [ "10.0.1.2/24" ];
     dns = [ "10.0.1.1" ];
     mtu = 1380;
