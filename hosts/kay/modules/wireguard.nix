@@ -11,20 +11,15 @@ in
   sops.secrets."misc/wireguard" = {};
 
   networking = {
-    nat.enable = true;
+    nat = {
+      enable = true;
+      externalInterface = wanInterface;
+      internalInterfaces = [ wgInterface ];
+    };
     firewall = {
       allowedUDPPorts = [ port ];
       extraCommands = ''
-        # nat datagrams comming through lanInterface to wanInterface
         iptables -t nat -I POSTROUTING 1 -s ${subnet}/${toString prefix} -o ${wanInterface} -j MASQUERADE
-
-        # allow all traffic on lanInterface interface
-        iptables -I INPUT 1 -i ${wgInterface} -j ACCEPT
-
-        # forward rules
-        iptables -I FORWARD 1 -i ${wgInterface} -o ${wgInterface} -j ACCEPT
-        iptables -I FORWARD 1 -i ${wanInterface} -o ${wgInterface} -j ACCEPT
-        iptables -I FORWARD 1 -i ${wgInterface} -o ${wanInterface} -j ACCEPT
       '';
     };
 

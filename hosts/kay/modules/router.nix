@@ -11,7 +11,11 @@ let
 in
 {
   networking = {
-    nat.enable = true;
+    nat = {
+      enable = true;
+      externalInterface = wanInterface;
+      internalInterfaces = [ lanInterface ];
+    };
     useDHCP = false;
     interfaces."${lanInterface}" = {
       ipv4.addresses = [{ 
@@ -20,17 +24,10 @@ in
       }];
     };
     firewall = {
+      allowedUDPPorts = [ 53 67 ];
+      allowedTCPPorts = [ 53 ];
       extraCommands = ''
-        # nat datagrams comming through lanInterface to wanInterface
         iptables -t nat -I POSTROUTING 1 -s ${subnet}/${toString prefix} -o ${wanInterface} -j MASQUERADE
-
-        # allow all traffic on lanInterface interface
-        iptables -I INPUT 1 -i ${lanInterface} -j ACCEPT
-
-        # forward rules
-        iptables -I FORWARD 1 -i ${lanInterface} -o ${lanInterface} -j ACCEPT
-        iptables -I FORWARD 1 -i ${wanInterface} -o ${lanInterface} -j ACCEPT
-        iptables -I FORWARD 1 -i ${lanInterface} -o ${wanInterface} -j ACCEPT
       '';
     };
   };
