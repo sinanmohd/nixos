@@ -91,7 +91,7 @@ in
   # sops
   sops = {
     defaultSopsFile = ./hosts/${host}/secrets.yaml;
-    age.keyFile = "/var/secrets/sops-nix/key.txt";
+    age.keyFile = "/var/secrets/sops-nix/keys.txt";
   };
 
   # programs

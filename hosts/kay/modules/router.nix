@@ -37,6 +37,6 @@ in
 
   services.dnsmasq.settings = {
     dhcp-range = [ "${leaseRangeStart},${leaseRangeEnd}" ];
-    interface = lanInterface;
+    interface = [ lanInterface ];
   };
 }

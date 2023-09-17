@@ -8,6 +8,7 @@ in
     ./hardware-configuration.nix
     ./modules/wayland.nix
     ./modules/sshfs.nix
+    ./modules/wireguard.nix
     ../../common.nix
   ];
 

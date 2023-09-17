@@ -7,7 +7,10 @@ let
   nameServer = "1.0.0.1";
 in
 {
-  imports = [ ./router.nix ];
+  imports = [
+    ./wireguard.nix
+    ./router.nix
+  ];
 
   sops.secrets = {
     "ppp/chap-secrets" = {};
