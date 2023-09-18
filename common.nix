@@ -86,6 +86,7 @@ in
   ];
   nixpkgs.overlays = [
     (import ./overlays/dwl-sinan.nix)
+    (import ./pkgs)
   ];
 
   # sops
