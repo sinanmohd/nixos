@@ -6,6 +6,7 @@
     gnumake
     gcc
     nodePackages.bash-language-server
+    nodePackages.pyright
     nil
     ccls
     lua-language-server
