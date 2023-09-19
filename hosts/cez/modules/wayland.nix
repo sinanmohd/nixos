@@ -29,7 +29,7 @@ in
     tor-browser-bundle-bin
     qemu
     OVMFFull
-    element-desktop
+    element-desktop-wayland
     grim
     slurp
   ];
