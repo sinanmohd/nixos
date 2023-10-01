@@ -18,6 +18,7 @@ in
       allowedIPs = [
         "10.0.1.0/24"
         "104.16.0.0/12"
+        "172.64.0.0/13"
       ];
       endpoint = "${domain}:51820";
       persistentKeepalive = 25;
