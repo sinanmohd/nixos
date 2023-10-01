@@ -66,6 +66,7 @@ in
     };
     systemPackages = with pkgs; [
       dash
+      luajit
       unzip
       bc
       file

@@ -9,6 +9,7 @@
     nodePackages.pyright
     nil
     ccls
+    lua
     lua-language-server
     man-pages
     man-pages-posix
