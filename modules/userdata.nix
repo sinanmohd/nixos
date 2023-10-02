@@ -10,11 +10,6 @@ in
       default = "sinan";
       description = mdDoc "Owner's username";
     };
-    description = mkOption {
-      type = types.str;
-      default = "sinanmohd";
-      description = mdDoc "Owner's description";
-    };
     groups = mkOption {
       type = types.listOf types.str;
       default = [];

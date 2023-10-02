@@ -3,7 +3,7 @@
 let
   user = config.userdata.user;
   groups = config.userdata.groups;
-  description = config.userdata.description;
+  description = config.userdata.email;
   pubKeys = config.userdata.pubKeys;
   host = config.networking.hostName;
 in
@@ -36,7 +36,7 @@ in
 
   # users
   users.users.${user} = {
-    description = description;
+    inherit description;
     isNormalUser = true;
     extraGroups = [
       "wheel"
