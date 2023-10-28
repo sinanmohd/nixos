@@ -1,15 +1,17 @@
 { ... }:
 
 let
-  lanInterface = "enp4s0";
+  lanInterface = "enp0s20u1";
   wanInterface = "ppp0";
   subnet = "10.0.0.0";
   prefix = 24;
   host = "10.0.0.1";
   leaseRangeStart = "10.0.0.100";
-  leaseRangeEnd = "10.0.0.240";
+  leaseRangeEnd = "10.0.0.254";
 in
 {
+  imports = [ ./wireguard.nix ];
+
   networking = {
     nat = {
       enable = true;
