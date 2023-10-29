@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./modules/network.nix
     ./modules/www.nix
+    ./modules/sftp.nix
     ../../common.nix
   ];
 
