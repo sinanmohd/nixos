@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 let
   user = config.userdata.user;
@@ -29,10 +29,6 @@ in
       efi.canTouchEfiVariables = true;
     };
   };
-
-  # networking
-  time.timeZone = "Asia/Kolkata";
-  networking.useDHCP = lib.mkDefault true;
 
   # users
   users.users.${user} = {
@@ -79,6 +75,7 @@ in
     ];
   };
   system.stateVersion = "23.05";
+  time.timeZone = "Asia/Kolkata";
 
   # nix
   nix.settings.experimental-features = [
