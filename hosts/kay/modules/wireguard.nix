@@ -38,6 +38,10 @@ in
           publicKey = "bJ9aqGYD2Jh4MtWIL7q3XxVHFuUdwGJwO8p7H3nNPj8=";
           allowedIPs = [ "10.0.1.3/32" ];
         }
+        { # nevin
+          publicKey = "4OrIu3Ol7Wux9eso+K9SceVPsZrrngj30vzirnnXyho=";
+          allowedIPs = [ "10.0.1.4/32" ];
+        }
       ];
     };
   };
