@@ -14,24 +14,18 @@
         "sd_mod"
         "sdhci_pci"
       ];
-      luks.devices = {
-        "cryptroot".device = "/dev/disk/by-uuid/445abd75-6887-4b10-8483-a4be94f1fffd";
-        "crypthome".device = "/dev/disk/by-uuid/b1f57828-d0c3-4b0b-9d32-5e7e96651eda";
-      };
+
+      luks.devices."crypt".device = "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
     };
   };
 
   fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/1df57eaf-50cd-405d-85ef-ccd1f2649227";
-      fsType = "ext4";
-    };
     "/boot" = {
-      device = "/dev/disk/by-uuid/EE3C-1135";
+      device = "/dev/disk/by-uuid/E37E-F611";
       fsType = "vfat";
     };
-    "/home" = {
-      device = "/dev/disk/by-uuid/c6649ef3-f96d-4a11-ae20-d8d937d8a8e4";
+    "/" = {
+      device = "/dev/disk/by-uuid/e063c9ad-b48f-4b6c-b94e-4c21d2238bce";
       fsType = "ext4";
     };
   };
