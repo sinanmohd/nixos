@@ -82,10 +82,7 @@ in
     "flakes"
     "nix-command"
   ];
-  nixpkgs.overlays = [
-    (import ./overlays/dwl-sinan.nix)
-    (import ./pkgs)
-  ];
+  nixpkgs.overlays = [ (import ./pkgs) ];
 
   # sops
   sops = {

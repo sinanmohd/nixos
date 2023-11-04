@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   user = config.userdata.user;
@@ -6,32 +6,30 @@ in
 {
   # pkgs
   environment.systemPackages = with pkgs; [
-    dwl-sinan
-    wmenu
-    pinentry-gnome
+    bemenu
+    sway
+    i3status
+    pinentry-bemenu
     swaylock
     swayidle
     swaybg
     foot
     wl-clipboard
     mako
-    wayland
     xdg-utils
     libnotify
-    wob
-    wlr-randr
   ];
   users.users.${user}.packages = with pkgs; [
     zathura
     mpv
     imv
     wtype
-    tor-browser-bundle-bin
     qemu
     OVMFFull
-    element-desktop-wayland
     grim
     slurp
+    tor-browser-bundle-bin
+    element-desktop-wayland
   ];
 
   # font
@@ -61,10 +59,9 @@ in
   };
 
   programs = {
-    xwayland.enable = true;
     gnupg.agent = {
       enable = true;
-      pinentryFlavor = "gnome3";
+      settings.pinentry-program = lib.mkForce "${pkgs.pinentry-bemenu}/bin/pinentry-bemenu";
     };
     firefox = {
       enable = true;

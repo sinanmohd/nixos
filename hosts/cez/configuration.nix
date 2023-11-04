@@ -12,10 +12,6 @@ in
     ../../common.nix
   ];
 
-  nixpkgs.overlays = [
-    (import ./overlays/wmenu.nix)
-  ];
-
   boot = {
     initrd.luks.reusePassphrases = true;
     consoleLogLevel = 3;
