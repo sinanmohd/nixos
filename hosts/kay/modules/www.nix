@@ -3,6 +3,7 @@
 let
   domain = config.userdata.domain;
   email = config.userdata.email;
+  fscusat = "fscusat.org";
 in
 {
   imports = [
@@ -41,6 +42,24 @@ in
         forceSSL = true;
         enableACME = true;
         root = "/var/www/${domain}";
+      };
+      "${fscusat}" = {
+        forceSSL = true;
+        enableACME = true;
+        globalRedirect = "www.${fscusat}";
+      };
+      "www.${fscusat}" = {
+        forceSSL = true;
+        enableACME = true;
+        extraConfig = ''
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_read_timeout 600;
+        '';
+
+        locations."/" = {
+          proxyPass = "http://10.0.1.4:80";
+        };
       };
     };
   };
