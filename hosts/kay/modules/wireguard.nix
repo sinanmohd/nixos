@@ -38,9 +38,13 @@ in
           publicKey = "bJ9aqGYD2Jh4MtWIL7q3XxVHFuUdwGJwO8p7H3nNPj8=";
           allowedIPs = [ "10.0.1.3/32" ];
         }
-        { # nevin
+        { # nevin-server
           publicKey = "4OrIu3Ol7Wux9eso+K9SceVPsZrrngj30vzirnnXyho=";
           allowedIPs = [ "10.0.1.4/32" ];
+        }
+        { # nevin-pc
+          publicKey = "1aL9HNy3JeWgDt6s2IxzIjKnp4ntJO6aufuyEwRp9WM=";
+          allowedIPs = [ "10.0.1.5/32" ];
         }
       ];
     };
