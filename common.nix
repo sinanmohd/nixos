@@ -39,7 +39,6 @@ in
       "adbusers"
     ] ++ groups;
     packages = with pkgs; [
-      pass
       yt-dlp
       geoipWithDatabase
       dig
@@ -49,6 +48,7 @@ in
       ps_mem
       brightnessctl
       neofetch
+      (pass.withExtensions (exts: [ exts.pass-otp ]))
     ];
     openssh.authorizedKeys.keys = pubKeys;
   };
