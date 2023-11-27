@@ -21,12 +21,10 @@ in
         listen_addresses = lib.mkForce "";
       };
       ensureDatabases = [ "dendrite" ];
-      ensureUsers = [
-        {
-          name = "dendrite";
-          ensurePermissions."DATABASE dendrite" = "ALL PRIVILEGES";
-        }
-      ];
+      ensureUsers = [{
+        name = "dendrite";
+        ensureDBOwnership = true;
+      }];
     };
 
     dendrite = {
