@@ -58,7 +58,8 @@ in
         '';
 
         locations."/" = {
-          proxyPass = "http://10.0.1.4:80";
+          return = "200 '<h1>under construction</h1>'";
+          extraConfig = "add_header Content-Type text/html;";
         };
       };
     };
