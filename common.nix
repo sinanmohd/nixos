@@ -10,6 +10,7 @@ in
 {
   disabledModules = [
     "services/networking/pppd.nix"
+    "services/networking/iwd.nix"
     "system/boot/systemd/logind.nix"
   ];
   imports = [
@@ -18,6 +19,7 @@ in
     ./modules/pppd.nix
     ./modules/seatd.nix
     ./modules/logind.nix
+    ./modules/iwd.nix
   ];
 
   # boot

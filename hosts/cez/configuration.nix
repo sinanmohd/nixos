@@ -27,8 +27,15 @@ in
 
   networking = {
     hostName = "cez";
-    dhcpcd.wait = "background";
-    wireless.iwd.enable = true;
+    useDHCP = false;
+
+    wireless.iwd = { 
+      enable = true;
+      settings = {
+        General.EnableNetworkConfiguration = true;
+        Network.NameResolvingService = "resolvconf";
+      };
+    };
   };
 
   services = {
