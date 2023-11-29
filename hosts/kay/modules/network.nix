@@ -35,7 +35,6 @@ in
         nic-wan
         defaultroute
         persist
-        mtu 1380
         noauth
         noipv6
       '';

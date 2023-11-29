@@ -26,7 +26,7 @@ in
     wireguard.interfaces.${wgInterface} = {
       ips = [ "10.0.1.1/${toString prefix}" ];
       listenPort = port;
-      mtu = 1300; # 1380 (ppp0) - 80
+      mtu = 1380; # 1460 (ppp0) - 80
       privateKeyFile = config.sops.secrets."misc/wireguard".path;
 
       peers = [
