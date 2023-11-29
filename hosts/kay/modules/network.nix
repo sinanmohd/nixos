@@ -36,7 +36,6 @@ in
         defaultroute
         persist
         noauth
-        noipv6
       '';
       peers.bsnl = {
         enable = true;
