@@ -7,7 +7,10 @@ let
   domain = config.userdata.domain;
 in
 {
-  imports = [ ./router.nix ];
+  imports = [
+    ./router.nix
+    ./hurricane.nix
+  ];
 
   sops.secrets = {
     "ppp/chap-secrets" = {};

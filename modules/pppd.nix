@@ -153,7 +153,7 @@ in
 
         # see the pppd(8) man page
         for s in /etc/ppp/${name}.d/*.sh; do
-            [ -x "$s" ] && "$s" "$@"
+            [ -x "$s" ] && "$s" "$@" &
         done
       '';
     };
