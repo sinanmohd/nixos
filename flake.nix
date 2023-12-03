@@ -1,5 +1,5 @@
 {
-  description = "reproducible nixos configuration with flakes";
+  description = "sinan's reproducible nixos systems";
 
   inputs = {
     nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
@@ -9,29 +9,22 @@
     };
   };
 
-  outputs = { self, nixpkgs, sops-nix }: {
-    nixosConfigurations = {
-      cez = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/cez/configuration.nix
-          sops-nix.nixosModules.sops
-        ];
-      };
-      kay = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/kay/configuration.nix
-          sops-nix.nixosModules.sops
-        ];
-      };
-      mox = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./hosts/mox/configuration.nix
-          sops-nix.nixosModules.sops
-        ];
-      };
+  outputs = { self, nixpkgs, sops-nix }: let
+    lib = nixpkgs.lib;
+
+    makeHost = host: system: nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [
+        ./hosts/${host}/configuration.nix
+        sops-nix.nixosModules.sops
+      ];
     };
+
+    makeX86 = hosts: lib.genAttrs hosts (
+        host: makeHost host "x86_64-linux"
+    );
+  in
+  {
+    nixosConfigurations = makeX86 [ "cez" "kay" "mox" ];
   };
 }
