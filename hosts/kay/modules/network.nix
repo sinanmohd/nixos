@@ -39,6 +39,7 @@ in
         defaultroute
         persist
         noauth
+        debug
       '';
       peers.bsnl = {
         enable = true;
