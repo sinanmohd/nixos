@@ -74,19 +74,22 @@ in
         restartTriggers = [ configFile ];
       };
     })
-    (let
-      needResolv = cfg.enable
-                   && lib.hasAttrByPath [ "Network" "NameResolvingService" ] cfg.settings
-                   && cfg.settings.Network.NameResolvingService == "resolvconf";
-    in
-    mkIf needResolv {
-      environment.systemPackages = [ pkgs.openresolv ];
 
-      systemd.services.iwd = {
-        path = [ pkgs.openresolv ];
-        serviceConfig.ReadWritePaths = "/etc/resolv.conf";
-      };
-    })
+    (
+      let
+        needResolv = cfg.enable
+          && lib.hasAttrByPath [ "Network" "NameResolvingService" ] cfg.settings
+          && cfg.settings.Network.NameResolvingService == "resolvconf";
+      in
+      mkIf needResolv {
+        environment.systemPackages = [ pkgs.openresolv ];
+
+        systemd.services.iwd = {
+          path = [ pkgs.openresolv ];
+          serviceConfig.ReadWritePaths = "/etc/resolv.conf";
+        };
+      }
+    )
   ];
 
   meta.maintainers = with lib.maintainers; [ dtzWill ];
