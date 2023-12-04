@@ -12,7 +12,7 @@
   outputs = { self, nixpkgs, sops-nix }: let
     lib = nixpkgs.lib;
 
-    makeHost = host: system: nixpkgs.lib.nixosSystem {
+    makeHost = host: system: lib.nixosSystem {
       inherit system;
       modules = [
         ./hosts/${host}/configuration.nix
