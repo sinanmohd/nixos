@@ -81,7 +81,6 @@ in
     "flakes"
     "nix-command"
   ];
-  nixpkgs.overlays = [ (import ./pkgs) ];
 
   # sops
   sops = {
