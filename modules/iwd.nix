@@ -48,49 +48,35 @@ in
     };
   };
 
-  config = lib.mkMerge [
-    (mkIf cfg.enable {
-      assertions = [{
-        assertion = !config.networking.wireless.enable;
-        message = ''
-          Only one wireless daemon is allowed at the time: networking.wireless.enable and networking.wireless.iwd.enable are mutually exclusive.
-        '';
-      }];
+  config = mkIf cfg.enable {
+    assertions = [{
+      assertion = !config.networking.wireless.enable;
+      message = ''
+        Only one wireless daemon is allowed at the time: networking.wireless.enable and networking.wireless.iwd.enable are mutually exclusive.
+      '';
+    }];
 
-      environment.etc."iwd/${configFile.name}".source = configFile;
+    environment.etc."iwd/${configFile.name}".source = configFile;
 
-      # for iwctl
-      environment.systemPackages = [ cfg.package ];
-      services.dbus.packages = [ cfg.package ];
-      systemd.packages = [ cfg.package ];
+    # for iwctl
+    environment.systemPackages = [ cfg.package ];
 
-      systemd.network.links."80-iwd" = {
-        matchConfig.Type = "wlan";
-        linkConfig.NamePolicy = "keep kernel";
-      };
+    services.dbus.packages = [ cfg.package ];
 
-      systemd.services.iwd = {
-        wantedBy = [ "multi-user.target" ];
-        restartTriggers = [ configFile ];
-      };
-    })
+    systemd.packages = [ cfg.package ];
 
-    (
-      let
-        needResolv = cfg.enable
-          && lib.hasAttrByPath [ "Network" "NameResolvingService" ] cfg.settings
-          && cfg.settings.Network.NameResolvingService == "resolvconf";
-      in
-      mkIf needResolv {
-        environment.systemPackages = [ pkgs.openresolv ];
+    systemd.network.links."80-iwd" = {
+      matchConfig.Type = "wlan";
+      linkConfig.NamePolicy = "keep kernel";
+    };
 
-        systemd.services.iwd = {
-          path = [ pkgs.openresolv ];
-          serviceConfig.ReadWritePaths = "/etc/resolv.conf";
-        };
-      }
-    )
-  ];
+    systemd.services.iwd = {
+      path = [ config.networking.resolvconf.package ];
+      wantedBy = [ "multi-user.target" ];
+      restartTriggers = [ configFile ];
+      serviceConfig.ReadWritePaths = "-/etc/resolv.conf";
+    };
+  };
 
   meta.maintainers = with lib.maintainers; [ dtzWill ];
 }
