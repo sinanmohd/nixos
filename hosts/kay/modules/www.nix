@@ -4,6 +4,7 @@ let
   domain = config.userdata.domain;
   email = config.userdata.email;
   fscusat = "fscusat.org";
+  mark = "themark.ing";
 in
 {
   imports = [
@@ -59,6 +60,20 @@ in
 
         locations."/" = {
           return = "200 '<h1>under construction</h1>'";
+          extraConfig = "add_header Content-Type text/html;";
+        };
+      };
+      "${mark}" = {
+        forceSSL = true;
+        enableACME = true;
+        globalRedirect = "www.${mark}";
+      };
+      "www.${mark}" = {
+        forceSSL = true;
+        enableACME = true;
+
+        locations."/" = {
+          return = "200 '<h1>under construction, see you soon</h1>'";
           extraConfig = "add_header Content-Type text/html;";
         };
       };
