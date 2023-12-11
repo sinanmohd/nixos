@@ -51,6 +51,10 @@ in
   # system
   environment = {
     binsh = "${pkgs.dash}/bin/dash";
+    variables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+    };
     shellAliases = {
       ls = "ls --color=auto --group-directories-first";
       grep = "grep --color=auto";
