@@ -9,6 +9,7 @@ in
     ./modules/wayland.nix
     ./modules/sshfs.nix
     ./modules/wireguard.nix
+    ./modules/network.nix
     ../../common.nix
   ];
 
@@ -17,6 +18,7 @@ in
     consoleLogLevel = 3;
     kernelPackages = pkgs.linuxPackages_latest;
   };
+
   sound = {
     enable = true;
     extraConfig = ''
@@ -25,22 +27,7 @@ in
     '';
   };
 
-  networking = {
-    hostName = "cez";
-    useDHCP = false;
-    firewall.enable = false;
-
-    wireless.iwd = { 
-      enable = true;
-      settings = {
-        General.EnableNetworkConfiguration = true;
-        Network.NameResolvingService = "resolvconf";
-      };
-    };
-  };
-
   services = {
-    getty.autologinUser = user;
     pipewire = {
       enable = true;
       pulse.enable = true;
@@ -49,5 +36,6 @@ in
       enable = true;
       settings.PasswordAuthentication = false;
     };
+    getty.autologinUser = user;
   };
 }
