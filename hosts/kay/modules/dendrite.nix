@@ -25,6 +25,7 @@ in
         name = "dendrite";
         ensureDBOwnership = true;
       }];
+      authentication = lib.mkForce "local all all trust";
     };
 
     dendrite = {
