@@ -21,6 +21,8 @@ in
 
   services.nginx = { 
     enable = true;
+    eventsConfig = "worker_connections 1024;";
+
     virtualHosts = {
       "${domain}" = {
         forceSSL = true;
