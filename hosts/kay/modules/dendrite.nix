@@ -10,7 +10,7 @@ let
   };
 in
 {
-  sops.secrets."misc/matrix-${domain}" = {};
+  sops.secrets."matrix-${domain}/key" = {};
 
   services = {
     postgresql = {
@@ -31,7 +31,7 @@ in
     dendrite = {
       enable = true;
       loadCredential = [
-        "private_key:${config.sops.secrets."misc/matrix-${domain}".path}"
+        "private_key:${config.sops.secrets."matrix-${domain}/key".path}"
       ];
 
       settings = {
