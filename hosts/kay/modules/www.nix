@@ -21,6 +21,12 @@ in
 
   services.nginx = { 
     enable = true;
+    recommendedTlsSettings = true;
+    recommendedZstdSettings = true;
+    recommendedOptimisation = true;
+    recommendedGzipSettings = true;
+    recommendedProxySettings = true;
+    recommendedBrotliSettings = true;
     eventsConfig = "worker_connections 1024;";
 
     virtualHosts = {
@@ -31,10 +37,6 @@ in
 
         extraConfig = ''
           client_max_body_size ${toString config.services.dendrite.settings.media_api.max_file_size_bytes};
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $remote_addr;
-          proxy_set_header X-Forwarded-Proto $scheme;
         '';
 
         locations."/.well-known/matrix/server".return = ''
