@@ -1,7 +1,7 @@
 { ... }:
 
 let
-  lanInterface = "enp0s20u1";
+  lanInterface = "enp4s0";
   wanInterface = "ppp0";
   subnet = "10.0.0.0";
   prefix = 24;
@@ -24,6 +24,12 @@ in
         address = host;
         prefixLength  = prefix;
       }];
+      # the mac id of the built-in nic is required for
+      # ppp authentication with isp, this is here to avoid
+      # mac address collision since it's original mac id is used
+      # by the new wan interface for ppp authentication
+      # see ./network.nix
+      macAddress = "40:ed:00:08:ba:be";
     };
     firewall = {
       allowedUDPPorts = [ 53 67 ];
