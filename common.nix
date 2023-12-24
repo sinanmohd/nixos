@@ -8,11 +8,15 @@ let
   host = config.networking.hostName;
 in
 {
-  disabledModules = [ "services/networking/pppd.nix" ];
+  disabledModules = [
+    "services/networking/pppd.nix"
+    "services/matrix/matrix-sliding-sync.nix"
+  ];
   imports = [
     ./modules/userdata.nix
     ./modules/dev.nix
     ./modules/pppd.nix
+    ./modules/matrix-sliding-sync.nix
   ];
 
   # boot

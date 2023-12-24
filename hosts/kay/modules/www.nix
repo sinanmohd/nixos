@@ -9,7 +9,7 @@ in
 {
   imports = [
     ./dendrite.nix
-    ./matrix_sliding_sync.nix
+    ./matrix-sliding-sync.nix
     ./cgit.nix
   ];
 
@@ -53,7 +53,7 @@ in
           }}'
         '';
         locations."/_matrix/client/unstable/org.matrix.msc3575/sync" = let
-          addr = "${config.services.matrix-synapse.sliding-sync.settings.SYNCV3_BINDADDR}";
+          addr = "${config.services.matrix-sliding-sync.settings.SYNCV3_BINDADDR}";
         in {
           proxyPass = "http://${addr}";
         };
