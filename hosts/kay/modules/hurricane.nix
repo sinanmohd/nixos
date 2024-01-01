@@ -2,7 +2,6 @@
 
 let
   iface = "hurricane";
-  tunEndIface = "ppp0";
   remote = "216.218.221.42";
   address = "2001:470:35:72a::2";
   prefixLength = 64;
@@ -10,9 +9,7 @@ in
 {
   networking.sits.${iface} = {
     inherit remote;
-    local = "127.0.0.1";
     ttl = 225;
-    dev = tunEndIface;
   };
   networking.interfaces.${iface}.ipv6.addresses = [{
     inherit prefixLength address;
