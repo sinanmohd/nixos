@@ -2,7 +2,7 @@
 
 let
   inetVlan = 722;
-  wanInterface = "enp0s20u1";
+  wanInterface = "enp4s0";
   nameServer = "1.0.0.1";
   domain = config.userdata.domain;
 in
@@ -24,8 +24,6 @@ in
       id = inetVlan;
       interface = wanInterface;
     };
-    # isp checks this macid during ppp authentication
-    interfaces.${wanInterface}.macAddress = "c4:54:44:d5:17:68";
   };
 
   services = {
