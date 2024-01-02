@@ -10,7 +10,10 @@ let
   leaseRangeEnd = "10.0.0.254";
 in
 {
-  imports = [ ./wireguard.nix ];
+  imports = [
+    ./wireguard.nix
+    ./iperf3.nix
+  ];
 
   networking = {
     nat = {
