@@ -10,7 +10,6 @@ in
     users."nazer" = {
       group = "sftp";
       shell = "/run/current-system/sw/bin/nologin";
-      home = "${storage}/nazer";
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICV09w9Ovk9wk4Bhn/06iOn+Ss8lK3AmQAl8+lXHRycu nazu@pc"
