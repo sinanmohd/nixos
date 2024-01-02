@@ -10,14 +10,12 @@ in
 {
   disabledModules = [
     "services/networking/pppd.nix"
-    "services/matrix/matrix-sliding-sync.nix"
     "tasks/network-interfaces-scripted.nix"
   ];
   imports = [
     ./modules/userdata.nix
     ./modules/dev.nix
     ./modules/pppd.nix
-    ./modules/matrix-sliding-sync.nix
     ./modules/network-interfaces-scripted.nix
   ];
 
