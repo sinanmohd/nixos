@@ -70,7 +70,8 @@ let
         deviceDependency = dev:
           # Use systemd service if we manage device creation, else
           # trust udev when not in a container
-          if (hasAttr dev (filterAttrs (k: v: v.virtual) cfg.interfaces)) ||
+          if (dev == null || dev == "lo") then []
+          else if (hasAttr dev (filterAttrs (k: v: v.virtual) cfg.interfaces)) ||
              (hasAttr dev cfg.bridges) ||
              (hasAttr dev cfg.bonds) ||
              (hasAttr dev cfg.macvlans) ||
@@ -78,7 +79,7 @@ let
              (hasAttr dev cfg.vlans) ||
              (hasAttr dev cfg.vswitches)
           then [ "${dev}-netdev.service" ]
-          else optional (dev != null && dev != "lo" && !config.boot.isContainer) (subsystemDevice dev);
+          else optional (!config.boot.isContainer) (subsystemDevice dev);
 
         hasDefaultGatewaySet = (cfg.defaultGateway != null && cfg.defaultGateway.address != "")
                             || (cfg.enableIPv6 && cfg.defaultGateway6 != null && cfg.defaultGateway6.address != "");
@@ -501,11 +502,14 @@ let
           });
 
         createSitDevice = n: v: nameValuePair "${n}-netdev"
+          (let
+            deps = deviceDependency v.dev;
+          in
           { description = "6-to-4 Tunnel Interface ${n}";
             wantedBy = [ "network-setup.service" (subsystemDevice n) ];
-            bindsTo = optionals (v.dev != null) (deviceDependency v.dev);
+            bindsTo = deps;
             partOf = [ "network-setup.service" ];
-            after = [ "network-pre.target" ] ++ optionals (v.dev != null) (deviceDependency v.dev);
+            after = [ "network-pre.target" ] ++ deps;
             before = [ "network-setup.service" ];
             serviceConfig.Type = "oneshot";
             serviceConfig.RemainAfterExit = true;
@@ -528,7 +532,7 @@ let
             postStop = ''
               ip link delete dev "${n}" || true
             '';
-          };
+          });
 
         createGreDevice = n: v: nameValuePair "${n}-netdev"
           (let
