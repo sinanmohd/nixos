@@ -1,11 +1,22 @@
-{ ... }:
+{ config, ... }:
 
 let
   storage = "/hdd/users";
+  pubkeys = config.userdata.pubKeys;
 in
 {
   users = {
     groups."sftp".members = [];
+
+    users."sftp" = {
+      group = "sftp";
+      shell = "/run/current-system/sw/bin/nologin";
+      isNormalUser = true;
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFmA1dyV+o9gfoxlbVG0Y+dn3lVqdFs5fMqfxyNc5/Lr sftp@cez"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDCbgjAfyDNtLNyOS+sfLirYtfEAkGqV54LOwabpWkvf sftp@veu"
+      ] ++ pubkeys;
+    };
 
     users."nazer" = {
       group = "sftp";
