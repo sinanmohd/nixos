@@ -33,6 +33,7 @@ in
   users.users.${user} = {
     inherit description;
     isNormalUser = true;
+    uid = 1000;
     extraGroups = [
       "wheel"
       "adbusers"
