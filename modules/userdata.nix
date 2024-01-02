@@ -31,7 +31,6 @@ in
       default = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDCeMXhkjm9CabbA/1xdtP9bvFEm8pVXPk66NmI9/VvQ sinan@vex"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL8LnyOuPmtKRqAZeHueNN4kfYvpRQVwCivSTq+SZvDU sinan@cez"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILvR5FliFLq1FJWotnBk9deWmbeGi2uq2XVmx0uAr1Lw sinan@mox"
       ];
     };
   };
