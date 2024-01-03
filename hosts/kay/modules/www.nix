@@ -5,6 +5,7 @@ let
   email = config.userdata.email;
   fscusat = "fscusat.org";
   mark = "themark.ing";
+  storage = "/hdd/users/sftp/shr";
 in
 {
   imports = [
@@ -62,6 +63,13 @@ in
         forceSSL = true;
         enableACME = true;
         root = "/var/www/${domain}";
+      };
+      "bin.${domain}" = {
+        forceSSL = true;
+        enableACME = true;
+        root = "${storage}/bin";
+
+        locations."= /".return = "307 https://www.${domain}";
       };
       "${fscusat}" = {
         forceSSL = true;
