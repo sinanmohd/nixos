@@ -71,6 +71,13 @@ in
 
         locations."= /".return = "307 https://www.${domain}";
       };
+      "static.${domain}" = {
+        forceSSL = true;
+        enableACME = true;
+        root = "${storage}/static";
+
+        locations."= /".return = "301 https://www.${domain}";
+      };
       "${fscusat}" = {
         forceSSL = true;
         enableACME = true;
