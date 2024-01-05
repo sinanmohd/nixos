@@ -67,7 +67,7 @@ in
 
 
   services.pppd.script."02-${iface}" = {
-    runtimeInputs = with pkgs; [ curl coreutils iproute2 ];
+    runtimeInputs = with pkgs; [ curl coreutils iproute2 iputils ];
     text = ''
       wan_ip="$4"
       username="$(cat ${config.sops.secrets."hurricane/username".path})"
@@ -80,10 +80,16 @@ in
       done
 
       while [ ! -e /sys/class/net/${iface} ]; do
-        sleep 1 # make sure ${iface} is up
+          sleep 1 # make sure ${iface} is up
       done
 
       ip tunnel change ${iface} local "$wan_ip" mode sit
+
+      # for unknown reason gateway don't seems to know where to route
+      # incoming traffic if we do not ping the gateway after ip change
+      while ! ping -c1 ${gateway}; do
+          sleep 1
+      done
     '';
   };
 }
