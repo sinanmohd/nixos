@@ -58,7 +58,7 @@ in
           auth_url="https://dynamicdns.park-your-domain.com/update?host=@&domain=${domain}&password=''${api_key}&ip="
 
           until curl --silent "$auth_url$wan_ip"; do
-              sleep 5
+              sleep 1
           done
         '';
       };

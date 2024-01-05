@@ -76,7 +76,7 @@ in
 
       auth_url="https://$username:$update_key@ipv4.tunnelbroker.net/nic/update?hostname=$tunnel_id"
       until curl --silent "$auth_url"; do
-          sleep 5
+          sleep 1
       done
 
       while [ ! -e /sys/class/net/${iface} ]; do
