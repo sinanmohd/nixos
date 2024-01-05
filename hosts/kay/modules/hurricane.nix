@@ -14,9 +14,11 @@ in
       inherit remote;
       ttl = 225;
     };
-    interfaces.${iface}.ipv6.addresses = [{
-      inherit prefixLength address;
-    }];
+    interfaces.${iface} = {
+      mtu = 1440; # 1460(ppp0) - 20
+      ipv6.addresses =
+        [{ inherit prefixLength address; }];
+    };
 
     iproute2 = {
       enable = true;
