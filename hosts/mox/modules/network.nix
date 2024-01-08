@@ -6,7 +6,6 @@ let
 in
 {
   networking = {
-    useDHCP = false;
     interfaces.${wan}.ipv4.addresses = [{
       address = "10.0.8.101";
       prefixLength = 16;

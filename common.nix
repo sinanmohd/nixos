@@ -32,6 +32,7 @@ in
   };
 
   time.timeZone = "Asia/Kolkata";
+  networking.useDHCP = false;
   environment = {
     binsh = "${lib.getExe pkgs.dash}";
     systemPackages = with pkgs; [

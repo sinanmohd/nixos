@@ -21,7 +21,6 @@ in
       externalInterface = wanInterface;
       internalInterfaces = [ lanInterface ];
     };
-    useDHCP = false;
     interfaces."${lanInterface}" = {
       ipv4.addresses = [{ 
         address = host;
