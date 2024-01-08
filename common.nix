@@ -36,7 +36,6 @@ in
     uid = 1000;
     extraGroups = [
       "wheel"
-      "adbusers"
     ] ++ groups;
     packages = with pkgs; [
       yt-dlp
@@ -94,14 +93,11 @@ in
   };
 
   # programs
-  programs = {
-    adb.enable = true;
-    bash.promptInit = ''
-      PROMPT_COLOR="1;31m"
-      [ "$UID" -ne 0 ] &&
-          PROMPT_COLOR="1;32m"
+  programs.bash.promptInit = ''
+    PROMPT_COLOR="1;31m"
+    [ "$UID" -ne 0 ] &&
+        PROMPT_COLOR="1;32m"
 
-      PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
-    '';
-  };
+    PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
+  '';
 }

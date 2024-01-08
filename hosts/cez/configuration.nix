@@ -38,4 +38,7 @@ in
     };
     getty.autologinUser = user;
   };
+
+  programs.adb.enable = true;
+  userdata.groups = [ "adbusers" ];
 }
