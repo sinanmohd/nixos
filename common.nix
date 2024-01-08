@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 
 let
-  user = config.userdata.user;
-  groups = config.userdata.groups;
-  description = config.userdata.email;
-  pubKeys = config.userdata.pubKeys;
   host = config.networking.hostName;
 in
 {
@@ -27,29 +23,6 @@ in
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-  };
-
-  # users
-  users.users.${user} = {
-    inherit description;
-    isNormalUser = true;
-    uid = 1000;
-    extraGroups = [
-      "wheel"
-    ] ++ groups;
-    packages = with pkgs; [
-      yt-dlp
-      geoipWithDatabase
-      dig
-      nnn
-      ffmpeg
-      rtorrent
-      ps_mem
-      brightnessctl
-      neofetch
-      (pass.withExtensions (exts: [ exts.pass-otp ]))
-    ];
-    openssh.authorizedKeys.keys = pubKeys;
   };
 
   # system
