@@ -2,6 +2,7 @@
 
 let
   inetVlan = 722;
+  voipVlan = 1849;
   wanInterface = "enp4s0";
   nameServer = "1.0.0.1";
   domain = config.userdata.domain;
@@ -20,10 +21,18 @@ in
   };
 
   networking = {
-    vlans.wan = {
-      id = inetVlan;
-      interface = wanInterface;
+    vlans = {
+      wan = {
+        id = inetVlan;
+        interface = wanInterface;
+      };
+      voip = {
+        id = voipVlan;
+        interface = wanInterface;
+      };
     };
+
+    interfaces."voip".useDHCP = true;
   };
 
   services = {
