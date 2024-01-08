@@ -9,7 +9,6 @@ in
     bemenu
     sway
     i3status
-    pinentry-bemenu
     swaylock
     swayidle
     swaybg
@@ -19,18 +18,23 @@ in
     xdg-utils
     libnotify
   ];
-  users.users.${user}.packages = with pkgs; [
-    zathura
-    mpv
-    imv
-    wtype
-    qemu
-    OVMFFull
-    grim
-    slurp
-    tor-browser-bundle-bin
-    element-desktop-wayland
-  ];
+
+  users.users.${user} = {
+    extraGroups = [ "seat" ];
+    packages = with pkgs; [
+      zathura
+      mpv
+      imv
+      wtype
+      qemu
+      OVMFFull
+      grim
+      slurp
+      tor-browser-bundle-bin
+      element-desktop-wayland
+      pinentry-bemenu
+    ];
+  };
 
   # font
   fonts = {
@@ -73,7 +77,6 @@ in
     };
   };
 
-  userdata.groups = [ "seat" ];
   security.pam.services.swaylock.text = "auth include login";
   hardware.opengl.enable = true;
 }

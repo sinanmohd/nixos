@@ -39,12 +39,13 @@ in
     getty.autologinUser = user;
   };
 
-  userdata.packages = with pkgs; [
-    geoipWithDatabase
-    ffmpeg
-    (pass.withExtensions (exts: [ exts.pass-otp ]))
-  ];
-
   programs.adb.enable = true;
-  userdata.groups = [ "adbusers" ];
+  users.users.${user} = {
+    extraGroups = [ "adbusers" ];
+    packages = with pkgs; [
+      geoipWithDatabase
+      ffmpeg
+      (pass.withExtensions (exts: [ exts.pass-otp ]))
+    ];
+  };
 }

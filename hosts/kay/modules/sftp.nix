@@ -2,7 +2,8 @@
 
 let
   storage = "/hdd/users";
-  pubkeys = config.userdata.pubKeys;
+  user = config.userdata.user;
+  pubKeys = config.users.users.${user}.openssh.authorizedKeys.keys;
 in
 {
   users = {
@@ -15,7 +16,7 @@ in
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFmA1dyV+o9gfoxlbVG0Y+dn3lVqdFs5fMqfxyNc5/Lr sftp@cez"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDCbgjAfyDNtLNyOS+sfLirYtfEAkGqV54LOwabpWkvf sftp@veu"
-      ] ++ pubkeys;
+      ] ++ pubKeys;
     };
 
     users."nazer" = {

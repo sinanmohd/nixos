@@ -2,6 +2,7 @@
 
 let
   host = config.networking.hostName;
+  user = config.userdata.user;
 in
 {
   disabledModules = [
@@ -30,6 +31,27 @@ in
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+  };
+
+  users.users.${user} = {
+    extraGroups = [ "wheel" ];
+    packages = with pkgs; [
+      bc
+      unzip
+      htop
+      curl
+      file
+      dig
+      mtr
+      nnn
+      ps_mem
+      brightnessctl
+    ];
+
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDCeMXhkjm9CabbA/1xdtP9bvFEm8pVXPk66NmI9/VvQ sinan@vex"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL8LnyOuPmtKRqAZeHueNN4kfYvpRQVwCivSTq+SZvDU sinan@cez"
+    ];
   };
 
   time.timeZone = "Asia/Kolkata";
