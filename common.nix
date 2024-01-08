@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   host = config.networking.hostName;
@@ -15,7 +15,13 @@ in
     ./modules/network-interfaces-scripted.nix
   ];
 
-  # boot
+  sops = {
+    defaultSopsFile = ./hosts/${host}/secrets.yaml;
+    age.keyFile = "/var/secrets/sops.key";
+  };
+  system.stateVersion = "23.11";
+  nix.settings.experimental-features = [ "flakes" "nix-command" ];
+
   boot = {
     tmp.useTmpfs = true;
     loader = {
@@ -25,9 +31,15 @@ in
     };
   };
 
-  # system
+  time.timeZone = "Asia/Kolkata";
   environment = {
-    binsh = "${pkgs.dash}/bin/dash";
+    binsh = "${lib.getExe pkgs.dash}";
+    systemPackages = with pkgs; [
+      dash
+      luajit
+      neovim
+      sops
+    ];
     variables = {
       EDITOR = "nvim";
       VISUAL = "nvim";
@@ -36,36 +48,7 @@ in
       ls = "ls --color=auto --group-directories-first";
       grep = "grep --color=auto";
     };
-    systemPackages = with pkgs; [
-      dash
-      luajit
-      unzip
-      bc
-      file
-      git
-      htop
-      curl
-      neovim
-      age
-      sops
-    ];
   };
-  system.stateVersion = "23.11";
-  time.timeZone = "Asia/Kolkata";
-
-  # nix
-  nix.settings.experimental-features = [
-    "flakes"
-    "nix-command"
-  ];
-
-  # sops
-  sops = {
-    defaultSopsFile = ./hosts/${host}/secrets.yaml;
-    age.keyFile = "/var/secrets/sops.key";
-  };
-
-  # programs
   programs.bash.promptInit = ''
     if [ "$UID" -ne 0 ]; then
         PROMPT_COLOR="1;32m"

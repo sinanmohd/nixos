@@ -5,6 +5,11 @@ let
   cfg = config.userdata;
 
   defaultPackages = with pkgs; [
+    bc
+    unzip
+    htop
+    curl
+    file
     dig
     mtr
     nnn

@@ -3,6 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     shellcheck
+    git
     gnumake
     gcc
     nodePackages.bash-language-server
