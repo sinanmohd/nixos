@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   imports = [
@@ -15,5 +15,4 @@
 
   boot.consoleLogLevel = 3;
   networking.hostName = "mox";
-  environment.systemPackages = with pkgs; [ tmux ];
 }
