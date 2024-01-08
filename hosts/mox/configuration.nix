@@ -7,12 +7,7 @@
     ../../common.nix
   ];
 
-  services.openssh = {
-    enable = true;
-    ports = [ 22 465 ];
-    settings.PasswordAuthentication = false;
-  };
-
+  services.openssh.ports = [ 22 465 ];
   boot.consoleLogLevel = 3;
   networking.hostName = "mox";
 }
