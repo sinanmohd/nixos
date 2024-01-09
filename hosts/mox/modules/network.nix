@@ -2,7 +2,6 @@
 
 let
   wan = "ens18";
-  dns = "10.0.0.2";
 in
 {
   networking = {
@@ -14,12 +13,6 @@ in
       address = "10.0.0.1";
       interface = wan;
     };
-  };
-
-  services = {
-    dnsmasq = {
-      enable = true;
-      settings.server = [ dns ];
-    };
+    nameservers = [ "10.0.0.2" "10.0.0.3" ];
   };
 }
