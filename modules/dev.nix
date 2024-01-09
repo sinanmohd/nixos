@@ -2,18 +2,19 @@
 
 {
   environment.systemPackages = with pkgs; [
-    shellcheck
-    git
-    gnumake
     gcc
-    nodePackages.bash-language-server
-    nodePackages.pyright
-    nil
-    ccls
+    git
     lua
-    lua-language-server
+
     man-pages
     man-pages-posix
+
+    ccls
+    lua-language-server
+    nil
+    nodePackages.bash-language-server
+    nodePackages.pyright
+    shellcheck
   ];
 
   documentation.dev.enable = true;
