@@ -9,6 +9,7 @@
       set-option -g prefix C-a
       unbind-key C-b
       bind-key C-a send-prefix
+      set -g base-index 1
       setw -g pane-base-index 1
       set -g history-limit 10000
 
