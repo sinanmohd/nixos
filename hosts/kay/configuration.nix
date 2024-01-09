@@ -10,5 +10,4 @@
   ];
 
   boot.consoleLogLevel = 3;
-  networking.hostName = "kay";
 }

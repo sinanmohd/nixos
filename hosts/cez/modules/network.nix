@@ -2,7 +2,6 @@
 
 {
   networking = {
-    hostName = "cez";
     firewall.enable = false;
 
     wireless.iwd = { 

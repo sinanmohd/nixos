@@ -15,6 +15,7 @@
     makeHost = host: system: lib.nixosSystem {
       inherit system;
       modules = [
+        { networking.hostName = host; }
         ./hosts/${host}/configuration.nix
         sops-nix.nixosModules.sops
       ];
