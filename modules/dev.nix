@@ -1,7 +1,10 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
+let
+  user = config.userdata.user;
+in
 {
-  environment.systemPackages = with pkgs; [
+  users.users.${user}.packages = with pkgs; [
     gcc
     git
     lua
