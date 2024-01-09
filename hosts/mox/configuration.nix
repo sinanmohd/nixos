@@ -8,6 +8,5 @@
   ];
 
   services.openssh.ports = [ 22 465 ];
-  boot.consoleLogLevel = 3;
   networking.hostName = "mox";
 }
