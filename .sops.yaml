@@ -14,4 +14,9 @@ creation_rules:
       age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
       age15989j5lkkf2kn5wa2p6qc8wlxjjksc63k5ync8rz8t4e87394pzqm7h4rm
 
+  - path_regex: ^hosts/dspace/.*
+    age: >-
+      age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
+      age15hsgvg3tz9lql0jpr5x8pm66r42kemd65fpz0wa6t8nhvwrxygcssjxd9c
+
   - age: *sinan
