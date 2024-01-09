@@ -1,4 +1,17 @@
 keys:
-  - &sinan 'age1hngjn65pvc8458z5uxz6qjktp45fp8s8jqxgqklsndkdp0s26gtqdxqazm'
+  - &sinan age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv
+  - &cez age1nur989fnjmfgfk54ctczrwg25epqqr0xgkl5d4swfxka9aw6cdrqdawvaq
+  - &kay age15989j5lkkf2kn5wa2p6qc8wlxjjksc63k5ync8rz8t4e87394pzqm7h4rm
+
 creation_rules:
+  - path_regex: ^hosts/cez/.*
+    age: >-
+      age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
+      age1nur989fnjmfgfk54ctczrwg25epqqr0xgkl5d4swfxka9aw6cdrqdawvaq
+
+  - path_regex: ^hosts/kay/.*
+    age: >-
+      age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
+      age15989j5lkkf2kn5wa2p6qc8wlxjjksc63k5ync8rz8t4e87394pzqm7h4rm
+
   - age: *sinan
