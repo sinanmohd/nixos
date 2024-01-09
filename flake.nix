@@ -26,6 +26,6 @@
     );
   in
   {
-    nixosConfigurations = makeX86 [ "cez" "kay" "mox" ];
+    nixosConfigurations = makeX86 [ "cez" "kay" "fscusat" ];
   };
 }
