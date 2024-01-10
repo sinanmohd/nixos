@@ -20,19 +20,26 @@ in
     "misc/namecheap.com" = {};
   };
 
-  networking = {
+  networking = let
+    voipVlanIface = "voip";
+  in {
     vlans = {
       wan = {
         id = inetVlan;
         interface = wanInterface;
       };
-      voip = {
+      ${voipVlanIface} = {
         id = voipVlan;
         interface = wanInterface;
       };
     };
 
-    interfaces."voip".useDHCP = true;
+    interfaces.${voipVlanIface}.useDHCP = true;
+    dhcpcd.extraConfig = ''
+      interface ${voipVlanIface}
+      ipv4only
+      nogateway
+    '';
   };
 
   services = {
