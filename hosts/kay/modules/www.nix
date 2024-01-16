@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 let
   domain = config.userdata.domain;
@@ -14,7 +14,11 @@ in
     ./cgit.nix
   ];
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall = {
+    allowedTCPPorts = [ 80 443 ];
+    allowedUDPPorts = [ 443 ];
+  };
+
   security.acme = {
     acceptTerms = true;
     defaults.email = email;
@@ -22,6 +26,8 @@ in
 
   services.nginx = { 
     enable = true;
+    package = pkgs.nginxQuic;
+
     recommendedTlsSettings = true;
     recommendedZstdSettings = true;
     recommendedOptimisation = true;
@@ -30,10 +36,15 @@ in
     recommendedBrotliSettings = true;
     eventsConfig = "worker_connections 1024;";
 
-    virtualHosts = {
-      "${domain}" = {
+    virtualHosts = let
+      defaultOpts = {
+        quic = true;
+        http3 = true;
         forceSSL = true;
         enableACME = true;
+      };
+    in {
+      "${domain}" = defaultOpts // {
         globalRedirect = "www.${domain}";
 
         extraConfig = ''
@@ -59,53 +70,31 @@ in
           proxyPass = "http://${addr}";
         };
       };
-      "www.${domain}" = {
-        forceSSL = true;
-        enableACME = true;
+      "www.${domain}" = defaultOpts // {
         root = "/var/www/${domain}";
       };
-      "bin.${domain}" = {
-        forceSSL = true;
-        enableACME = true;
+      "git.${domain}" = defaultOpts;
+      "bin.${domain}" = defaultOpts // {
         root = "${storage}/bin";
-
         locations."= /".return = "307 https://www.${domain}";
       };
-      "static.${domain}" = {
-        forceSSL = true;
-        enableACME = true;
+      "static.${domain}" = defaultOpts // {
         root = "${storage}/static";
-
         locations."= /".return = "301 https://www.${domain}";
       };
-      "${fscusat}" = {
-        forceSSL = true;
-        enableACME = true;
+      "${fscusat}" = defaultOpts // {
         globalRedirect = "www.${fscusat}";
       };
-      "www.${fscusat}" = {
-        forceSSL = true;
-        enableACME = true;
-        extraConfig = ''
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_read_timeout 600;
-        '';
-
+      "www.${fscusat}" = defaultOpts // {
         locations."/" = {
           return = "200 '<h1>under construction</h1>'";
           extraConfig = "add_header Content-Type text/html;";
         };
       };
-      "${mark}" = {
-        forceSSL = true;
-        enableACME = true;
+      "${mark}" = defaultOpts // {
         globalRedirect = "www.${mark}";
       };
-      "www.${mark}" = {
-        forceSSL = true;
-        enableACME = true;
-
+      "www.${mark}" = defaultOpts // {
         locations."/" = {
           return = "200 '<h1>under construction, see you soon</h1>'";
           extraConfig = "add_header Content-Type text/html;";
