@@ -48,40 +48,48 @@ in
         globalRedirect = "www.${domain}";
 
         extraConfig = ''
-          client_max_body_size ${toString config.services.dendrite.settings.media_api.max_file_size_bytes};
+          client_max_body_size ${toString
+            config.services.dendrite.settings.media_api.max_file_size_bytes
+          };
         '';
 
-        locations."/.well-known/matrix/server".return = ''
-          200 '{ "m.server": "${domain}:443" }'
-        '';
-        locations."/_matrix" = {
-          proxyPass = "http://127.0.0.1:${toString config.services.dendrite.httpPort}";
-        };
+        locations = {
+          "/.well-known/matrix/server".return = ''
+            200 '{ "m.server": "${domain}:443" }'
+          '';
 
-        locations."/.well-known/matrix/client".return = ''
-          200 '${builtins.toJSON {
-              "m.homeserver".base_url = "https://${domain}";
-              "org.matrix.msc3575.proxy".url = "https://${domain}";
-          }}'
-        '';
-        locations."/_matrix/client/unstable/org.matrix.msc3575/sync" = let
-          addr = "${config.services.matrix-sliding-sync.settings.SYNCV3_BINDADDR}";
-        in {
-          proxyPass = "http://${addr}";
+          "/.well-known/matrix/client".return = ''
+            200 '${builtins.toJSON {
+                "m.homeserver".base_url = "https://${domain}";
+                "org.matrix.msc3575.proxy".url = "https://${domain}";
+            }}'
+          '';
+
+          "/_matrix".proxyPass = "http://127.0.0.1:${toString
+            config.services.dendrite.httpPort
+          }";
+
+          "/_matrix/client/unstable/org.matrix.msc3575/sync".proxyPass =
+            "http://${config.services.matrix-sliding-sync.settings.SYNCV3_BINDADDR}";
         };
       };
+
       "www.${domain}" = defaultOpts // {
         root = "/var/www/${domain}";
       };
+
       "git.${domain}" = defaultOpts;
+
       "bin.${domain}" = defaultOpts // {
         root = "${storage}/bin";
         locations."= /".return = "307 https://www.${domain}";
       };
+
       "static.${domain}" = defaultOpts // {
         root = "${storage}/static";
         locations."= /".return = "301 https://www.${domain}";
       };
+
       "${fscusat}" = defaultOpts // {
         globalRedirect = "www.${fscusat}";
       };
@@ -91,6 +99,7 @@ in
           extraConfig = "add_header Content-Type text/html;";
         };
       };
+
       "${mark}" = defaultOpts // {
         globalRedirect = "www.${mark}";
       };
