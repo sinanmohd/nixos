@@ -27,6 +27,7 @@ in
   services.nginx = { 
     enable = true;
     package = pkgs.nginxQuic;
+    enableQuicBPF = true;
 
     recommendedTlsSettings = true;
     recommendedZstdSettings = true;
