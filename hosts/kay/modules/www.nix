@@ -46,6 +46,7 @@ in
       };
     in {
       "${domain}" = defaultOpts // {
+        default = true;
         globalRedirect = "www.${domain}";
 
         extraConfig = ''
