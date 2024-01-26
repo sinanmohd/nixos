@@ -7,7 +7,6 @@ in
 {
   disabledModules = [
     "services/networking/pppd.nix"
-    "tasks/network-interfaces-scripted.nix"
   ];
   imports = [
     ./modules/userdata.nix
@@ -16,7 +15,6 @@ in
     ./modules/dev.nix
 
     ./modules/pppd.nix
-    ./modules/network-interfaces-scripted.nix
   ];
 
   sops = {
