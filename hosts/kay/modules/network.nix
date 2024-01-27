@@ -56,6 +56,7 @@ in
         persist
         noauth
         debug
+        ipv6 ::1,
       '';
       peers.bsnl = {
         enable = true;
