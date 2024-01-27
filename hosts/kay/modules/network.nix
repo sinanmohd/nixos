@@ -51,12 +51,17 @@ in
       enable = true;
       config = ''
         plugin pppoe.so
+        debug
+
         nic-wan
         defaultroute
-        persist
-        noauth
-        debug
         ipv6 ::1,
+        noauth
+
+        persist
+        lcp-echo-adaptive
+        lcp-echo-interval 1
+        lcp-echo-failure 5
       '';
       peers.bsnl = {
         enable = true;
