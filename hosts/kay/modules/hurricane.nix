@@ -3,10 +3,14 @@
 let
   iface = "hurricane";
   remote = "216.218.221.42";
-  address = "2001:470:35:72a::2";
-  gateway = "2001:470:35:72a::1";
-  prefixLength = 64;
-  prefix = "2001:470:35:72a::/${toString prefixLength}";
+
+  clinet = "2001:470:35:72a::2";
+  server = "2001:470:35:72a::1";
+
+  addr1 = "2001:470:36:72a::";
+  prefix1 = 64;
+  addr2 = "2001:470:ee65::";
+  prefix2 = 48;
 in
 {
   networking = {
@@ -16,8 +20,20 @@ in
     };
     interfaces.${iface} = {
       mtu = 1440; # 1460(ppp0) - 20
-      ipv6.addresses =
-        [{ inherit prefixLength address; }];
+      ipv6.addresses = [
+        {
+          address = clinet;
+          prefixLength = 64;
+        }
+        {
+          address = "${addr1}1";
+          prefixLength = prefix1;
+        }
+        {
+          address = "${addr2}1";
+          prefixLength = prefix2;
+        }
+      ];
     };
 
     iproute2 = {
@@ -55,16 +71,22 @@ in
 
     path = [ pkgs.iproute2 ];
     script = ''
-      echo -n "adding route ${prefix}... "
+      echo -n "adding route"
 
-      ip -6 rule add from ${prefix} table hurricane || exit 1
-      ip -6 route add default via ${gateway} dev hurricane table hurricane || exit 1
+      ip -6 rule add from ${clinet}/64 table hurricane || exit 1
+      ip -6 rule add from ${addr1}/${toString prefix1} table hurricane || exit 1
+      ip -6 rule add from ${addr2}/${toString prefix2} table hurricane || exit 1
+
+      ip -6 route add default via ${server} dev hurricane table hurricane || exit 1
     '';
     preStop = ''
-      echo -n "deleting route $prefix... "
+      echo -n "deleting route"
 
-      ip -6 route del default via ${gateway} dev hurricane table hurricane || exit 1
-      ip -6 rule del from ${prefix} table hurricane || exit 1
+      ip -6 route del default via ${server} dev hurricane table hurricane || exit 1
+
+      ip -6 rule del from ${addr2}/${toString prefix2} table hurricane || exit 1
+      ip -6 rule del from ${addr1}/${toString prefix1} table hurricane || exit 1
+      ip -6 rule del from ${clinet}/64 table hurricane || exit 1
     '';
   };
 
