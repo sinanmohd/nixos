@@ -45,7 +45,10 @@ in
   services = {
     dnsmasq = {
       enable = true;
-      settings.server = [ nameServer ];
+      settings = {
+        server = [ nameServer ];
+        bind-interfaces = true;
+      };
     };
     pppd = {
       enable = true;
