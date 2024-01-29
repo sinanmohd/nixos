@@ -24,6 +24,9 @@ in
       enable = true;
       rttablesExtraConfig = "200 hurricane";
     };
+
+    firewall.extraCommands =
+      "iptables -A INPUT --proto 41 --source ${remote} --jump ACCEPT";
   };
 
   sops.secrets = {
@@ -84,12 +87,6 @@ in
       done
 
       ip tunnel change ${iface} local "$wan_ip" mode sit
-
-      # for unknown reason gateway don't seems to know where to route
-      # incoming traffic if we do not ping the gateway after ip change
-      while ! ping -c1 ${gateway}; do
-          sleep 1
-      done
     '';
   };
 }
