@@ -91,7 +91,7 @@ in
   };
 
 
-  services.pppd.script."02-${iface}" = {
+  services.pppd.script."01-${iface}" = {
     runtimeInputs = with pkgs; [ curl coreutils iproute2 iputils ];
     text = ''
       wan_ip="$4"

@@ -1,0 +1,25 @@
+$ORIGIN sinanmohd.com.
+$TTL 2d
+
+@	IN	SOA	ns1	sinan (
+			2024020100 ; serial
+			2h         ; refresh
+			5m         ; retry
+			1d         ; expire
+			5m )       ; nx ttl
+
+	IN	NS	ns1
+	IN	NS	ns2.he.net.
+	IN	NS	ns3.he.net.
+	IN	NS	ns4.he.net.
+	IN	NS	ns5.he.net.
+
+     30	IN	A	127.0.0.1
+     30	IN	AAAA	::1
+
+ns1	IN	AAAA	2001:470:ee65::1
+
+www	IN	CNAME	@
+git	IN	CNAME	@
+bin	IN	CNAME	@
+static	IN	CNAME	@
