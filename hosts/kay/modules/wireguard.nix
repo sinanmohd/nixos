@@ -38,6 +38,10 @@ in
           publicKey = "bJ9aqGYD2Jh4MtWIL7q3XxVHFuUdwGJwO8p7H3nNPj8=";
           allowedIPs = [ "10.0.1.3/32" ];
         }
+        { # dad
+          publicKey = "q70IyOS2IpubIRWqo5sL3SeEjtUy2V/PT8yqVExiHTQ=";
+          allowedIPs = [ "10.0.1.4/32" ];
+        }
       ];
     };
   };
