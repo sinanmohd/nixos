@@ -64,11 +64,17 @@ in {
         }
       ];
 
-      zone = [{
-        domain = "sinanmohd.com";
-        file = ./sinanmohd.com.zone;
-        template = "master";
-      }];
+      zone = [
+        {
+          domain = "sinanmohd.com";
+          file = ./sinanmohd.com.zone;
+          template = "master";
+        }
+        {
+          domain = "5.6.e.e.0.7.4.0.1.0.0.2.ip6.arpa";
+          file = ./5.6.e.e.0.7.4.0.1.0.0.2.ip6.arpa.zone;
+        }
+      ];
     };
   };
 
