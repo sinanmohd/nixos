@@ -20,10 +20,28 @@ in {
     settings = {
       server.listen = listen_addr;
 
-      remote = [{
-        id = "ns1.he.net";
-        address = [ "2001:470:100::2" "216.218.130.2" ];
-        via = "2001:470:ee65::1";
+      remote = [
+        {
+          id = "ns1.he.net";
+          address = [ "2001:470:100::2" "216.218.130.2" ];
+          via = "2001:470:ee65::1";
+        }
+        {
+          id = "m.gtld-servers.net";
+          address = [ "2001:501:b1f9::30"  "192.55.83.30" ];
+        }
+      ];
+
+      submission = [{
+        id = "gtld-servers.net";
+        parent = "m.gtld-servers.net";
+      }];
+
+      policy = [{
+        id = "gtld-servers.net";
+        algorithm = "ecdsap384sha384";
+        ksk-lifetime = "365d";
+        ksk-submission = "gtld-servers.net";
       }];
 
       # generate TSIG key with keymgr -t name
@@ -56,6 +74,8 @@ in {
         }
         {
           id = "master";
+          dnssec-signing = "on";
+          dnssec-policy = "gtld-servers.net";
           semantic-checks = "on";
           notify = [ "ns1.he.net" ];
           acl = [ "ns1.he.net" "localhost" ];

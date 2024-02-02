@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	sinan (
-			2024020100 ; serial
+			2024020400 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
