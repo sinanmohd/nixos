@@ -42,6 +42,7 @@ in
       curl
       file
       dig
+      tcpdump
       mtr
       nnn
       ps_mem
