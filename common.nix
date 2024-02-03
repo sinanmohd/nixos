@@ -26,11 +26,7 @@ in
 
   boot = {
     tmp.useTmpfs = true;
-    loader = {
-      timeout = 1;
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
+    loader.timeout = 1;
   };
 
   users.users.${user} = {

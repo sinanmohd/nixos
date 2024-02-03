@@ -4,6 +4,11 @@
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+
     kernelModules = [ "kvm-amd" ];
     initrd = {
       availableKernelModules = [
@@ -15,7 +20,8 @@
         "sdhci_pci"
       ];
 
-      luks.devices."crypt".device = "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
+      luks.devices."crypt".device =
+        "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
     };
   };
 
