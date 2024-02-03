@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   iface = "hurricane";
@@ -7,10 +7,15 @@ let
   clinet = "2001:470:35:72a::2";
   server = "2001:470:35:72a::1";
 
-  addr1 = "2001:470:36:72a::";
-  prefix1 = 64;
-  addr2 = "2001:470:ee65::";
-  prefix2 = 48;
+  prefix64 = "2001:470:36:72a::/64";
+  prefix48 = "2001:470:ee65::/48";
+
+  makeAddr = prefix: host: let
+    split = lib.strings.splitString "/" prefix;
+  in {
+    address = "${lib.head split}${host}";
+    prefixLength = lib.toInt (lib.last split);
+  };
 in
 {
   networking = {
@@ -25,14 +30,9 @@ in
           address = clinet;
           prefixLength = 64;
         }
-        {
-          address = "${addr1}1";
-          prefixLength = prefix1;
-        }
-        {
-          address = "${addr2}1";
-          prefixLength = prefix2;
-        }
+
+        (makeAddr prefix64 "1")
+        (makeAddr prefix48 "1")
       ];
     };
 
@@ -74,8 +74,8 @@ in
       echo -n "adding route"
 
       ip -6 rule add from ${clinet}/64 table hurricane || exit 1
-      ip -6 rule add from ${addr1}/${toString prefix1} table hurricane || exit 1
-      ip -6 rule add from ${addr2}/${toString prefix2} table hurricane || exit 1
+      ip -6 rule add from ${prefix64} table hurricane || exit 1
+      ip -6 rule add from ${prefix48} table hurricane || exit 1
 
       ip -6 route add default via ${server} dev hurricane table hurricane || exit 1
     '';
@@ -84,8 +84,8 @@ in
 
       ip -6 route del default via ${server} dev hurricane table hurricane || exit 1
 
-      ip -6 rule del from ${addr2}/${toString prefix2} table hurricane || exit 1
-      ip -6 rule del from ${addr1}/${toString prefix1} table hurricane || exit 1
+      ip -6 rule del from ${prefix48} table hurricane || exit 1
+      ip -6 rule del from ${prefix64} table hurricane || exit 1
       ip -6 rule del from ${clinet}/64 table hurricane || exit 1
     '';
   };
