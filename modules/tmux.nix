@@ -35,8 +35,8 @@
       # not eye candy
       set -g status-style "bg=default fg=7"
       set -g status-left ""
+      set -g status-right ""
       set -g status-justify right
-      set -g status-right " < #{session_name}"
     '';
   };
 }
