@@ -1,5 +1,18 @@
-{ config, ... }: let
+{ config, pkgs, ... }: let
   listen_addr = "2001:470:ee65::1";
+
+  acmeSOA = pkgs.writeText "acmeSOA" ''
+    $TTL 2d
+
+    @	IN	SOA	ns1.sinanmohd.com.	sinan.sinanmohd.com. (
+                        2024020505 ; serial
+                        2h         ; refresh
+                        5m         ; retry
+                        1d         ; expire
+                        5m )       ; nx ttl
+
+        IN	NS	ns1.sinanmohd.com.
+  '';
 in {
   imports = [ ./ddns.nix ];
 
@@ -58,6 +71,12 @@ in {
           update-type = [ "A" "AAAA" ];
           action = "update";
         }
+        {
+          id = "acme";
+          address = [ listen_addr ];
+          update-type = [ "TXT" ];
+          action = "update";
+        }
       ];
 
       mod-rrl = [{
@@ -74,13 +93,25 @@ in {
         }
         {
           id = "master";
+          semantic-checks = "on";
+
           dnssec-signing = "on";
           dnssec-policy = "gtld-servers.net";
-          semantic-checks = "on";
+
           notify = [ "ns1.he.net" ];
           acl = [ "ns1.he.net" "localhost" ];
+
           zonefile-sync = "-1";
           zonefile-load = "difference";
+        }
+        {
+          id = "acme";
+          semantic-checks = "on";
+          acl = [ "acme" ];
+
+          zonefile-sync = "-1";
+          zonefile-load = "difference";
+          journal-content = "changes";
         }
       ];
 
@@ -89,6 +120,11 @@ in {
           domain = "sinanmohd.com";
           file = ./sinanmohd.com.zone;
           template = "master";
+        }
+        {
+          domain = "_acme-challenge.sinanmohd.com";
+          file = acmeSOA;
+          template = "acme";
         }
         {
           domain = "5.6.e.e.0.7.4.0.1.0.0.2.ip6.arpa";

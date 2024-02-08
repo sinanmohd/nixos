@@ -2,7 +2,6 @@
 
 let
   domain = config.userdata.domain;
-  email = config.userdata.email;
   fscusat = "fscusat.org";
   mark = "themark.ing";
   storage = "/hdd/users/sftp/shr";
@@ -17,11 +16,6 @@ in
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
     allowedUDPPorts = [ 443 ];
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    defaults.email = email;
   };
 
   services.nginx = { 
@@ -42,7 +36,7 @@ in
         quic = true;
         http3 = true;
         forceSSL = true;
-        enableACME = true;
+        useACMEHost = domain;
       };
     in {
       "${domain}" = defaultOpts // {
@@ -93,9 +87,15 @@ in
       };
 
       "${fscusat}" = defaultOpts // {
+        useACMEHost = null;
+        enableACME = true;
+
         globalRedirect = "www.${fscusat}";
       };
       "www.${fscusat}" = defaultOpts // {
+        useACMEHost = null;
+        enableACME = true;
+
         locations."/" = {
           return = "200 '<h1>under construction</h1>'";
           extraConfig = "add_header Content-Type text/html;";
@@ -103,9 +103,15 @@ in
       };
 
       "${mark}" = defaultOpts // {
+        useACMEHost = null;
+        enableACME = true;
+
         globalRedirect = "www.${mark}";
       };
       "www.${mark}" = defaultOpts // {
+        useACMEHost = null;
+        enableACME = true;
+
         locations."/" = {
           return = "200 '<h1>under construction, see you soon</h1>'";
           extraConfig = "add_header Content-Type text/html;";
