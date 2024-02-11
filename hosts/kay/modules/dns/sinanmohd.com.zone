@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	sinan (
-			2024020840 ; serial
+			2024021100 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -23,5 +23,7 @@ www	IN	CNAME	@
 git	IN	CNAME	@
 bin	IN	CNAME	@
 static	IN	CNAME	@
+
+lia	IN	A	65.0.3.127
 
 _acme-challenge	IN	NS	ns1

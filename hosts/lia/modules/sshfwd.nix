@@ -2,7 +2,9 @@
   mkFwdSrv = {
     local_port,
     remote_port,
+    remote_user,
     remote ? "sinanmohd.com",
+    ssh_port ? 22,
     key ? config.sops.secrets."sshfwd/${remote}".path,
   }: {
     "sshfwd-${toString local_port}-${remote}:${toString remote_port}" = {
@@ -18,7 +20,7 @@
       path = [ pkgs.openssh ];
       script = ''
         echo -n "Forwarding port ${toString local_port}"
-        exec ssh -N lia@${remote} \
+        exec ssh -N ${remote_user}@${remote} -p ${toString ssh_port} \
             -R 0.0.0.0:${toString remote_port}:127.0.0.1:${toString local_port} \
             -i ${key}
       '';
@@ -26,8 +28,20 @@
   };
 in {
   sops.secrets."sshfwd/sinanmohd.com" = {};
+  sops.secrets."sshfwd/lia.sinanmohd.com" = {};
 
   environment.systemPackages = with pkgs; [ openssh ];
   systemd.services
-    = mkFwdSrv { local_port = 22; remote_port = 2222; };
+    = (mkFwdSrv {
+        local_port = 22;
+        remote_user = "lia";
+        remote_port = 2222;
+      }) //
+      (mkFwdSrv {
+        local_port = 22;
+        remote_port = 22;
+        ssh_port = 23;
+        remote_user = "root";
+        remote = "lia.sinanmohd.com";
+      });
 }
