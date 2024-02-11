@@ -8,6 +8,7 @@
     ./modules/sftp.nix
     ./modules/acme.nix
     ./modules/dns
+    ./modules/sshfwd.nix
     ../../common.nix
   ];
 
