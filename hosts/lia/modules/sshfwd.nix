@@ -1,22 +1,33 @@
-{ pkgs, config, ... }: {
-  sops.secrets."sshfwd/kay" = {};
+{ pkgs, config, ... }: let
+  mkFwdSrv = {
+    local_port,
+    remote_port,
+    remote ? "sinanmohd.com",
+    key ? config.sops.secrets."sshfwd/${remote}".path,
+  }: {
+    "sshfwd-${toString local_port}-${remote}:${toString remote_port}" = {
+      description = "Forwarding port ${toString local_port} to ${remote}";
+
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network-online.target" ];
+      wants = [ "network-online.target" ];
+      # restart rather than stop+start this unit to prevent
+      # the ssh from dying during switch-to-configuration.
+      stopIfChanged = false;
+
+      path = [ pkgs.openssh ];
+      script = ''
+        echo -n "Forwarding port ${toString local_port}"
+        exec ssh -N lia@${remote} \
+            -R 0.0.0.0:${toString remote_port}:127.0.0.1:${toString local_port} \
+            -i ${key}
+      '';
+    };
+  };
+in {
+  sops.secrets."sshfwd/sinanmohd.com" = {};
 
   environment.systemPackages = with pkgs; [ openssh ];
-  systemd.services."sshfwd" = {
-    description = "Forwarding port 22 to the Internet";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    # restart rather than stop+start this unit to prevent the
-    # network from dying during switch-to-configuration.
-    stopIfChanged = false;
-
-    path = [ pkgs.openssh ];
-    script = ''
-      echo -n "Forwarding port 22"
-      exec ssh -N lia@sinanmohd.com \
-          -R 0.0.0.0:2222:127.0.0.1:22 \
-          -i ${config.sops.secrets."sshfwd/kay".path}
-    '';
-  };
+  systemd.services
+    = mkFwdSrv { local_port = 22; remote_port = 2222; };
 }
