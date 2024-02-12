@@ -21,7 +21,7 @@
       script = ''
         echo -n "Forwarding port ${toString local_port}"
         exec ssh -N ${remote_user}@${remote} -p ${toString ssh_port} \
-            -R 0.0.0.0:${toString remote_port}:127.0.0.1:${toString local_port} \
+            -R '[::]:${toString remote_port}:127.0.0.1:${toString local_port}' \
             -i ${key}
       '';
     };
