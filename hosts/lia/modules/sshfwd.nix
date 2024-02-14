@@ -17,13 +17,17 @@
       # the ssh from dying during switch-to-configuration.
       stopIfChanged = false;
 
-      path = [ pkgs.openssh ];
-      script = ''
-        echo -n "Forwarding port ${toString local_port}"
-        exec ssh -N ${remote_user}@${remote} -p ${toString ssh_port} \
-            -R '[::]:${toString remote_port}:127.0.0.1:${toString local_port}' \
-            -i ${key}
-      '';
+      serviceConfig = {
+        ExecStart = ''
+          ${pkgs.openssh}/bin/ssh -N ${remote_user}@${remote} -p ${toString ssh_port} \
+              -R '[::]:${toString remote_port}:127.0.0.1:${toString local_port}' \
+              -i ${key}
+        '';
+
+        RestartSec = 1;
+        Restart = "always";
+      };
+
     };
   };
 in {
