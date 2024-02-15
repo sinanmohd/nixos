@@ -8,7 +8,11 @@ in
     gcc
     git
     lua
-    (python3.withPackages (p: [ p.pip ]))
+
+    (python3.withPackages (p: with p; [
+      pip
+      build
+    ]))
 
     man-pages
     man-pages-posix
