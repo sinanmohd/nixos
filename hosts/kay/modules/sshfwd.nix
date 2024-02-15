@@ -24,5 +24,6 @@ in {
 
     AllowTcpForwarding remote
     GatewayPorts clientspecified
+    PermitListen *:2222
   '';
 }
