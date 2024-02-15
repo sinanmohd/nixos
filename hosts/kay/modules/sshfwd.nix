@@ -17,12 +17,12 @@ in {
 
   services.openssh.extraConfig  = ''
     Match Group ${group}
-    ForceCommand echo 'this account is only usable for forwarding'
+    ForceCommand echo 'this account is only usable for remote forwarding'
     PermitTunnel no
     AllowAgentForwarding no
     X11Forwarding no
 
-    AllowTcpForwarding yes
-    GatewayPorts yes
+    AllowTcpForwarding remote
+    GatewayPorts clientspecified
   '';
 }
