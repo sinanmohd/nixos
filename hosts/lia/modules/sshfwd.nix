@@ -25,7 +25,7 @@
               -i ${key}
         '';
 
-        RestartSec = 1;
+        RestartSec = 3;
         Restart = "always";
       };
 
