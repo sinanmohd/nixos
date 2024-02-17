@@ -12,10 +12,11 @@ in {
       RSYNC_PATH = "debian";
       ARCH_INCLUDE = "amd64 riscv64";
 
-      INFO_MAINTAINER="${name} <${email}>";
+      INFO_MAINTAINER = "${name} <${email}>";
       INFO_COUNTRY = "IN";
       INFO_LOCATION = "Kochi, Kerala";
       INFO_THROUGHPUT = "1Gb";
+      MAILTO = email;
     };
   };
 }

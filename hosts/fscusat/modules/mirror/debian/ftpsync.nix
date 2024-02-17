@@ -2,7 +2,7 @@
 
 let
   cfg = config.services.ftpsync;
-  archvsync = pkgs.callPackage ../../pkgs/archvsync {};
+  archvsync = pkgs.callPackage ../../../pkgs/archvsync {};
 
   formatKeyValue = k: v: '' ${k}="${v}" '';
   configFormat = pkgs.formats.keyValue { mkKeyValue = formatKeyValue; };
@@ -54,7 +54,6 @@ in
 
       services.${name} = meta // {
         serviceConfig = {
-          DynamicUser = true;
           LogsDirectory = name;
           StateDirectory = name;
 

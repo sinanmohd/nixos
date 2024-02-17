@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
     ./modules/network.nix
     ./modules/www.nix
-    ./modules/ftpsync
+    ./modules/mirror
     ../../common.nix
   ];
 

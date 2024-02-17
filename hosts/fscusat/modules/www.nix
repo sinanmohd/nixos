@@ -30,10 +30,7 @@ in
       sslCertificateKey = config.sops.secrets."cusat.ac.in/key".path;
       sslCertificate = config.sops.secrets."cusat.ac.in/crt".path;
 
-      locations."/" = {
-        return = "200 '<h1>under construction</h1>'";
-        extraConfig = "add_header Content-Type text/html;";
-      };
+      locations."/".extraConfig = "return 307 $scheme://$host/mirror/;";
     };
   };
 }
