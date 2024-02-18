@@ -22,6 +22,7 @@
           ${pkgs.openssh}/bin/ssh -N ${remote_user}@${remote} -p ${toString ssh_port} \
               -R '[::]:${toString remote_port}:127.0.0.1:${toString local_port}' \
               -o ServerAliveInterval=15 \
+              -o ExitOnForwardFailure=yes \
               -i ${key}
         '';
 
