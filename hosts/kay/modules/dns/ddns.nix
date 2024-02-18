@@ -9,8 +9,11 @@
                     server  2001:470:ee65::1
                     zone    sinanmohd.com.
 
-                    update  delete  sinanmohd.com.  A
-                    update  add     sinanmohd.com.  180     A       $4
+                    update  delete  sinanmohd.com.       A
+                    update  add     sinanmohd.com.       180     A       $4
+
+                    update  delete  mail.sinanmohd.com.  A
+                    update  add     mail.sinanmohd.com.  180     A       $4
 
                     send
             EOF

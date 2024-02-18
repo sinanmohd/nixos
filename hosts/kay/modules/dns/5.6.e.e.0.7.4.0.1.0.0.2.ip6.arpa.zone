@@ -11,3 +11,4 @@ $TTL 2d
 	IN	NS	ns1.sinanmohd.com.
 
 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0	IN	PTR	ns1.sinanmohd.com.
+7.3.3.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0	IN	PTR	mail.sinanmohd.com.

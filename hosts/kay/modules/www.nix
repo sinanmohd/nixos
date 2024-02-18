@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   domain = config.userdata.domain;
@@ -116,6 +116,17 @@ in
           return = "200 '<h1>under construction, see you soon</h1>'";
           extraConfig = "add_header Content-Type text/html;";
         };
+      };
+
+      "mta-sts.${domain}" = defaultOpts // {
+        locations."= /.well-known/mta-sts.txt".return = ''200 "${
+          lib.strings.concatStringsSep "\\n" [
+            "version: STSv1"
+            "mode: enforce"
+            "mx: mail.${domain}"
+            "max_age: 86400"
+          ]
+        }"'';
       };
     };
   };

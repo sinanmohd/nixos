@@ -33,6 +33,7 @@ in
 
         (makeAddr prefix64 "1")
         (makeAddr prefix48 "1")
+        (makeAddr prefix48 "1337")
       ];
     };
 

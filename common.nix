@@ -7,6 +7,7 @@ in
 {
   disabledModules = [
     "services/networking/pppd.nix"
+    "services/mail/stalwart-mail.nix"
   ];
   imports = [
     ./modules/userdata.nix
@@ -15,6 +16,7 @@ in
     ./modules/dev.nix
 
     ./modules/pppd.nix
+    ./modules/stalwart-mail.nix
   ];
 
   sops = {

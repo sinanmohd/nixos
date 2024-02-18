@@ -18,7 +18,7 @@ in
     };
     email = mkOption {
       type = types.str;
-      default = "sinan@firemail.cc";
+      default = "sinan@${cfg.domain}";
       description = mdDoc "Owner's email";
     };
   };
