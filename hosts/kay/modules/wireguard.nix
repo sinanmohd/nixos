@@ -42,6 +42,10 @@ in
           publicKey = "q70IyOS2IpubIRWqo5sL3SeEjtUy2V/PT8yqVExiHTQ=";
           allowedIPs = [ "10.0.1.4/32" ];
         }
+        { # shambai
+          publicKey = "YYDlp/bNKkqFHAhdgaZ2SSEMnIjKTqPTK7Ju6O9/1gY=";
+          allowedIPs = [ "10.0.1.5/32" ];
+        }
       ];
     };
   };
