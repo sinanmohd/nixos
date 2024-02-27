@@ -13,6 +13,7 @@ in
     ./cgit.nix
   ];
 
+  security.acme.certs.${domain}.postRun = "systemctl reload nginx.service";
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
     allowedUDPPorts = [ 443 ];

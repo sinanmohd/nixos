@@ -24,6 +24,7 @@ in {
     4190  # managesieve
   ];
 
+  security.acme.certs.${domain}.postRun = "systemctl restart stalwart-mail.service";
   sops.secrets = {
     "mail.${domain}/dkim_rsa" = {};
     "mail.${domain}/dkim_ed25519" = {};
