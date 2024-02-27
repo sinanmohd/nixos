@@ -92,12 +92,20 @@ in {
         type = "memory";
         options.subaddressing = true;
 
-        principals = [{
-          inherit email;
-          inherit secret;
-          name = username;
-          type = "admin";
-        }];
+        principals = [
+          {
+            inherit email;
+            inherit secret;
+            name = username;
+            type = "admin";
+          }
+          { # for mta-sts & dmarc reports
+            email = "reports${domain}";
+            inherit secret;
+            name = "reports";
+            type = "individual";
+          }
+        ];
       };
     };
   };

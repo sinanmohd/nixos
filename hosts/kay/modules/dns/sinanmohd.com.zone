@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	hostmaster (
-			2024022500 ; serial
+			2024022700 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -20,7 +20,7 @@ $TTL 2d
 	IN	MX   10	mail
 
 	IN	TXT	"v=spf1 mx -all"
-_dmarc	IN	TXT	"v=DMARC1; p=reject; rua=mailto:postmaster@sinanmohd.com; ruf=mailto:postmaster@sinanmohd.com; adkim=s; aspf=s"
+_dmarc	IN	TXT	"v=DMARC1; p=reject; rua=mailto:reports@sinanmohd.com; ruf=mailto:reports@sinanmohd.com; adkim=s; aspf=s"
 
 ed25519._domainkey	IN	TXT	"v=DKIM1; k=ed25519; p=EHk924AruF9Y0Xaf009rpRl+yGusjmjT1Zeho67BnDU="
 rsa._domainkey		IN	TXT	"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4HEqO63fSC0cUnJt9vAQBssTkPfT4QefmAK/1BtAIRIOdGakf7PI7p3A1ETgwfYxuHj7BUSzUtESsHMThbhB1Wko79+AR+5ZBDBmD8CE0dOnZfzeG8xIaGfYkaL4gana6YZWiBT2oi/CimJfc22wacF01SufOs4R8cDpy4BZIgDD/zfF4bFTORQ0vMSJQJkp1zdQelERDU5CEezgxgVYgoSmdEpgkhc23PJSyj4Z7hA69N0amsb3cVVrfVXcYvSqTK3S2vLLA89ws4CUjCCpUW40gVIP8QP6CqTL76936Oo7OVWgmV3Sn3wa8FMN6IATY+fbMlrdOMsPY5PauJyEoQIDAQAB"
@@ -34,7 +34,7 @@ imap	IN	CNAME	@
 mta-sts	IN	CNAME	@
 
 _mta-sts     IN	TXT	"v=STSv1; id=2024022500"
-_smtp._tls   IN	TXT	"v=TLSRPTv1; rua=mailto:postmaster@sinanmohd.com"
+_smtp._tls   IN	TXT	"v=TLSRPTv1; rua=mailto:reports@sinanmohd.com"
 
 www	IN	CNAME	@
 git	IN	CNAME	@
