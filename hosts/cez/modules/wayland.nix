@@ -45,6 +45,7 @@ in
     enableDefaultPackages = true;
     fontconfig = {
       hinting.style = "full";
+      subpixel.rgba = "rgb";
       defaultFonts = {
         monospace = [ "Terminess Nerd Font" ];
         serif = [ "DeepMind Sans" ];
