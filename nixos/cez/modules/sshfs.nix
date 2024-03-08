@@ -10,7 +10,7 @@ in
   sops.secrets."misc/sftp" = {};
   system.fsPackages = with pkgs; [ sshfs ];
 
-  fileSystems."/kay" = {
+  fileSystems."/media/kay" = {
     device = "sftp@${domain}:";
     fsType = "sshfs";
     options = [
