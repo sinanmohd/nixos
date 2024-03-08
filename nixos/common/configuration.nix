@@ -20,7 +20,7 @@ in
   ];
 
   sops = {
-    defaultSopsFile = ./hosts/${host}/secrets.yaml;
+    defaultSopsFile = ../${host}/secrets.yaml;
     age.keyFile = "/var/secrets/${host}.sops";
   };
   system.stateVersion = "23.11";

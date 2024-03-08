@@ -5,10 +5,11 @@ let
 in
 {
   imports = [
+    ../common/configuration.nix
     ./hardware-configuration.nix
+
     ./modules/network.nix
     ./modules/www.nix
-    ../../common.nix
   ];
 
 

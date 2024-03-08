@@ -5,12 +5,13 @@ let
 in
 {
   imports = [
+    ../common/configuration.nix
     ./hardware-configuration.nix
+
     ./modules/wayland.nix
     ./modules/sshfs.nix
     ./modules/wireguard.nix
     ./modules/network.nix
-    ../../common.nix
   ];
 
   boot = {

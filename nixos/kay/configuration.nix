@@ -2,7 +2,9 @@
 
 {
   imports = [
+    ../common/configuration.nix
     ./hardware-configuration.nix
+
     ./modules/network.nix
     ./modules/www.nix
     ./modules/sftp.nix
@@ -10,7 +12,6 @@
     ./modules/mail.nix
     ./modules/dns
     ./modules/sshfwd.nix
-    ../../common.nix
   ];
 
   boot.consoleLogLevel = 3;

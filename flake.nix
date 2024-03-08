@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,7 +17,8 @@
       inherit system;
       modules = [
         { networking.hostName = host; }
-        ./hosts/${host}/configuration.nix
+        ./nixos/${host}/configuration.nix
+
         sops-nix.nixosModules.sops
       ];
     };
@@ -26,6 +28,7 @@
     );
   in
   {
-    nixosConfigurations = makeX86 [ "cez" "kay" "lia" "fscusat" "dspace" ];
+    nixosConfigurations =
+      makeX86 [ "cez" "kay" "lia" "fscusat" "dspace" ];
   };
 }
