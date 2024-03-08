@@ -8,14 +8,20 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, sops-nix }: let
+  outputs = { self, nixpkgs, sops-nix, home-manager }: let
     lib = nixpkgs.lib;
 
-    makeHost = host: system: lib.nixosSystem {
+    makeNixos = host: system: lib.nixosSystem {
       inherit system;
       modules = [
+        ./userdata.nix
         { networking.hostName = host; }
         ./nixos/${host}/configuration.nix
 
@@ -23,12 +29,20 @@
       ];
     };
 
-    makeX86 = hosts: lib.genAttrs hosts (
-        host: makeHost host "x86_64-linux"
-    );
+    makeHome = useType: system: home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.${system};
+      modules = [
+        ./userdata.nix
+        ./home-manager/${useType}/home.nix
+      ];
+    };
   in
   {
     nixosConfigurations =
-      makeX86 [ "cez" "kay" "lia" "fscusat" "dspace" ];
+      lib.genAttrs [ "cez" "kay" "lia" "fscusat" "dspace" ]
+      (host: makeNixos host "x86_64-linux");
+    homeConfigurations =
+      lib.genAttrs [ "common" ]
+      (host: makeHome host "x86_64-linux");
   };
 }

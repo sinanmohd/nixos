@@ -3,6 +3,7 @@
 let
   host = config.networking.hostName;
   user = config.userdata.user;
+  email = config.userdata.email;
 in
 {
   disabledModules = [
@@ -10,8 +11,6 @@ in
     "services/mail/stalwart-mail.nix"
   ];
   imports = [
-    ./modules/userdata.nix
-
     ./modules/tmux.nix
     ./modules/dev.nix
 
@@ -32,6 +31,10 @@ in
   };
 
   users.users.${user} = {
+    uid = 1000;
+    isNormalUser = true;
+    description = email;
+
     extraGroups = [ "wheel" ];
     packages = with pkgs; [
       bc
