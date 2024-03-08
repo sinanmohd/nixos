@@ -2,7 +2,7 @@
 
 let
   storage = "/hdd/users";
-  user = config.userdata.user;
+  user = config.userdata.name;
   pubKeys = config.users.users.${user}.openssh.authorizedKeys.keys;
 in
 {

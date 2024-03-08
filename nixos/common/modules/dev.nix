@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  user = config.userdata.user;
+  user = config.userdata.name;
 in
 {
   users.users.${user}.packages = with pkgs; [

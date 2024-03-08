@@ -2,7 +2,7 @@
 
 let
   host = config.networking.hostName;
-  user = config.userdata.user;
+  user = config.userdata.name;
   email = config.userdata.email;
 in
 {

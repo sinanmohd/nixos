@@ -1,5 +1,5 @@
 { config, ... }: let
-  username = config.userdata.user;
+  username = config.userdata.name;
 in {
   imports = [ ./modules/git.nix ];
 

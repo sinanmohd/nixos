@@ -2,7 +2,7 @@
 
 let
   domain = config.userdata.domain;
-  user = config.userdata.user;
+  user = config.userdata.name;
   uid = config.users.users.${user}.uid;
   gid = config.users.groups.users.gid;
 in

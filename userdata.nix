@@ -6,12 +6,12 @@ let
 in
 {
   options.userdata =  {
-    user = mkOption {
+    name = mkOption {
       type = types.str;
       default = "sinan";
       description = "Owner's username";
     };
-    userFq = mkOption {
+    nameFq = mkOption {
       type = types.str;
       default = "sinanmohd";
       description = "Owner's fully qualified username";
@@ -23,7 +23,7 @@ in
     };
     email = mkOption {
       type = types.str;
-      default = "${cfg.user}@${cfg.domain}";
+      default = "${cfg.name}@${cfg.domain}";
       description = "Owner's email";
     };
   };

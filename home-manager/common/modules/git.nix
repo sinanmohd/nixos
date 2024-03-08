@@ -1,5 +1,5 @@
 { config, ... }: let
-  userName = config.userdata.userFq;
+  userName = config.userdata.nameFq;
   userEmail = config.userdata.email;
 in {
   programs.git = {

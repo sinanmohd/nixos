@@ -2,7 +2,7 @@
 
 let
   domain = config.userdata.domain;
-  user = config.userdata.user;
+  user = config.userdata.name;
 in
 {
   environment.systemPackages = with pkgs; [
