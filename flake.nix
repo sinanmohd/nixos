@@ -21,10 +21,13 @@
     makeNixos = host: system: lib.nixosSystem {
       inherit system;
       modules = [
-        ./userdata.nix
-        { networking.hostName = host; }
-        ./nixos/${host}/configuration.nix
+        {
+          networking.hostName = host;
+          nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+        }
 
+        ./userdata.nix
+        ./nixos/${host}/configuration.nix
         sops-nix.nixosModules.sops
       ];
     };

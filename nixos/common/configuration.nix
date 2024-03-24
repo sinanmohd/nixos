@@ -13,6 +13,7 @@ in
   imports = [
     ./modules/tmux.nix
     ./modules/dev.nix
+    ./modules/nix.nix
 
     ./modules/pppd.nix
     ./modules/stalwart-mail.nix
