@@ -12,6 +12,7 @@ in
     ./modules/sshfs.nix
     ./modules/wireguard.nix
     ./modules/network.nix
+    ./modules/tlp.nix
   ];
 
   boot = {
