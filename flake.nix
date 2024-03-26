@@ -45,7 +45,7 @@
       lib.genAttrs [ "cez" "kay" "lia" "fscusat" "dspace" ]
       (host: makeNixos host "x86_64-linux");
     homeConfigurations =
-      lib.genAttrs [ "common" "gui" ]
+      lib.genAttrs [ "common" "wayland" ]
       (host: makeHome host "x86_64-linux");
   };
 }
