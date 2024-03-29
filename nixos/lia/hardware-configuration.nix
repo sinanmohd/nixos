@@ -4,26 +4,26 @@
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    loader.grub = {
-      enable = true;
-      device = "/dev/sda";
-    };
+    loader.systemd-boot.enable = true;
+    kernelModules = [ "kvm-amd" ];
 
-    kernelModules = [ "kvm-intel" ];
     initrd.availableKernelModules = [
-      "uhci_hcd"
-      "ehci_pci"
-      "ata_piix"
-      "hpsa"
+      "xhci_pci"
+      "ahci"
       "usb_storage"
       "usbhid"
       "sd_mod"
-      "sr_mod"
     ];
   };
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/99fc38a8-9003-4ae2-98f4-e08afd9b4114";
-    fsType = "ext4";
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/9ad3550b-8c9a-4541-8fac-7af185599446";
+      fsType = "ext4";
+    };
+    "/boot" = {
+      device = "/dev/disk/by-uuid/6111-05EC";
+      fsType = "vfat";
+    };
   };
 }

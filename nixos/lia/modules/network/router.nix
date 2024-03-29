@@ -1,6 +1,6 @@
 { ... }: let
-  wanInterface = "enp4s0f2";
-  lanInterfaces = [ "enp4s0f1" "enp4s0f3" ];
+  wanInterface = "enp9s0";
+  lanInterfaces = [ "enp1s0f0" "enp1s0f1" ];
 
   prefix = 24;
   subnet = "192.168.1.0";

@@ -1,5 +1,5 @@
 { ... }: let
-  wan = "enp4s0f2";
+  wan = "enp9s0";
 in
 {
   imports = [
