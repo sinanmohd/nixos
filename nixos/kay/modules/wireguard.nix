@@ -34,7 +34,7 @@ in
           publicKey = "IcMpAs/D0u8O/AcDBPC7pFUYSeFQXQpTqHpGOeVpjS8=";
           allowedIPs = [ "10.0.1.2/32" ];
         }
-        { # vex
+        { # veu
           publicKey = "bJ9aqGYD2Jh4MtWIL7q3XxVHFuUdwGJwO8p7H3nNPj8=";
           allowedIPs = [ "10.0.1.3/32" ];
         }
