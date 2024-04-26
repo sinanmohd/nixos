@@ -158,7 +158,7 @@ in {
     };
 
     # Make admin commands available in the shell
-    environment.systemPackages = [ cfg.package ];
+    environment.systemPackages = [ cfg.package cfgPkg ];
   };
 
   meta = {
