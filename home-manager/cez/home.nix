@@ -1,5 +1,8 @@
-{ ... }: {
+{ ... }: let
+  font = "Sans 13";
+in {
   imports = [ ../wayland/home.nix ];
 
-  services.mako.font = "Sans 13";
+  services.mako.font = font;
+  programs.zathura.options.font = font;
 }

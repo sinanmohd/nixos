@@ -1,4 +1,4 @@
-{ ... }: {
+{ lib, ... }: {
     programs.zathura = {
     enable = true;
 
@@ -7,9 +7,9 @@
       "[fullscreen] f" = "toggle_fullscreen";
     };
     options = {
-      "font" = "Sans";
-      "statusbar-basename" = true;
-      "selection-clipboard" = "clipboard";
+      font = lib.mkDefault "Sans";
+      statusbar-basename = true;
+      selection-clipboard = "clipboard";
     };
   };
 }
