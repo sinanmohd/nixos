@@ -1,8 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
+{ config, lib, pkgs, ... }: let
   cfg = config.services.stalwart-mail;
   configFormat = pkgs.formats.toml { };
   configFile = configFormat.generate "stalwart-mail.toml" cfg.settings;
@@ -28,8 +24,8 @@ let
   settingsDefault = recursiveUpdateList (map (path: readTOML path) cfgFiles);
 in {
   options.services.stalwart-mail = {
-    enable = mkEnableOption "the Stalwart all-in-one email server";
-    package = mkPackageOption pkgs "stalwart-mail" { };
+    enable = lib.mkEnableOption "the Stalwart all-in-one email server";
+    package = lib.mkPackageOption pkgs "stalwart-mail" { };
 
     loadCredential = lib.mkOption {
       type = lib.types.listOf lib.types.str;
@@ -42,7 +38,7 @@ in {
       '';
     };
 
-    settings = mkOption {
+    settings = lib.mkOption {
       inherit (configFormat) type;
       default = { };
       description = ''
@@ -54,7 +50,7 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     # set the default upstream settings
     # assumptions
     # 1. ./config.toml exists and only containts include.files and macros
@@ -162,6 +158,6 @@ in {
   };
 
   meta = {
-    maintainers = with maintainers; [ happysalada pacien ];
+    maintainers = with lib.maintainers; [ happysalada pacien ];
   };
 }
