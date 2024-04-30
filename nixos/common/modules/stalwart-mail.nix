@@ -28,14 +28,14 @@ let
   settingsDefault = recursiveUpdateList (map (path: readTOML path) cfgFiles);
 in {
   options.services.stalwart-mail = {
-    enable = mkEnableOption (mdDoc "the Stalwart all-in-one email server");
+    enable = mkEnableOption "the Stalwart all-in-one email server";
     package = mkPackageOption pkgs "stalwart-mail" { };
 
     loadCredential = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
       example = [ "dkim.private:/path/to/stalwart.private" ];
-      description = lib.mdDoc ''
+      description = ''
         This can be used to pass secrets to the systemd service without adding them to
         the nix store.
         See the LoadCredential section of systemd.exec manual for more information.
@@ -45,7 +45,7 @@ in {
     settings = mkOption {
       inherit (configFormat) type;
       default = { };
-      description = mdDoc ''
+      description = ''
         Configuration options for the Stalwart email server.
         See <https://stalw.art/docs/category/configuration> for available options.
 
