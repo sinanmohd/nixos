@@ -1,16 +1,21 @@
-{ modulesPath, ... }:
+{ modulesPath, pkgs, ... }:
 
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
+    kernelParams = [ "quiet" ];
+    loader.systemd-boot.enable = true;
+
+    plymouth = {
+      enable = true;
+      theme = "lone";
+      themePackages = with pkgs; [ adi1090x-plymouth-themes ];
     };
 
     initrd = {
-      kernelModules = [ "amdgpu" "nvme" ];
+      systemd.enable = true;
+      kernelModules = [ "amdgpu" ];
       luks.devices."crypt".device =
         "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
     };
