@@ -13,6 +13,7 @@ in
     ./modules/wireguard.nix
     ./modules/network.nix
     ./modules/tlp.nix
+    ./modules/getty.nix
   ];
 
   boot = {
@@ -29,12 +30,9 @@ in
     '';
   };
 
-  services = {
-    pipewire = {
+  services.pipewire = {
       enable = true;
       pulse.enable = true;
-    };
-    getty.autologinUser = user;
   };
 
   programs.adb.enable = true;
