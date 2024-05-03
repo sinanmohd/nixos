@@ -9,17 +9,8 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernelModules = [ "kvm-amd" ];
     initrd = {
-      availableKernelModules = [
-        "nvme"
-        "xhci_pci"
-        "ahci"
-        "usb_storage"
-        "sd_mod"
-        "sdhci_pci"
-      ];
-
+      kernelModules = [ "amdgpu" "nvme" ];
       luks.devices."crypt".device =
         "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
     };
