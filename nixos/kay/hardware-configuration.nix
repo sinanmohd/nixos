@@ -33,6 +33,7 @@
     "/hdd" = {
       device = "/dev/disk/by-uuid/c941edb4-e393-4254-bbef-d1b3728290e9";
       fsType = "ext4";
+      options = [ "nofail" ];
     };
   };
 }
