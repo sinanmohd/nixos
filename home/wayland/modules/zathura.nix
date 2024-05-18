@@ -10,6 +10,7 @@
       font = lib.mkDefault "Sans";
       statusbar-basename = true;
       selection-clipboard = "clipboard";
+      database = "sqlite";
     };
   };
 }
