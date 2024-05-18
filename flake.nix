@@ -36,7 +36,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
       modules = [
         ./userdata.nix
-        ./home-manager/${useType}/home.nix
+        ./home/${useType}/home.nix
       ];
     };
   in
