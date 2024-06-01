@@ -27,7 +27,7 @@
         }
 
         ./userdata.nix
-        ./nixos/${host}/configuration.nix
+        ./os/${host}/configuration.nix
         sops-nix.nixosModules.sops
       ];
     };
