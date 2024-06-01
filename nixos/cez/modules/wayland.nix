@@ -1,9 +1,6 @@
-{ config, pkgs, lib, ... }:
-
-let
+{ config, pkgs, ... }: let
   user = config.userdata.name;
-in
-{
+in {
   # pkgs
   environment.systemPackages = with pkgs; [
     bemenu
@@ -58,23 +55,15 @@ in
   services = {
     seatd.enable = true;
     dbus = {
-      implementation = "broker";
       enable = true;
+      implementation = "broker";
     };
   };
 
   programs = {
     gnupg.agent = {
       enable = true;
-      settings.pinentry-program = lib.mkForce "${pkgs.pinentry-bemenu}/bin/pinentry-bemenu";
-    };
-    firefox = {
-      enable = true;
-      preferences = {
-        "media.ffmpeg.vaapi.enabled" = true;
-        "gfx.webrender.all" = true;
-        "identity.fxaccounts.enabled" = false;
-      };
+      pinentryPackage = pkgs.pinentry-bemenu;
     };
   };
 
