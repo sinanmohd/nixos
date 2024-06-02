@@ -1,5 +1,5 @@
 { ... }: let
-  font = "Sans 13";
+  font = "sans 13";
   monoFont = "monospace:size=18";
 in {
   imports = [ ../wayland/home.nix ];
