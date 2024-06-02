@@ -1,7 +1,10 @@
 { config, ... }: let
   username = config.userdata.name;
 in {
-  imports = [ ./modules/git.nix ];
+  imports = [
+    ./modules/git.nix
+    ./modules/mimeapps.nix
+  ];
 
   programs.home-manager.enable = true;
 
