@@ -6,18 +6,19 @@
   up = "k";
 
   menu = "${pkgs.bemenu}/bin/bemenu-run --prompt ' '";
-  term = lib.getExe config.programs.foot.package;
-  status = lib.getExe config.programs.i3status.package;
-  lock = lib.getExe config.programs.swaylock.package;
+  foot = lib.getExe config.programs.foot.package;
+  i3status = lib.getExe config.programs.i3status.package;
+  swaylock = lib.getExe config.programs.swaylock.package;
 
   nnn = lib.getExe pkgs.nnn;
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   brightnessctl = lib.getExe pkgs.brightnessctl;
-  notification = lib.getExe config.services.mako.package;
+  mako = lib.getExe config.services.mako.package;
   firefox = lib.getExe config.programs.firefox.finalPackage;
 in {
   imports = [
     ./mako.nix
+    ./swayidle.nix
     ./swaylock.nix
     ./i3status.nix
   ];
@@ -25,6 +26,7 @@ in {
   home.packages = [
     pkgs.nnn
     pkgs.bemenu
+    pkgs.swayidle
     pkgs.brightnessctl
   ];
 
@@ -36,7 +38,7 @@ in {
       bar = {
 	position = "top";
 	font = "sans";
-	status_command = status;
+	status_command = i3status;
 	colors = {
 	  background = "#000000";
 	  focused_workspace = "#000000 #000000 #ffba08";
@@ -47,7 +49,7 @@ in {
       bindgesture = {
 	"swipe:left" = "workspace next";
 	"swipe:right" = "workspace prev";
-	"swipe:down" = "exec ${lock}";
+	"swipe:down" = "exec ${swaylock}";
       };
       input = {
 	"type:touchpad" = {
@@ -61,10 +63,9 @@ in {
       };
 
       bindsym = {
-	# sway
+	# basics
 	"${mod}+q" = "kill";
 	"${mod}+shift+c" = "reload";
-	"${mod}+tab" = "workspace back_and_forth";
 	"${mod}+shift+e" = ''
 	  exec swaynag -t warning -m 'Do you really want to exit sway?' \
 	      -B 'Yes, exit sway' 'swaymsg exit'
@@ -80,6 +81,7 @@ in {
 	"${mod}+7" = "workspace number 7";
 	"${mod}+8" = "workspace number 8";
 	"${mod}+9" = "workspace number 9";
+	"${mod}+tab" = "workspace back_and_forth";
 	"${mod}+shift+1" = "move container to workspace number 1";
 	"${mod}+shift+2" = "move container to workspace number 2";
 	"${mod}+shift+3" = "move container to workspace number 3";
@@ -113,10 +115,10 @@ in {
 	"${mod}+minus" = "scratchpad show";
 
 	# exec
-	"${mod}+return" = "exec ${term}";
+	"${mod}+return" = "exec ${foot}";
 	"${mod}+p" = "exec ${menu}";
 	"${mod}+w" = "exec ${firefox}";
-	"${mod}+n" = "exec ${term} -- ${nnn} -decC";
+	"${mod}+n" = "exec ${foot} -- ${nnn} -decC";
 
 	XF86MonBrightnessDown = "exec ${brightnessctl} set 1%-";
 	XF86MonBrightnessUp = "exec ${brightnessctl} set 1%+";
@@ -134,8 +136,8 @@ in {
 	return = "mode default";
       };
 
+      exec = [ mako ];
       gaps.inner = 10;
-      exec = notification;
       default_border.pixel = 2;
       floating_modifier = "${mod} normal";
       "client.focused" = "#4c7899 #285577 #ffffff #285577";
