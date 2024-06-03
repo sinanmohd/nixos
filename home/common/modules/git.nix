@@ -1,6 +1,6 @@
 { config, ... }: let
-  userName = config.userdata.nameFq;
-  userEmail = config.userdata.email;
+  userName = config.global.userdata.nameFq;
+  userEmail = config.global.userdata.email;
 in {
   programs.git = {
     enable = true;

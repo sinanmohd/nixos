@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  domain = config.userdata.domain;
+  domain = config.global.userdata.domain;
   fscusat = "fscusat.org";
   mark = "themark.ing";
   storage = "/hdd/users/sftp/shr";

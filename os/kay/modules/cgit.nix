@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 let
-  domain = config.userdata.domain;
-  user = config.userdata.name;
+  domain = config.global.userdata.domain;
+  user = config.global.userdata.name;
 in
 {
   environment.systemPackages = with pkgs; [

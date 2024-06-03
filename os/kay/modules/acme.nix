@@ -1,6 +1,6 @@
 { config, pkgs, ... }: let
-  email = config.userdata.email;
-  domain = config.userdata.domain;
+  email = config.global.userdata.email;
+  domain = config.global.userdata.domain;
 
   environmentFile =
     pkgs.writeText "acme-dns" "RFC2136_NAMESERVER='[2001:470:ee65::1]:53'";

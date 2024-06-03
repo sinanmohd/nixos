@@ -1,6 +1,6 @@
 { config, ... }: let
-  name = config.userdata.name;
-  email = config.userdata.email;
+  name = config.global.userdata.name;
+  email = config.global.userdata.email;
 in {
   imports = [ ./ftpsync.nix ];
 

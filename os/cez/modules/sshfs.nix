@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 let
-  domain = config.userdata.domain;
-  user = config.userdata.name;
+  domain = config.global.userdata.domain;
+  user = config.global.userdata.name;
   uid = config.users.users.${user}.uid;
   gid = config.users.groups.users.gid;
 in

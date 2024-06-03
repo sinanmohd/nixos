@@ -1,7 +1,7 @@
 { config, ... }:
 
 let
-  domain = config.userdata.domain;
+  domain = config.global.userdata.domain;
 in
 {
   sops.secrets."matrix-${domain}/sliding_sync" = {};

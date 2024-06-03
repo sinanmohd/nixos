@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  domain = config.userdata.domain;
+  domain = config.global.userdata.domain;
   database = {
     connection_string = "postgres:///dendrite?host=/run/postgresql";
     max_open_conns = 90;

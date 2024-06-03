@@ -1,8 +1,8 @@
 { config, ... }: let
   ipv6 = "2001:470:ee65::1337";
-  domain = config.userdata.domain;
+  domain = config.global.userdata.domain;
 
-  username = config.userdata.name;
+  username = config.global.userdata.name;
   secret = "$argon2i$v=19$m=4096,t=3,p=1$SWV5aWU3YWUgZWFTNm9oc28gTGFvdDdlRG8ga2FTaWVjaDYgYWV0aDFHb28$O/sDv7oy9wUxFjvKoxB5o8ZnPvjYJo9DjX0C/AZQFF0";
   email = [
     "${username}@${domain}"

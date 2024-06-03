@@ -26,7 +26,7 @@
           nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
         }
 
-        ./userdata.nix
+        ./global
         ./os/${host}/configuration.nix
         sops-nix.nixosModules.sops
       ];
@@ -35,7 +35,7 @@
     makeHome = useType: system: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       modules = [
-        ./userdata.nix
+        ./global
         ./home/${useType}/home.nix
       ];
     };

@@ -2,8 +2,8 @@
 
 let
   host = config.networking.hostName;
-  user = config.userdata.name;
-  email = config.userdata.email;
+  user = config.global.userdata.name;
+  email = config.global.userdata.email;
 in
 {
   disabledModules = [
