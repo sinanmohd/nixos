@@ -1,5 +1,10 @@
 { config, pkgs, ... }: let
   user = config.global.userdata.name;
+
+  fontSans = config.global.font.sans.name;
+  fontMonospace = config.global.font.monospace.name;
+  fontPackages = config.global.font.monospace.packages
+    ++ config.global.font.sans.packages;
 in {
   # pkgs
   environment.systemPackages = with pkgs; [
@@ -35,18 +40,15 @@ in {
 
   # font
   fonts = {
-    packages = with pkgs; [
-      terminus-nerdfont
-      dm-sans
-    ];
+    packages = fontPackages;
     enableDefaultPackages = true;
     fontconfig = {
       hinting.style = "full";
       subpixel.rgba = "rgb";
       defaultFonts = {
-        monospace = [ "Terminess Nerd Font" ];
-        serif = [ "DeepMind Sans" ];
-        sansSerif = [ "DeepMind Sans" ];
+        monospace = [ fontMonospace ];
+        serif = [ fontSans ];
+        sansSerif = [ fontSans ];
       };
     };
   };

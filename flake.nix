@@ -26,18 +26,20 @@
           nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
         }
 
-        ./global
+        ./global/common
         ./os/${host}/configuration.nix
         sops-nix.nixosModules.sops
-      ];
+      ] ++ lib.optional (builtins.pathExists ./global/${host})
+        ./global/${host};
     };
 
-    makeHome = useType: system: home-manager.lib.homeManagerConfiguration {
+    makeHome = host: system: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       modules = [
-        ./global
-        ./home/${useType}/home.nix
-      ];
+        ./global/common
+        ./home/${host}/home.nix
+      ] ++ lib.optional (builtins.pathExists ./global/${host})
+        ./global/${host};
     };
   in
   {
