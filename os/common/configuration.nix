@@ -23,7 +23,7 @@ in
     defaultSopsFile = ../${host}/secrets.yaml;
     age.keyFile = "/var/secrets/${host}.sops";
   };
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.11";
   nix.settings.experimental-features = [ "flakes" "nix-command" ];
 
   boot = {

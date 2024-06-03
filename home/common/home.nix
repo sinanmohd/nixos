@@ -10,7 +10,7 @@ in {
 
   home = {
     inherit username;
-    stateVersion = "23.11";
+    stateVersion = "24.11";
     homeDirectory = "/home/${config.home.username}";
   };
 }
