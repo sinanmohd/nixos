@@ -10,7 +10,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:sinanmohd/home-manager/sway-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
