@@ -29,11 +29,6 @@ in {
     loader.timeout = 1;
   };
 
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
-  };
-
   programs.bash.promptInit = ''
     if [ "$UID" -ne 0 ]; then
         PROMPT_COLOR="1;32m"
