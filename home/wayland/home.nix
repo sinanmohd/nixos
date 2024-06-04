@@ -9,13 +9,14 @@
   ];
 
   home.packages = with pkgs; [
-    mpv
-    imv
     wtype
-    qemu
     grim
     slurp
     xdg-utils
+
+    mpv
+    imv
+    qemu
     element-desktop-wayland
   ];
 }

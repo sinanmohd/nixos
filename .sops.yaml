@@ -3,32 +3,34 @@ keys:
 
   - &cez age1nur989fnjmfgfk54ctczrwg25epqqr0xgkl5d4swfxka9aw6cdrqdawvaq
   - &kay age15989j5lkkf2kn5wa2p6qc8wlxjjksc63k5ync8rz8t4e87394pzqm7h4rm
+
   - &lia age1l9kd320xj89vdr06u7ej8fhjrxl470t04trgwd3jwzczknf05aesv2pp8x
   - &dspace age15hsgvg3tz9lql0jpr5x8pm66r42kemd65fpz0wa6t8nhvwrxygcssjxd9c
   - &fscusat age1yqma4xm4qss787cnwv2v7j2e0eswhm5k9f27n6zhp74euyydv9essxdrmn
 
 creation_rules:
-  - path_regex: ^hosts/cez/.*
+  - path_regex: ^[^/]*/pc/.*
     age: >-
       age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
       age1nur989fnjmfgfk54ctczrwg25epqqr0xgkl5d4swfxka9aw6cdrqdawvaq
-
-  - path_regex: ^hosts/kay/.*
+  - path_regex: ^[^/]*/cez/.*
+    age: >-
+      age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
+      age1nur989fnjmfgfk54ctczrwg25epqqr0xgkl5d4swfxka9aw6cdrqdawvaq
+  - path_regex: ^[^/]*/kay/.*
     age: >-
       age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
       age15989j5lkkf2kn5wa2p6qc8wlxjjksc63k5ync8rz8t4e87394pzqm7h4rm
 
-  - path_regex: ^hosts/lia/.*
+  - path_regex: ^[^/]*/lia/.*
     age: >-
       age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
       age1l9kd320xj89vdr06u7ej8fhjrxl470t04trgwd3jwzczknf05aesv2pp8x
-
-  - path_regex: ^hosts/dspace/.*
+  - path_regex: ^[^/]*/dspace/.*
     age: >-
       age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
       age15hsgvg3tz9lql0jpr5x8pm66r42kemd65fpz0wa6t8nhvwrxygcssjxd9c
-
-  - path_regex: ^hosts/fscusat/.*
+  - path_regex: ^[^/]*/fscusat/.*
     age: >-
       age1q5sfy74d53n6jxlgsc2zrsz4wcl9d830nxuagc3wfmdkrrp55ckq9ev6nv,
       age1yqma4xm4qss787cnwv2v7j2e0eswhm5k9f27n6zhp74euyydv9essxdrmn

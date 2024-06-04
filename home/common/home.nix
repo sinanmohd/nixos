@@ -17,11 +17,12 @@ in {
       htop
       curl
       file
+      nnn
+      ps_mem
+
       dig
       tcpdump
       mtr
-      nnn
-      ps_mem
       geoipWithDatabase
     ];
   };

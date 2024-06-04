@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: let
+{ config, ... }: let
   user = config.global.userdata.name;
 
   fontSans = config.global.font.sans.name;
@@ -9,9 +9,11 @@ in {
   fonts = {
     packages = fontPackages;
     enableDefaultPackages = true;
+
     fontconfig = {
       hinting.style = "full";
       subpixel.rgba = "rgb";
+
       defaultFonts = {
         monospace = [ fontMonospace ];
         serif = [ fontSans ];
@@ -29,13 +31,6 @@ in {
     };
   };
 
-  programs = {
-    gnupg.agent = {
-      enable = true;
-      pinentryPackage = pkgs.pinentry-bemenu;
-    };
-  };
-
-  security.pam.services.swaylock = {};
   hardware.opengl.enable = true;
+  security.pam.services.swaylock = {};
 }

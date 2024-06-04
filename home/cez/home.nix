@@ -1,3 +1,3 @@
 { ... }: {
-  imports = [ ../wayland/home.nix ];
+  imports = [ ../pc/home.nix ];
 }

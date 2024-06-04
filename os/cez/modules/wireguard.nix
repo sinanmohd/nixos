@@ -1,9 +1,6 @@
-{ config, ... }:
-
-let
+{ config, ... }: let
   domain = config.global.userdata.domain;
-in
-{
+in {
   sops.secrets."misc/wireguard" = {};
 
   networking.wg-quick.interfaces."kay" = {

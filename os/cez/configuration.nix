@@ -1,42 +1,14 @@
-{ config, pkgs, ... }: let
-  user = config.global.userdata.name;
-in {
+{ ... }: {
   imports = [
-    ../common/configuration.nix
+    ../pc/configuration.nix
     ./hardware-configuration.nix
 
-    ./modules/wayland.nix
-    ./modules/sshfs.nix
     ./modules/wireguard.nix
-    ./modules/network.nix
     ./modules/tlp.nix
-    ./modules/getty.nix
   ];
 
-  boot = {
-    consoleLogLevel = 3;
-    kernelPackages = pkgs.linuxPackages_latest;
-  };
-
-  sound = {
-    enable = true;
-    extraConfig = ''
-      defaults.pcm.card 1
-      defaults.ctl.card 1
-    '';
-  };
-
-  services.pipewire = {
-      enable = true;
-      pulse.enable = true;
-  };
-
-  programs.adb.enable = true;
-  users.users.${user} = {
-    extraGroups = [ "adbusers" ];
-    packages = with pkgs; [
-      ffmpeg
-      (pass.withExtensions (exts: [ exts.pass-otp ]))
-    ];
-  };
+  sound.extraConfig = ''
+    defaults.pcm.card 1
+    defaults.ctl.card 1
+  '';
 }

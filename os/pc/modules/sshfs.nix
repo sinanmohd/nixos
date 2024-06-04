@@ -1,18 +1,16 @@
-{ config, pkgs, ... }:
-
-let
+{ config, pkgs, ... }: let
   domain = config.global.userdata.domain;
   user = config.global.userdata.name;
   uid = config.users.users.${user}.uid;
   gid = config.users.groups.users.gid;
-in
-{
-  sops.secrets."misc/sftp" = {};
+in {
+  sops.secrets."misc/sftp".sopsFile = ../secrets.yaml;
   system.fsPackages = with pkgs; [ sshfs ];
 
   fileSystems."/media/kay" = {
     device = "sftp@${domain}:";
     fsType = "sshfs";
+
     options = [
       "allow_other"         # for non-root access
       "uid=${toString uid}"

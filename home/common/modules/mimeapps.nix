@@ -1,6 +1,7 @@
 { ... }: {
   xdg.mimeApps = {
     enable = true;
+
     defaultApplications = {
       # text
       "application/javascript" = "nvim.desktop";
