@@ -6,39 +6,6 @@
   fontPackages = config.global.font.monospace.packages
     ++ config.global.font.sans.packages;
 in {
-  # pkgs
-  environment.systemPackages = with pkgs; [
-    bemenu
-    sway
-    i3status
-    swaylock
-    swayidle
-    swaybg
-    foot
-    wl-clipboard
-    mako
-    xdg-utils
-    libnotify
-  ];
-
-  users.users.${user} = {
-    extraGroups = [ "seat" ];
-    packages = with pkgs; [
-      zathura
-      mpv
-      imv
-      wtype
-      qemu
-      OVMFFull
-      grim
-      slurp
-      tor-browser-bundle-bin
-      element-desktop-wayland
-      pinentry-bemenu
-    ];
-  };
-
-  # font
   fonts = {
     packages = fontPackages;
     enableDefaultPackages = true;
@@ -53,7 +20,7 @@ in {
     };
   };
 
-  # misc
+  users.users.${user}.extraGroups = [ "seat" ];
   services = {
     seatd.enable = true;
     dbus = {
@@ -69,6 +36,6 @@ in {
     };
   };
 
-  security.pam.services.swaylock.text = "auth include login";
+  security.pam.services.swaylock = {};
   hardware.opengl.enable = true;
 }

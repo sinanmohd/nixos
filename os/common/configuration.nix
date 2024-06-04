@@ -23,6 +23,7 @@ in
     defaultSopsFile = ../${host}/secrets.yaml;
     age.keyFile = "/var/secrets/${host}.sops";
   };
+
   system.stateVersion = "24.11";
   nix.settings.experimental-features = [ "flakes" "nix-command" ];
 
@@ -35,21 +36,7 @@ in
     uid = 1000;
     isNormalUser = true;
     description = email;
-
     extraGroups = [ "wheel" ];
-    packages = with pkgs; [
-      bc
-      unzip
-      htop
-      curl
-      file
-      dig
-      tcpdump
-      mtr
-      nnn
-      ps_mem
-      brightnessctl
-    ];
 
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAcCendbKbeoc7hYEEcBt9wwtSXrJUgJ2SuYARO0zPAX sinan@veu"
@@ -59,6 +46,7 @@ in
 
   time.timeZone = "Asia/Kolkata";
   networking.useDHCP = false;
+
   environment = {
     binsh = "${lib.getExe pkgs.dash}";
     systemPackages = with pkgs; [
@@ -76,10 +64,12 @@ in
       grep = "grep --color=auto";
     };
   };
+
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
   };
+
   programs.bash.promptInit = ''
     if [ "$UID" -ne 0 ]; then
         PROMPT_COLOR="1;32m"

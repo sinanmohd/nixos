@@ -1,9 +1,6 @@
-{ config, pkgs, ... }:
-
-let
+{ config, pkgs, ... }: let
   user = config.global.userdata.name;
-in
-{
+in {
   imports = [
     ../common/configuration.nix
     ./hardware-configuration.nix
@@ -38,7 +35,6 @@ in
   users.users.${user} = {
     extraGroups = [ "adbusers" ];
     packages = with pkgs; [
-      geoipWithDatabase
       ffmpeg
       (pass.withExtensions (exts: [ exts.pass-otp ]))
     ];

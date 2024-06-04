@@ -24,6 +24,7 @@ in {
   ];
 
   home.packages = [
+    pkgs.wl-clipboard
     pkgs.nnn
     pkgs.bemenu
     pkgs.swayidle

@@ -1,4 +1,4 @@
-{ config, ... }: let
+{ config, pkgs, ... }: let
   username = config.global.userdata.name;
 in {
   imports = [
@@ -7,10 +7,22 @@ in {
   ];
 
   programs.home-manager.enable = true;
-
   home = {
     inherit username;
     stateVersion = "24.11";
     homeDirectory = "/home/${config.home.username}";
+
+    packages = with pkgs; [
+      unzip
+      htop
+      curl
+      file
+      dig
+      tcpdump
+      mtr
+      nnn
+      ps_mem
+      geoipWithDatabase
+    ];
   };
 }
