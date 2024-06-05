@@ -149,8 +149,8 @@ in {
       gaps.inner = 10;
       default_border.pixel = 2;
       floating_modifier = "${mod} normal";
-      "client.focused" = "#4c7899 #285577 #ffffff #285577";
       output."*".background = "${background} fill";
+      "client.focused" = "#4c7899 #285577 #ffffff #285577";
     };
   };
 }

@@ -7,11 +7,14 @@
   sway,
   ffmpeg,
   libnotify,
+  imv,
+  grim,
+  slurp,
 }:
 
 stdenvNoCC.mkDerivation {
   pname = "wayland-scipts";
-  version = "1717572072";
+  version = "1717606223";
   src = ./src;
 
   strictDeps = true;
@@ -34,6 +37,8 @@ stdenvNoCC.mkDerivation {
   postInstall = ''
     wrapProgram $out/bin/cwall \
       --prefix PATH : ${lib.makeBinPath [ ffmpeg libnotify sway ]}
+    wrapProgram $out/bin/freezshot \
+      --prefix PATH : ${lib.makeBinPath [ ffmpeg sway grim slurp imv ]}
   '';
 
   meta = {

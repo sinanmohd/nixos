@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+tmp="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}"
+tmp="$(mktemp -d "${tmp}/freezhot.XXXX")"
+out="${GRIM_DEFAULT_DIR:-${XDG_PICTURES_DIR:-.}}"
+
+wl_res()
+{
+	swaymsg -pt get_outputs | while read -r line; do
+		case "$line" in
+		"Current mode"*)
+			line="${line#*Current mode: }"
+			echo "${line%% *}"
+			return
+		esac
+	done
+}
+
+########
+# MAIN #
+########
+
+if [ ! -d "$out" ]; then
+	mkdir -p "$out"
+fi
+GRIM_DEFAULT_DIR="$tmp" grim
+trap 'rm -r "$tmp"' EXIT
+imv -f "$tmp"/* &
+view_pid=$!
+
+region=$(slurp -f '%wx%h %x:%y') > /dev/null 2>&1
+r=$?
+kill $view_pid
+if [ $r != 0 ]; then
+	exit 1
+fi
+
+img="$(ls "$tmp")"
+res="${region% *}"
+if [ "$res" = "$(wl_res)" ]; then
+	cp "$tmp/$img" "$out"
+else
+	width=${res%x*}
+	hight="${res#*x}"
+	position="${region#* }"
+	ffmpeg \
+		-loglevel quiet \
+		-i "$tmp/$img" \
+		-vf "crop=$width:$hight:$position" \
+		"$out/$img"
+fi

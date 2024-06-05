@@ -1,3 +1,6 @@
 { ... }: {
-  imports = [ ../pc/home.nix ];
+  imports = [
+    ../pc/home.nix
+    ./modules/wayland.nix
+  ];
 }
