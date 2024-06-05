@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+bgroot="$XDG_DATA_HOME/wayland"
+bgdesk="$bgroot/desktop"
+bglock="$bgroot/lockscreen"
+walldir="$HOME/pix/wall"
+
+die()
+{
+	command -v notify-send > /dev/null &&
+		notify-send "  cwall" "$1"
+
+	printf "\033[31;1merr: %b\033[0m\n" "$1" 1>&2
+	exit "${2:-1}"
+}
+
+usage()
+{
+	echo 'Usage: cwall [wallpaper.img|directory]'
+}
+
+mimetype()
+{
+	file --brief --dereference --mime-type "$1"
+}
+
+randimg()
+{
+	# usage: randbg dir
+	: "${1:?}"
+	maxattempts=10
+	attempt=0
+
+	img=
+	while :; do
+		img="$(find "$1" \
+			-iname "*.avif" \
+			-o -iname "*.heic" \
+			-o -iname "*.heif" \
+			-o -iname "*.jpeg" \
+			-o -iname "*.jpg" \
+			-o -iname "*.jxl" \
+			-o -iname "*.png" \
+			-o -iname "*.webp" | shuf -n1)"
+
+		[ -z "$img" ] &&
+			return 1
+
+		# make sure the file is an actual image
+		case "$(mimetype "$img")" in
+		"image/"*)
+			echo "$img"
+			break
+			;;
+		*)
+			attempt=$((attempt + 1))
+			[ "$attempt" -gt "$maxattempts" ] &&
+				return 1
+		esac
+	done
+}
+
+updatewall()
+{
+	: "${1:?}"
+
+	rm -f "$bgdesk" "$bglock"
+	cp  "$1" "$bgdesk"
+	swaymsg "output * background '${bgdesk}' fill"
+	ffmpeg -loglevel quiet -i "$bgdesk" -vf "boxblur=50" -f mjpeg "$bglock"
+}
+
+########
+# MAIN #
+########
+
+if [ "$#" -eq 0 ]; then
+	input="$walldir"
+elif [ "$1" = "-h" ]; then
+	usage && exit 0
+else
+	input="$1"
+fi
+
+if [ ! -r "$input" ]; then
+	die "can't read $input"
+fi
+if [ ! -d "$bgroot" ]; then
+	mkdir -p "$bgroot"
+fi
+
+case "$(mimetype "$input")" in
+"image/"*)
+	updatewall "$input"
+	;;
+"inode/directory")
+	if ! img=$(randimg "$input"); then
+		die "no image file in $input"
+	fi
+
+	updatewall "$img"
+	;;
+*)
+	die "invalid input $input"
+	;;
+esac

@@ -5,6 +5,10 @@
   down = "j";
   up = "k";
 
+  background = "${config.xdg.dataHome}/wayland/desktop";
+  wayland-scripts = pkgs.callPackage ../../pkgs/wayland-scripts {};
+  cwall = "${wayland-scripts}/bin/cwall";
+
   menu = "${pkgs.bemenu}/bin/bemenu-run --prompt ' '";
   foot = lib.getExe config.programs.foot.package;
   i3status = lib.getExe config.programs.i3status.package;
@@ -29,11 +33,14 @@ in {
     pkgs.bemenu
     pkgs.swayidle
     pkgs.brightnessctl
+    wayland-scripts
   ];
 
   wayland.windowManager.sway = {
     enable = true;
     config = null;
+    # checkConfig fails if ${background} doesn't exist
+    checkConfig = false;
 
     settings = {
       bar = {
@@ -51,6 +58,7 @@ in {
 	"swipe:left" = "workspace next";
 	"swipe:right" = "workspace prev";
 	"swipe:down" = "exec ${swaylock}";
+	"swipe:up" = "exec ${cwall}";
       };
       input = {
 	"type:touchpad" = {
@@ -142,6 +150,7 @@ in {
       default_border.pixel = 2;
       floating_modifier = "${mod} normal";
       "client.focused" = "#4c7899 #285577 #ffffff #285577";
+      output."*".background = "${background} fill";
     };
   };
 }
