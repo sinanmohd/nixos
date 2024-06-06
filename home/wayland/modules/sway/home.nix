@@ -22,6 +22,7 @@
 in {
   imports = [
     ./mako.nix
+    ./theme.nix
     ./swayidle.nix
     ./swaylock.nix
     ./i3status.nix
