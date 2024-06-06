@@ -9,7 +9,7 @@
   wayland-scripts = pkgs.callPackage ../../pkgs/wayland-scripts {};
   cwall = "${wayland-scripts}/bin/cwall";
 
-  menu = "${pkgs.bemenu}/bin/bemenu-run --prompt ' '";
+  bemenu = "${pkgs.bemenu}/bin/bemenu-run --prompt ' '";
   foot = lib.getExe config.programs.foot.package;
   i3status = lib.getExe config.programs.i3status.package;
   swaylock = lib.getExe config.programs.swaylock.package;
@@ -126,7 +126,7 @@ in {
 
 	# exec
 	"${mod}+return" = "exec ${foot}";
-	"${mod}+p" = "exec ${menu}";
+	"${mod}+o" = "exec ${bemenu}";
 	"${mod}+w" = "exec ${firefox}";
 	"${mod}+n" = "exec ${foot} -- ${nnn} -decC";
 
