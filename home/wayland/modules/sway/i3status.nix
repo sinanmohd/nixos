@@ -12,7 +12,7 @@
     modules = {
       "tztime local" = {
         position = 50;
-        settings.format = "󱛡   %a,%e %b  %H:%M";
+        settings.format = "󱛡  %a,%e %b  %H:%M";
       };
 
       "battery all" = {
@@ -47,7 +47,7 @@
 
       "disk /" = {
         position = 10;
-        settings.format = "󰋊   %avail";
+        settings.format = "󰋊  %avail";
       };
 
       "wireless _first_" = {
