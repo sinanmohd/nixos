@@ -19,6 +19,10 @@
   brightnessctl = lib.getExe pkgs.brightnessctl;
   mako = lib.getExe config.services.mako.package;
   firefox = lib.getExe config.programs.firefox.finalPackage;
+
+  font = config.global.font.sans.name
+    + lib.optionalString (config.global.font.sans.size != null)
+      " " + builtins.toString config.global.font.sans.size;
 in {
   imports = [
     ./mako.nix
@@ -45,8 +49,8 @@ in {
 
     settings = {
       bar = {
+	inherit font;
 	position = "top";
-	font = "sans";
 	status_command = i3status;
 	colors = {
 	  background = "#000000";
