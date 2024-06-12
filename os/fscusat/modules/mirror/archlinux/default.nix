@@ -5,7 +5,7 @@ let
   lock = "/var/lock/syncrepo.lck";
   bwlimit = 0;
   source_url = "rsync://mirror.guillaumea.fr/archlinux/";
-  lastupdate_url = "https://mirror.guillaumea.fr/archlinux/";
+  lastupdate_url = "https://mirror.guillaumea.fr/archlinux/lastupdate";
 
   rsync_cmd = { src, dest, excludes ? [], extraArgs ? [] }@args:
     let
@@ -56,4 +56,29 @@ in
 
     ${rsync}
   '';
+
+  systemd.services.sync-archlinux-mirror = {
+    description = "Sync Arch Linux Mirror";
+    serviceConfig = {
+      ExecStart = "${pkgs.writeScriptBin "sync-archlinux-mirror" ''
+        ${rsync_cmd { src = source_url; dest = target; excludes = [ "*.links.tar.gz*" "/other" "/sources" ]; }}
+      ''}";
+      ExecStartPost = "${pkgs.writeScriptBin "update-lastupdate" ''
+        cp ${target}/lastupdate ${target}/lastupdate.new
+        mv ${target}/lastupdate.new ${target}/lastupdate
+      ''}";
+      Type = "oneshot";
+      User = "root";
+      Group = "root";
+    };
+  };
+
+  systemd.timers.sync-archlinux-mirror-timer = {
+    description = "Run Sync Arch Linux Mirror every 6 hours";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "0/6:00:00";
+      Persistent = true;
+    };
+  };
 }
