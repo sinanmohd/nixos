@@ -33,11 +33,21 @@
       };
 
       "volume master" = {
-        position = 30;
+        position = 50;
         settings = {
           format = "󰕾  %volume";
           format_muted = "󰖁  %volume";
         };
+      };
+
+      "cpu_temperature 0" = {
+        position = 40;
+        settings.format = "%degrees°C";
+      };
+
+      "cpu_usage" = {
+        position = 30;
+        settings.format = "  %usage";
       };
 
       "memory" = {
