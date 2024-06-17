@@ -3,6 +3,7 @@
 in {
   imports = [
     ./modules/git.nix
+    ./modules/shell.nix
     ./modules/mimeapps.nix
   ];
 
