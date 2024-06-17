@@ -33,21 +33,26 @@
       };
 
       "volume master" = {
-        position = 30;
+        position = 40;
         settings = {
           format = "󰕾  %volume";
           format_muted = "󰖁  %volume";
         };
       };
 
-      "memory" = {
-        position = 20;
-        settings.format = "  %available";
+      "cpu_temperature 0" = {
+        position = 30;
+        settings.format = "%degrees°C";
       };
 
-      "disk /" = {
+      "cpu_usage" = {
+        position = 20;
+        settings.format = "  %usage";
+      };
+
+      "memory" = {
         position = 10;
-        settings.format = "󰋊  %avail";
+        settings.format = "  %available";
       };
 
       "wireless _first_" = {

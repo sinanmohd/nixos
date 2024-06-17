@@ -5,6 +5,7 @@ let
   user = config.global.userdata.name;
 in
 {
+  users.users.${user}.packages = with pkgs; [ git ];
   environment.systemPackages = with pkgs; [
     luajitPackages.luaossl
     lua52Packages.luaossl

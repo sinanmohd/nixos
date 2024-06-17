@@ -1,15 +1,13 @@
-{ ... }:
-
-let
-  lanInterface = "enp0s20u1";
+{ ... }: let
   wanInterface = "ppp0";
+
+  lanInterface = "enp0s20u1";
   subnet = "10.0.0.0";
   prefix = 24;
   host = "10.0.0.1";
   leaseRangeStart = "10.0.0.100";
   leaseRangeEnd = "10.0.0.254";
-in
-{
+in {
   imports = [
     ./wireguard.nix
     ./iperf3.nix
@@ -31,7 +29,13 @@ in
       allowedUDPPorts = [ 53 67 ];
       allowedTCPPorts = [ 53 ];
       extraCommands = ''
-        iptables -t nat -I POSTROUTING 1 -s ${subnet}/${toString prefix} -o ${wanInterface} -j MASQUERADE
+        iptables -t nat -I POSTROUTING 1 \
+            -s ${subnet}/${toString prefix} \
+            -o ${wanInterface} \
+            -j MASQUERADE
+        iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
+            -o ${wanInterface} \
+            -j TCPMSS --clamp-mss-to-pmtu
       '';
     };
   };
