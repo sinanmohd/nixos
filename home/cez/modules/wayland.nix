@@ -5,4 +5,6 @@ in {
   # vendor hardcoded screenshot key
   wayland.windowManager.sway.settings.bindsym."mod4+shift+s" =
     "exec ${freezshot}";
+
+  programs.bemenu.settings.line-height = 30;
 }
