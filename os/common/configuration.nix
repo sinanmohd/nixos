@@ -6,7 +6,6 @@ in {
     "services/mail/stalwart-mail.nix"
   ];
   imports = [
-    ./modules/tmux.nix
     ./modules/nix.nix
     ./modules/user.nix
     ./modules/environment.nix

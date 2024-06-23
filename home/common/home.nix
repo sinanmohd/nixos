@@ -3,6 +3,9 @@
 in {
   imports = [
     ./modules/git.nix
+    ./modules/tmux.nix
+    ./modules/shell.nix
+    ./modules/xdgdirs.nix
     ./modules/mimeapps.nix
   ];
 
