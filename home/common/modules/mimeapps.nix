@@ -17,6 +17,7 @@
       "text/x-diff" = "nvim.desktop";
       "text/x-lua" = "nvim.desktop";
       "text/x-meson" = "nvim.desktop";
+      "text/x-go" = "nvim.desktop";
       "text/xml" = "nvim.desktop";
       "text/x-patch" = "nvim.desktop";
       "text/x-script.python" = "nvim.desktop";
