@@ -80,6 +80,7 @@
         ];
       };
 
+      "media.webrtc.camera.allow-pipewire" = true;
       "browser.newtabpage.activity-stream.default.sites" = "";
       "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
     };
