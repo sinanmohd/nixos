@@ -31,6 +31,6 @@ in {
     };
   };
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   security.pam.services.swaylock = {};
 }
