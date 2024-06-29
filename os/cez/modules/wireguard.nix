@@ -7,7 +7,7 @@ in {
     autostart = false;
     address = [ "10.0.1.2/24" ];
     dns = [ "10.0.1.1" ];
-    mtu = 1380;
+    mtu = 1412;
     privateKeyFile = config.sops.secrets."misc/wireguard".path;
 
     peers = [{

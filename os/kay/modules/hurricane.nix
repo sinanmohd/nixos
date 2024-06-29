@@ -24,7 +24,7 @@ in
       ttl = 225;
     };
     interfaces.${iface} = {
-      mtu = 1440; # 1460(ppp0) - 20
+      mtu = 1472; # 1492(ppp0) - 20
       ipv6.addresses = [
         {
           address = clinet;
