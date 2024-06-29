@@ -1,13 +1,10 @@
-{ config, ... }:
-
-let
+{ config, ... }: let
   wgInterface = "wg";
   wanInterface = "ppp0";
   subnet = "10.0.1.0";
   prefix = 24;
   port = 51820;
-in
-{
+in {
   sops.secrets."misc/wireguard" = {};
 
   networking = {
@@ -19,7 +16,10 @@ in
     firewall = {
       allowedUDPPorts = [ port ];
       extraCommands = ''
-        iptables -t nat -I POSTROUTING 1 -s ${subnet}/${toString prefix} -o ${wanInterface} -j MASQUERADE
+        iptables -t nat -I POSTROUTING 1 \
+            -s ${subnet}/${toString prefix} \
+            -o ${wanInterface} \
+            -j MASQUERADE
       '';
     };
 
