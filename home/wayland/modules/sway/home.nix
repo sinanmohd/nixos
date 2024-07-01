@@ -33,21 +33,26 @@ in {
     ./i3status.nix
   ];
 
-  home.packages = [
-    pkgs.wl-clipboard
-    pkgs.nnn
-    pkgs.bemenu
-    pkgs.swayidle
-    pkgs.brightnessctl
-    wayland-scripts
-  ];
+  home = {
+    packages = [
+      pkgs.wl-clipboard
+      pkgs.nnn
+      pkgs.bemenu
+      pkgs.swayidle
+      pkgs.brightnessctl
+      wayland-scripts
+    ];
+
+    sessionVariables.XDG_CURRENT_DESKTOP = "sway";
+  };
 
   wayland.windowManager.sway = {
     enable = true;
-    config = null;
+    package = pkgs.sway.override { enableXWayland = false; };
+
     # checkConfig fails if ${background} doesn't exist
     checkConfig = false;
-
+    config = null;
     settings = {
       bar = {
 	inherit font;
