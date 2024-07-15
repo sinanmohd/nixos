@@ -7,6 +7,7 @@ in {
     ./modules/shell.nix
     ./modules/xdgdirs.nix
     ./modules/mimeapps.nix
+    ./modules/xdg_ninja.nix
   ];
 
   programs.home-manager.enable = true;
