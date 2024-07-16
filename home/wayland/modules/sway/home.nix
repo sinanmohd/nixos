@@ -17,6 +17,7 @@
   nnn = lib.getExe pkgs.nnn;
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   brightnessctl = lib.getExe pkgs.brightnessctl;
+  freezshot = "${wayland-scripts}/bin/freezshot";
   mako = lib.getExe config.services.mako.package;
   firefox = lib.getExe config.programs.firefox.finalPackage;
 
@@ -49,7 +50,10 @@ in {
       wayland-scripts
     ];
 
-    sessionVariables.XDG_CURRENT_DESKTOP = "sway";
+    sessionVariables = {
+      XDG_CURRENT_DESKTOP = "sway";
+      GRIM_DEFAULT_DIR = config.xdg.userDirs.pictures + "/ss";
+    };
   };
 
   wayland.windowManager.sway = {
@@ -141,6 +145,7 @@ in {
 	"${mod}+minus" = "scratchpad show";
 
 	# exec
+	"print" = "exec ${freezshot}";
 	"${mod}+return" = "exec ${foot}";
 	"${mod}+o" = "exec ${bemenu}";
 	"${mod}+w" = "exec ${firefox}";
