@@ -33,6 +33,12 @@ in {
     ./i3status.nix
   ];
 
+  programs.bash.profileExtra = ''
+    case "$(tty)" in
+    */tty1) exec sway ;;
+    esac
+  '';
+
   home = {
     packages = [
       pkgs.wl-clipboard
