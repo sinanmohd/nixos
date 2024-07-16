@@ -1,0 +1,23 @@
+#!/bin/sh
+
+die()
+{
+	printf "\033[31;1merr: %b\033[0m\n" "$1"
+	command -v notify-send > /dev/null &&
+		notify-send "    ttyasrt" "$1"
+	exit "${2:-1}"
+}
+
+########
+# MAIN #
+########
+
+if [ -z "$TERMINAL" ]; then
+	die "\$TERMIANL must be set"
+fi
+
+if tty --silent; then
+	exec "$@"
+else
+	exec "$TERMINAL" -- "$@"
+fi

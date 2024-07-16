@@ -6,6 +6,7 @@
     ./modules/zathura.nix
     ./modules/firefox.nix
     ./modules/mimeapps.nix
+    ./modules/ttyasrt.nix
     ./modules/sway/home.nix
   ];
 
