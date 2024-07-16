@@ -18,36 +18,53 @@
   outputs = { self, nixpkgs, sops-nix, home-manager }: let
     lib = nixpkgs.lib;
 
+    makeGlobalImports = host: [
+      ./global/common
+    ] ++ lib.optional (builtins.pathExists ./global/${host})
+      ./global/${host};
+
     makeNixos = host: system: lib.nixosSystem {
       inherit system;
       modules = [
+        sops-nix.nixosModules.sops
+
+        ./os/${host}/configuration.nix
         {
           networking.hostName = host;
           nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
         }
 
-        ./global/common
-        ./os/${host}/configuration.nix
-        sops-nix.nixosModules.sops
-      ] ++ lib.optional (builtins.pathExists ./global/${host})
-        ./global/${host};
+        home-manager.nixosModules.home-manager
+        ({ config, ... }: let
+          username = config.global.userdata.name;
+        in {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            users.${username} = { ... }: {
+              imports = [
+                ./home/${host}/home.nix
+              ] ++ (makeGlobalImports host);
+            };
+          };
+        })
+      ] ++ (makeGlobalImports host);
     };
 
     makeHome = host: system: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       modules = [
-        ./global/common
         ./home/${host}/home.nix
-      ] ++ lib.optional (builtins.pathExists ./global/${host})
-        ./global/${host};
+      ] ++ (makeGlobalImports host);
     };
   in
   {
     nixosConfigurations =
       lib.genAttrs [ "cez" "kay" "lia" "fscusat" "dspace" ]
       (host: makeNixos host "x86_64-linux");
+
     homeConfigurations =
-      lib.genAttrs [ "common" "wayland" "cez" ]
+      lib.genAttrs [ "common" "wayland" "pc" "cez" ]
       (host: makeHome host "x86_64-linux");
   };
 }
