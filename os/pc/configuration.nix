@@ -15,7 +15,6 @@ in {
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
-  sound.enable = true;
   services.pipewire = {
       enable = true;
       pulse.enable = true;

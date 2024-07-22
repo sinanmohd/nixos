@@ -7,7 +7,7 @@
     ./modules/tlp.nix
   ];
 
-  sound.extraConfig = ''
+  environment.etc."asound.conf".text = ''
     defaults.pcm.card 1
     defaults.ctl.card 1
   '';
