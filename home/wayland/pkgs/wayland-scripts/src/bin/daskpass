@@ -1,0 +1,3 @@
+#!/bin/sh
+
+printf "" | bemenu --password indicator --prompt "   ${1:-"Authentication Required: "}"

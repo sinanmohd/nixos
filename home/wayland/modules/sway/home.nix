@@ -8,6 +8,7 @@
   background = "${config.xdg.dataHome}/wayland/desktop";
   wayland-scripts = pkgs.callPackage ../../pkgs/wayland-scripts {};
   cwall = "${wayland-scripts}/bin/cwall";
+  daskpass = "${wayland-scripts}/bin/daskpass";
 
   bemenu = "${pkgs.bemenu}/bin/bemenu-run --prompt ' '";
   foot = lib.getExe config.programs.foot.package;
@@ -51,6 +52,7 @@ in {
     ];
 
     sessionVariables = {
+      SUDO_ASKPASS = daskpass;
       XDG_CURRENT_DESKTOP = "sway";
       GRIM_DEFAULT_DIR = config.xdg.userDirs.pictures + "/ss";
     };
