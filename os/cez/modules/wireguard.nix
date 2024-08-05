@@ -1,9 +1,30 @@
-{ config, ... }: let
+{ config, pkgs, ... }: let
   domain = config.global.userdata.domain;
+  wgIface = "kay";
+
+  helper = pkgs.writeShellApplication {
+    name = "vpn";
+    text = ''
+      note() {
+              command -v notify-send > /dev/null &&
+                      notify-send "󰒒  vpn" "$1"
+
+              printf "\n%s\n" "$1"
+      }
+
+      if systemctl status "wg-quick-${wgIface}.service" > /dev/null 2>&1; then
+              sudo -A systemctl stop "wg-quick-${wgIface}.service" &&
+                      note "connection was dropped"
+      else
+              sudo -A systemctl start "wg-quick-${wgIface}.service" &&
+                      note "traffic routed through ${wgIface}"
+      fi
+    '';
+  };
 in {
   sops.secrets."misc/wireguard" = {};
 
-  networking.wg-quick.interfaces."kay" = {
+  networking.wg-quick.interfaces.${wgIface} = {
     autostart = false;
     address = [ "10.0.1.2/24" ];
     dns = [ "10.0.1.1" ];
@@ -21,4 +42,6 @@ in {
       persistentKeepalive = 25;
     }];
   };
+
+  environment.systemPackages = [ helper ];
 }
