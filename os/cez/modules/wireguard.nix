@@ -7,7 +7,7 @@
     text = ''
       note() {
               command -v notify-send > /dev/null &&
-                      notify-send "󰒒  vpn" "$1"
+                      notify-send "󰒒  VPN" "$1"
 
               printf "\n%s\n" "$1"
       }
