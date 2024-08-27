@@ -8,9 +8,17 @@
 
   # override nixos-hardware values
   hardware.nvidia.prime.offload.enable = false;
+  hardware.amdgpu.initrd.enable = false;
   services.xserver.videoDrivers = [ "modesetting" ];
 
   specialisation.nvidia.configuration = {
+    environment.variables = {
+      DRI_PRIME = 1;
+      __NV_PRIME_RENDER_OFFLOAD = 1;
+      __VK_LAYER_NV_optimus = "NVIDIA_only";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
+
     hardware.nvidia = {
       open = true;
       nvidiaSettings = false;
