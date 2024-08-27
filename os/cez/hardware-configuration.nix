@@ -1,4 +1,4 @@
-{ modulesPath, nixos-hardware, lib, ... }:
+{ modulesPath, nixos-hardware, config, lib, ... }:
 
 {
   imports = [
@@ -35,6 +35,9 @@
 
   boot = {
     loader.systemd-boot.enable = true;
+    blacklistedKernelModules = [ "k10temp" ];
+    extraModulePackages = with config.boot.kernelPackages; [ zenpower ];
+
 
     initrd = {
       systemd.enable = true;
