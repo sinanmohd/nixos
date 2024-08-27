@@ -37,7 +37,7 @@ in {
 
   programs.bash.profileExtra = ''
     case "$(tty)" in
-    */tty1) exec sway ;;
+    */tty1) exec sway --unsupported-gpu ;;
     esac
   '';
 

@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -15,7 +16,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, sops-nix, home-manager }: let
+  outputs = { self, nixpkgs, sops-nix, home-manager, nixos-hardware }: let
     lib = nixpkgs.lib;
 
     makeGlobalImports = host: [
@@ -30,6 +31,8 @@
 
     makeNixos = host: system: lib.nixosSystem {
       inherit system;
+      specialArgs = { inherit nixos-hardware; };
+
       modules = [
         sops-nix.nixosModules.sops
 

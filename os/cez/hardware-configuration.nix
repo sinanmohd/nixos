@@ -1,7 +1,29 @@
-{ modulesPath, ... }:
+{ modulesPath, nixos-hardware, lib, ... }:
 
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+  imports = [
+    nixos-hardware.nixosModules.lenovo-ideapad-16ach6
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
+
+  # override nixos-hardware values
+  hardware.nvidia.prime.offload.enable = false;
+  services.xserver.videoDrivers = [ "modesetting" ];
+
+  specialisation.nvidia.configuration = {
+    hardware.nvidia = {
+      open = true;
+      nvidiaSettings = false;
+      prime.sync.enable = true;
+    };
+
+    services = {
+      xserver.videoDrivers = [ "nvidia" ];
+      tlp.settings.PLATFORM_PROFILE_ON_AC = lib.mkForce "performance";
+    };
+    nixpkgs.config.allowUnfreePredicate =
+      pkg: builtins.elem (lib.getName pkg) [ "nvidia-x11" ];
+  };
 
   boot = {
     loader.systemd-boot.enable = true;
