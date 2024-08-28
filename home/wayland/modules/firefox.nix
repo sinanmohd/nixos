@@ -10,6 +10,7 @@
       OverrideFirstRunPage = "";
       NoDefaultBookmarks = true;
       DontCheckDefaultBrowser = true;
+      SanitizeOnShutdown = true;
 
       FirefoxHome = {
         Locked = true;
