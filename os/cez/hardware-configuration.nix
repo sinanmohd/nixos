@@ -12,6 +12,11 @@
   services.xserver.videoDrivers = [ "modesetting" ];
 
   specialisation.nvidia.configuration = {
+    boot = {
+      kernelParams = [ "transparent_hugepage=always" ];
+      kernel.sysctl."vm.max_map_count" = 2147483642;
+    };
+
     environment.variables = {
       DRI_PRIME = 1;
       __NV_PRIME_RENDER_OFFLOAD = 1;
