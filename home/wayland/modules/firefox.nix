@@ -24,6 +24,12 @@
         SponsoredSuggestions = false;
       };
 
+      Containers.Default = [{
+        name = "botnet";
+        icon = "fence";
+        color = "blue";
+      }];
+
       ExtensionSettings = {
         "uBlock0@raymondhill.net" = {
           installation_mode = "force_installed";
