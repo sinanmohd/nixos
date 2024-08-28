@@ -2,9 +2,11 @@
   wayland-scripts = pkgs.callPackage ../../wayland/pkgs/wayland-scripts {};
   freezshot = "${wayland-scripts}/bin/freezshot";
 in {
-  # vendor hardcoded screenshot key
-  wayland.windowManager.sway.settings.bindsym."mod4+shift+s" =
-    "exec ${freezshot}";
+  wayland.windowManager.sway.settings = {
+    # vendor hardcoded screenshot key
+    bindsym."mod4+shift+s" = "exec ${freezshot}";
+    output."eDP-1".scale = 1.4;
+  };
 
-  programs.bemenu.settings.line-height = 30;
+  programs.bemenu.settings.line-height = 25;
 }

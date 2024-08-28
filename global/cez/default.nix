@@ -1,6 +1,6 @@
 { ... }: {
   global.font = {
-    sans.size = 13;
-    monospace.size = 18;
+    sans.size = 10;
+    monospace.size = 13;
   };
 }
