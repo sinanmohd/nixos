@@ -60,11 +60,10 @@ in {
 
   wayland.windowManager.sway = {
     enable = true;
-    package = pkgs.sway.override { enableXWayland = false; };
-
     # checkConfig fails if ${background} doesn't exist
     checkConfig = false;
     config = null;
+
     settings = {
       bar = {
 	inherit font;
