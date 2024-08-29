@@ -8,6 +8,7 @@ in {
     ./modules/sshfs.nix
     ./modules/network.nix
     ./modules/wayland.nix
+    ./modules/nopolkit.nix
   ];
 
   boot = {
