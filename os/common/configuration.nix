@@ -1,4 +1,4 @@
-{ config, ... }: let
+{ config, lib, ... }: let
   host = config.networking.hostName;
 in {
   disabledModules = [
@@ -17,6 +17,11 @@ in {
   system.stateVersion = "24.11";
   time.timeZone = "Asia/Kolkata";
   networking.useDHCP = false;
+
+  swapDevices = lib.mkDefault [{
+    device = "/swapfile";
+    size = 2048; # 2GB
+  }];
 
   sops = {
     defaultSopsFile = ../${host}/secrets.yaml;

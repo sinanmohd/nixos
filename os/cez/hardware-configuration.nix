@@ -11,6 +11,11 @@
   hardware.amdgpu.initrd.enable = false;
   services.xserver.videoDrivers = [ "modesetting" ];
 
+  swapDevices = [{
+    device = "/swapfile";
+    size = 14 * 1024; # 14GB
+  }];
+
   boot = {
     loader.systemd-boot.enable = true;
     blacklistedKernelModules = [ "k10temp" ];
