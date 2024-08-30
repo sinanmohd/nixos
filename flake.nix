@@ -24,7 +24,7 @@
     ] ++ lib.optional (builtins.pathExists ./global/${host})
       ./global/${host};
 
-    makeHomeImports = host: [
+    makeHomeImports = host: makeGlobalImports host ++ [
       ./home/common/home.nix
     ] ++ lib.optional (builtins.pathExists ./home/${host})
       ./home/${host}/home.nix;
@@ -50,8 +50,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             users.${username} = { ... }: {
-              imports = (makeHomeImports host)
-                ++ (makeGlobalImports host);
+              imports = makeHomeImports host;
             };
           };
         })
@@ -60,8 +59,7 @@
 
     makeHome = host: system: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
-      modules = (makeHomeImports host)
-        ++ (makeGlobalImports host);
+      modules = makeHomeImports host;
     };
   in
   {
