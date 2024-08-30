@@ -44,6 +44,11 @@ in {
     enable = true;
     systemdTarget = "sway-session.target";
 
+    events = [{
+      event = "before-sleep";
+      command = swaylock;
+    }];
+
     timeouts = [
       {
 	timeout = minute * 4;
