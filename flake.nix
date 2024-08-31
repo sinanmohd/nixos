@@ -48,7 +48,7 @@
         in {
           home-manager = {
             useGlobalPkgs = true;
-            useUserPackages = true;
+            useUserPackages = false;
             users.${username} = { ... }: {
               imports = makeHomeImports host;
             };
