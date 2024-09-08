@@ -3,9 +3,7 @@
 in {
   programs.swaylock = {
     enable = true;
-    package = pkgs.swaylock-effects.overrideAttrs {
-      depsBuildBuild = [ pkgs.pkg-config ];
-    };
+    package = pkgs.swaylock-effects;
 
     settings = {
       clock = true;
