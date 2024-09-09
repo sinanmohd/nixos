@@ -37,6 +37,7 @@ in {
   boot = {
     tmp.useTmpfs = true;
     loader.timeout = 1;
+    initrd.systemd.enable = true;
   };
 
   programs.bash.promptInit = ''

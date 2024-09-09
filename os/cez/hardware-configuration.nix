@@ -21,11 +21,8 @@
     blacklistedKernelModules = [ "k10temp" ];
     extraModulePackages = with config.boot.kernelPackages; [ zenpower ];
 
-    initrd = {
-      systemd.enable = true;
-      luks.devices."crypt".device =
+    initrd.luks.devices."crypt".device =
         "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
-    };
   };
 
   fileSystems = {
