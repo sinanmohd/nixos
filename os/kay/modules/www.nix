@@ -25,7 +25,9 @@ in
     enableQuicBPF = true;
 
     recommendedTlsSettings = true;
-    recommendedZstdSettings = true;
+    # breaks home-assistant proxy for some reason
+    # only the first request goes through, then site hangs
+    # recommendedZstdSettings = true;
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
     recommendedProxySettings = true;
