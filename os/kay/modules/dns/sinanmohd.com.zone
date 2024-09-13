@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	hostmaster (
-			2024022700 ; serial
+			2024091105 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -40,6 +40,7 @@ www	IN	CNAME	@
 git	IN	CNAME	@
 bin	IN	CNAME	@
 static	IN	CNAME	@
+home	IN	CNAME	@
 
 lia	IN	A	65.0.3.127
 

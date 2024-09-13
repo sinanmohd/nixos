@@ -87,6 +87,16 @@ in
         locations."= /".return = "301 https://www.${domain}";
       };
 
+      "home.${domain}" = defaultOpts // {
+        extraConfig = "proxy_buffering off;";
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass = "http://127.0.0.1:${
+            builtins.toString config.services.home-assistant.config.http.server_port
+          }";
+        };
+      };
+
       "${fscusat}" = defaultOpts // {
         useACMEHost = null;
         enableACME = true;

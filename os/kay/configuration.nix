@@ -13,6 +13,7 @@
     ./modules/mail.nix
     ./modules/dns
     ./modules/sshfwd.nix
+    ./modules/home-assistant.nix
   ];
 
   boot.consoleLogLevel = 3;
