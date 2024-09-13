@@ -21,6 +21,7 @@
     ];
   };
 
+  services.fstrim.enable = true;
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-uuid/2eeacf49-c51e-4229-bd4a-ae437014725f";
