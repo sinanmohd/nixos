@@ -23,6 +23,8 @@
       "met"
       "radio_browser"
       "shopping_list"
+      "tplink"
+      "tuya"
     ];
 
     config = {
