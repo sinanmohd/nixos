@@ -25,6 +25,7 @@
       "shopping_list"
       "tplink"
       "tuya"
+      "utility_meter"
     ];
 
     config = {
