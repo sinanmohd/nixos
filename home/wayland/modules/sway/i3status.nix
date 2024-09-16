@@ -23,7 +23,7 @@
           status_unk = "󰂃";
           status_full = "󱟨";
           last_full_capacity = true;
-          low_threshold = 20;
+          low_threshold = 21;
           threshold_type = "percentage";
           format_percentage = "%.00f%s";
           path = "/sys/class/power_supply/BAT%d/uevent";
