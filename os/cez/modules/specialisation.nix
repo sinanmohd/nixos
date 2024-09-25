@@ -22,7 +22,5 @@
       xserver.videoDrivers = [ "nvidia" ];
       tlp.settings.PLATFORM_PROFILE_ON_AC = lib.mkForce "performance";
     };
-    nixpkgs.config.allowUnfreePredicate =
-      pkg: builtins.elem (lib.getName pkg) [ "nvidia-x11" ];
   };
 }
