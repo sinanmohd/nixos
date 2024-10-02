@@ -86,6 +86,7 @@ in {
 	"type:touchpad" = {
 	  dwt = "enabled";
 	  tap = "enabled";
+	  natural_scroll = "enabled";
 	};
 	"type:keyboard" = {
 	  repeat_rate = 100;
