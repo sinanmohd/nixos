@@ -8,7 +8,6 @@
 
   # override nixos-hardware values
   hardware.nvidia.prime.offload.enable = false;
-  hardware.amdgpu.initrd.enable = false;
   services.xserver.videoDrivers = [ "modesetting" ];
 
   swapDevices = [{
