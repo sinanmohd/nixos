@@ -6,6 +6,7 @@ in {
     # vendor hardcoded screenshot key
     bindsym."mod4+shift+s" = "exec ${freezshot}";
     output."eDP-1".scale = 1.4;
+    output."HDMI-A-1".scale = 1.6;
   };
 
   programs.bemenu.settings.line-height = 25;
