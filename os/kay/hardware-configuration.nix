@@ -4,10 +4,7 @@
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
+    loader.systemd-boot.enable = true;
 
     kernelModules = [ "kvm-intel" ];
     blacklistedKernelModules = [ "nouveau" ];

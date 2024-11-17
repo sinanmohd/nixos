@@ -1,7 +1,7 @@
 { ... }: let
   wanInterface = "ppp0";
 
-  lanInterface = "enp0s20u1";
+  lanInterface = "enp8s0f3u1";
   subnet = "10.0.0.0";
   prefix = 24;
   host = "10.0.0.1";

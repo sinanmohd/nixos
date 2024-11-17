@@ -3,7 +3,7 @@
 let
   inetVlan = 722;
   voipVlan = 1849;
-  wanInterface = "enp4s0";
+  wanInterface = "enp3s0";
   nameServer = "1.0.0.1";
 in
 {
@@ -32,7 +32,11 @@ in
       };
     };
 
-    interfaces.${voipVlanIface}.useDHCP = true;
+    interfaces = {
+      ${voipVlanIface}.useDHCP = true;
+      ${wanInterface}.macAddress = "c4:54:44:d5:17:68";
+    };
+
     dhcpcd.extraConfig = ''
       interface ${voipVlanIface}
       ipv4only
