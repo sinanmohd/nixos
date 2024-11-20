@@ -50,6 +50,12 @@
           install_url =
             "https://addons.mozilla.org/firefox/downloads/latest/remove-youtube-s-suggestions/latest.xpi";
         };
+        "tridactyl.vim@cmcaine.co.uk" = {
+          installation_mode = "force_installed";
+          default_area = "menupanel";
+          install_url =
+            "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/latest.xpi";
+        };
       };
     };
 
