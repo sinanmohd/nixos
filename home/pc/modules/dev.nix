@@ -1,9 +1,4 @@
 { pkgs, ... }: {
-  programs.man = {
-    enable = true;
-    generateCaches = true;
-  };
-
   home.packages = with pkgs; [
     git
     sops
