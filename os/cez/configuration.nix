@@ -7,6 +7,4 @@
     ./modules/wireguard.nix
     ./modules/tlp.nix
   ];
-
-  hardware.bluetooth.enable = true;
 }
