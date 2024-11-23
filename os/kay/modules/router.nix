@@ -3,6 +3,7 @@
 
   gponInterface = "enp3s0";
   gponHost = "192.168.38.2";
+  gponSubnet = "192.168.38.0";
   gponPrefix = 24;
 
   lanInterface = "enp8s0f3u1";
@@ -49,11 +50,10 @@ in {
             -j TCPMSS --clamp-mss-to-pmtu
 
         iptables -t nat -I POSTROUTING 1 \
-            -s ${subnet}/${toString prefix} \
-            -o ${gponInterface} \
+            -d ${gponSubnet}/${toString gponPrefix} \
             -j MASQUERADE
         iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
-            -o ${gponInterface} \
+            -d ${gponSubnet}/${toString gponPrefix} \
             -j TCPMSS --clamp-mss-to-pmtu
       '';
     };
