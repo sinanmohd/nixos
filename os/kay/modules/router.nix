@@ -6,11 +6,14 @@
   gponPrefix = 24;
 
   lanInterface = "enp8s0f3u1";
-  subnet = "10.0.0.0";
+  subnet = "192.168.43.0";
   prefix = 24;
-  host = "10.0.0.1";
-  leaseRangeStart = "10.0.0.100";
-  leaseRangeEnd = "10.0.0.254";
+  host = "192.168.43.1";
+  leaseRangeStart = "192.168.43.100";
+  leaseRangeEnd = "192.168.43.254";
+
+  wapMac = "40:86:cb:d7:40:49";
+  wapIp = "192.168.43.2";
 in {
   imports = [
     ./wireguard.nix
@@ -58,6 +61,7 @@ in {
 
   services.dnsmasq.settings = {
     dhcp-range = [ "${leaseRangeStart},${leaseRangeEnd}" ];
+    dhcp-host= "${wapMac},${wapIp}";
     interface = [ lanInterface ];
   };
 }
