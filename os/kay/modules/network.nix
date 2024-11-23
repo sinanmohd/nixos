@@ -1,10 +1,9 @@
 { config, ... }:
 
 let
-  inetVlan = 722;
-  voipVlan = 1849;
+  inetVlan = 1003;
   wanInterface = "enp3s0";
-  nameServer = "1.0.0.1";
+  nameServer = [ "1.0.0.1" "1.1.1.1" ];
 in
 {
   imports = [
@@ -18,37 +17,16 @@ in
     "ppp/username" = {};
   };
 
-  networking = let
-    voipVlanIface = "voip";
-  in {
-    vlans = {
-      wan = {
-        id = inetVlan;
-        interface = wanInterface;
-      };
-      ${voipVlanIface} = {
-        id = voipVlan;
-        interface = wanInterface;
-      };
-    };
-
-    interfaces = {
-      ${voipVlanIface}.useDHCP = true;
-      ${wanInterface}.macAddress = "c4:54:44:d5:17:68";
-    };
-
-    dhcpcd.extraConfig = ''
-      interface ${voipVlanIface}
-      ipv4only
-      nogateway
-    '';
+  networking.vlans.wan = {
+    id = inetVlan;
+    interface = wanInterface;
   };
 
   services = {
     dnsmasq = {
       enable = true;
       settings = {
-        server = [ nameServer ];
+        server = nameServer;
         bind-interfaces = true;
       };
     };
@@ -71,7 +49,7 @@ in
         lcp-echo-failure 5
       '';
 
-      peers.bsnl = {
+      peers.keralavision = {
         enable = true;
         autostart = true;
         configFile = config.sops.secrets."ppp/username".path;
