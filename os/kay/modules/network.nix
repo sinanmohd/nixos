@@ -17,9 +17,12 @@ in
     "ppp/username" = {};
   };
 
-  networking.vlans.wan = {
-    id = inetVlan;
-    interface = wanInterface;
+  networking = {
+    tempAddresses = "disabled";
+    vlans.wan = {
+      id = inetVlan;
+      interface = wanInterface;
+    };
   };
 
   services = {
