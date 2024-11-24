@@ -4,7 +4,7 @@
   services.iperf3 = {
     enable = true;
 
-    bind = "10.0.0.1";
+    bind = "192.168.43.1";
     openFirewall = true;
   };
 }
