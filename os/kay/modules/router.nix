@@ -40,7 +40,7 @@ in {
       # https://github.com/NixOS/nixpkgs/blob/e8c38b73aeb218e27163376a2d617e61a2ad9b59/nixos/modules/services/networking/dhcpcd.nix#L13
       # without this dhcpcd will not run, and if we set it to wanInterface,
       # when pppd(ppp0 iface) exit it'll take out wan vlan iface as well
-      ${wanInterface}.useDHCP = true;
+      lo.useDHCP = true;
     };
     firewall = {
       allowedUDPPorts = [ 53 67 ];
@@ -105,12 +105,11 @@ in {
           AdvLinkMTU ${toString wanMTU};
 
           MinRtrAdvInterval 3;
-          MaxRtrAdvInterval 6;
-          AdvDefaultLifetime 60;
+          MaxRtrAdvInterval 10;
 
           prefix ::/64 {
-            AdvPreferredLifetime 30;
-            AdvValidLifetime 60;
+            AdvPreferredLifetime 60;
+            AdvValidLifetime 120;
           };
         };
       '';
