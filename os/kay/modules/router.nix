@@ -1,6 +1,5 @@
-{ lib, pkgs, ... }: let
+{ ... }: let
   wanInterface = "ppp0";
-  wanMTU = 1492;
 
   gponInterface = "enp3s0";
   gponHost = "192.168.38.1";
@@ -36,11 +35,6 @@ in {
           address = gponHost;
           prefixLength  = gponPrefix;
       }];
-      # TODO: fix it upstream
-      # https://github.com/NixOS/nixpkgs/blob/e8c38b73aeb218e27163376a2d617e61a2ad9b59/nixos/modules/services/networking/dhcpcd.nix#L13
-      # without this dhcpcd will not run, and if we set it to wanInterface,
-      # when pppd(ppp0 iface) exit it'll take out wan vlan iface as well
-      lo.useDHCP = true;
     };
     firewall = {
       allowedUDPPorts = [ 53 67 ];
@@ -56,63 +50,10 @@ in {
       '';
     };
   };
+
   services.dnsmasq.settings = {
     dhcp-range = [ "${leaseRangeStart},${leaseRangeEnd}" ];
-    dhcp-host = "${wapMac},${wapIp}";
+    dhcp-host= "${wapMac},${wapIp}";
     interface = [ lanInterface ];
-  };
-
-  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = 2;
-  networking.dhcpcd = {
-    allowInterfaces = [ wanInterface ];
-    IPv6rs = false;
-    wait = "ipv6";
-    extraConfig = ''
-      ipv6only
-      interface ${wanInterface}
-        ipv6rs
-        ia_pd 1 ${lanInterface}/0
-    '';
-  };
-
-  # we start the services using pppd script
-  systemd.services = {
-    dhcpcd = {
-      before = lib.mkForce [];
-      wants = lib.mkForce [];
-      wantedBy = lib.mkForce [];
-    };
-    radvd = {
-      after = lib.mkForce [];
-      requires = lib.mkForce[];
-      wantedBy = lib.mkForce [];
-    };
-  };
-  services = {
-    pppd.script."ipv6" = {
-      runtimeInputs = [ pkgs.systemd pkgs.gnugrep pkgs.iproute2 ];
-      text = ''
-        systemctl restart dhcpcd.service
-        systemctl restart radvd.service
-      '';
-    };
-    radvd = {
-      enable = lib.mkForce true;
-      config = ''
-        interface ${lanInterface} {
-          AdvSendAdvert on;
-          AdvDefaultPreference high;
-          AdvLinkMTU ${toString wanMTU};
-
-          MinRtrAdvInterval 3;
-          MaxRtrAdvInterval 10;
-
-          prefix ::/64 {
-            AdvPreferredLifetime 60;
-            AdvValidLifetime 120;
-          };
-        };
-      '';
-    };
   };
 }
