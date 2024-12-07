@@ -20,6 +20,7 @@
     mpv
     imv
     qemu
+    hoppscotch
     element-desktop-wayland
   ];
 }
