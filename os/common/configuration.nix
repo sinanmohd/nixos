@@ -3,18 +3,15 @@
 in {
   disabledModules = [
     "services/networking/pppd.nix"
-    "services/mail/stalwart-mail.nix"
   ];
   imports = [
     ./modules/nix.nix
     ./modules/user.nix
     ./modules/environment.nix
-
     ./modules/pppd.nix
-    ./modules/stalwart-mail.nix
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "24.05";
   time.timeZone = "Asia/Kolkata";
   networking.useDHCP = false;
 

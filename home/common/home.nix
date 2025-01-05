@@ -13,7 +13,7 @@ in {
   programs.home-manager.enable = true;
   home = {
     inherit username;
-    stateVersion = "24.11";
+    stateVersion = "25.05";
     homeDirectory = "/home/${config.home.username}";
 
     packages = with pkgs; [

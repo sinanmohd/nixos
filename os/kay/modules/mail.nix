@@ -1,9 +1,7 @@
 { config, ... }: let
   ipv6 = "2001:470:ee65::1337";
   domain = config.global.userdata.domain;
-
   username = config.global.userdata.name;
-  secret = "$argon2i$v=19$m=4096,t=3,p=1$SWV5aWU3YWUgZWFTNm9oc28gTGFvdDdlRG8ga2FTaWVjaDYgYWV0aDFHb28$O/sDv7oy9wUxFjvKoxB5o8ZnPvjYJo9DjX0C/AZQFF0";
   email = [
     "${username}@${domain}"
     "official@${domain}"
@@ -14,76 +12,99 @@
 
   credentials_directory = "/run/credentials/stalwart-mail.service";
 in {
-  networking.firewall.allowedTCPPorts = [
-    25    # smto
-    465   # submission
-    587   # submissions
-    993   # imap ssl
-    4190  # managesieve
-  ];
-
   security.acme.certs.${domain}.postRun = "systemctl restart stalwart-mail.service";
   sops.secrets = {
     "mail.${domain}/dkim_rsa" = {};
     "mail.${domain}/dkim_ed25519" = {};
+    "mail.${domain}/password" = {};
   };
 
-  services.stalwart-mail = {
-    enable = true;
-    loadCredential = [
-      "dkim_rsa:${config.sops.secrets."mail.${domain}/dkim_rsa".path}"
-      "dkim_ed25519:${config.sops.secrets."mail.${domain}/dkim_ed25519".path}"
+  systemd.services.stalwart-mail.serviceConfig.loadCredential = [
+    "password:${config.sops.secrets."mail.${domain}/password".path}"
 
-      "cert:${config.security.acme.certs.${domain}.directory}/fullchain.pem"
-      "key:${config.security.acme.certs.${domain}.directory}/key.pem"
-    ];
+    "dkim_rsa:${config.sops.secrets."mail.${domain}/dkim_rsa".path}"
+    "dkim_ed25519:${config.sops.secrets."mail.${domain}/dkim_ed25519".path}"
+
+    "cert:${config.security.acme.certs.${domain}.directory}/fullchain.pem"
+    "key:${config.security.acme.certs.${domain}.directory}/key.pem"
+  ];
+
+  services.stalwart-mail = {
+    enable = false;
+    openFirewall = true;
 
     settings = {
-      macros = {
-        host = "mail.${domain}";
-        default_domain = domain;
-        default_directory = "in-memory";
-        default_store = "sqlite";
-      };
-
       queue.outbound = {
         ip-strategy = "ipv6_then_ipv4";
         source-ip.v6 = "['${ipv6}']";
         tls.starttls = "optional";
       };
+
       server.listener = {
-        smtp.bind = [ "[${ipv6}]:25" "0.0.0.0:25" ];
-        jmap.bind = [ "[::]:8034" ];
+        smtp = {
+          bind = [ "[${ipv6}]:25" "0.0.0.0:25" ];
+          protocol = "smtp";
+        };
+        submission = {
+          bind = "[::]:587";
+          protocol = "smtp";
+        };
+        submissions = {
+          bind = "[::]:465";
+          protocol = "smtp";
+          tls.implicit = true;
+        };
+        imaptls = {
+          bind = "[::]:993";
+          protocol = "imap";
+        };
+        http = {
+          bind = "[::]:8085";
+          protocol = "http";
+        };
       };
 
       signature = {
         rsa = {
-          private-key = "file://${credentials_directory}/dkim_rsa";
+          private-key = "%{file:/${credentials_directory}/dkim_rsa}%";
+          inherit domain;
           selector = "rsa";
-          set-body-length = true;
+          headers = ["From" "To" "Date" "Subject" "Message-ID"];
+          algorithm = "rsa-sha-256";
+          canonicalization = "relaxed/relaxed"; # what
+
+          expire = "10d";
+          report = true;
         };
         ed25519 = {
-          public-key = "EHk924AruF9Y0Xaf009rpRl+yGusjmjT1Zeho67BnDU=";
-          private-key = "file://${credentials_directory}/dkim_ed25519";
-          domain = "%{DEFAULT_DOMAIN}%";
+          private-key = "%{file:/${credentials_directory}/dkim_ed25519}%";
+          inherit domain;
           selector = "ed25519";
-          headers = [ "From" "To" "Date" "Subject" "Message-ID" ];
+          headers = ["From" "To" "Date" "Subject" "Message-ID"];
           algorithm = "ed25519-sha256";
-          canonicalization = "relaxed/relaxed";
-          set-body-length = true;
+          canonicalization = "relaxed/relaxed"; # what
+
+          expire = "10d";
           report = true;
         };
       };
 
       certificate."default" = {
-        cert = "file://${credentials_directory}/cert";
-        private-key = "file://${credentials_directory}/key";
+        cert = "%{file:/${credentials_directory}/cert}%";
+        private-key = "%{file:/${credentials_directory}/key}%";
       };
 
-      storage.blob = "fs";
-      store = {
-        fs.disable = false;
-        sqlite.disable = false;
+      storage = {
+        data = "rocksdb";
+        fts = "rocksdb";
+        blob = "rocksdb";
+        lookup = "rocksdb";
+        directory = "in-memory";
+      };
+      store.rocksdb = {
+        type = "rocksdb";
+        path = "rocksdb";
+        compression = "lz4";
       };
 
       directory."in-memory" = {
@@ -93,13 +114,13 @@ in {
         principals = [
           {
             inherit email;
-            inherit secret;
+            secret = "%{file:/${credentials_directory}/password}%";
             name = username;
             type = "admin";
           }
           { # for mta-sts & dmarc reports
             email = "reports${domain}";
-            inherit secret;
+            secret = "%{file:/${credentials_directory}/password}%";
             name = "reports";
             type = "individual";
           }

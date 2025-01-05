@@ -58,7 +58,7 @@ in
           "/.well-known/matrix/client".return = ''
             200 '${builtins.toJSON {
                 "m.homeserver".base_url = "https://${domain}";
-                "org.matrix.msc3575.proxy".url = "https://${domain}";
+                # "org.matrix.msc3575.proxy".url = "https://${domain}";
             }}'
           '';
 
@@ -66,8 +66,8 @@ in
             config.services.dendrite.httpPort
           }";
 
-          "/_matrix/client/unstable/org.matrix.msc3575/sync".proxyPass =
-            "http://${config.services.matrix-sliding-sync.settings.SYNCV3_BINDADDR}";
+          # "/_matrix/client/unstable/org.matrix.msc3575/sync".proxyPass =
+          #   "http://${config.services.matrix-sliding-sync.settings.SYNCV3_BINDADDR}";
         };
       };
 
