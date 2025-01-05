@@ -10,6 +10,7 @@ in {
     ./modules/wayland.nix
     ./modules/nopolkit.nix
     ./modules/nocodb.nix
+    ./modules/firejail.nix
   ];
 
   boot = {

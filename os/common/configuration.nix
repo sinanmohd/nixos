@@ -48,5 +48,5 @@ in {
   '';
 
   nixpkgs.config.allowUnfreePredicate =
-    pkg: builtins.elem (lib.getName pkg) [ "nvidia-x11" "slack" ];
+    pkg: builtins.elem (lib.getName pkg) [ "nvidia-x11" "slack" "spotify" ];
 }
