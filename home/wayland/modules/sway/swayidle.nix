@@ -51,7 +51,7 @@ in {
 
     timeouts = [
       {
-	timeout = minute * 4;
+	timeout = minute * 30;
 	command =
 	  "${brightnessctl} --save; "
 	  + "${brightnessctl} set 10%-";
@@ -59,12 +59,12 @@ in {
       }
 
       {
-	timeout = minute * 5;
+	timeout = minute * 31;
 	command = swaylock;
       }
 
       {
-	timeout = minute * 10;
+	timeout = minute * 32;
 	command =
 	  "${swaymsg} --type command 'output * dpms off'; "
 	  + "${brightnessctl} -c leds -d platform::kbd_backlight --save; "
