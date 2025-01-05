@@ -25,11 +25,23 @@
         SponsoredSuggestions = false;
       };
 
-      Containers.Default = [{
-        name = "botnet";
-        icon = "fence";
-        color = "blue";
-      }];
+      Containers.Default = [
+        {
+          name = "botnet";
+          icon = "fence";
+          color = "blue";
+        }
+        {
+          name = "work";
+          icon = "briefcase";
+          color = "yellow";
+        }
+        {
+          name = "work_sandbox";
+          icon = "briefcase";
+          color = "green";
+        }
+      ];
 
       ExtensionSettings = {
         "uBlock0@raymondhill.net" = {
