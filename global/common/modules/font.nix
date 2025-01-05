@@ -9,7 +9,7 @@
   };
   packages = {
     type = with lib.types; listOf path;
-    example = "[ pkgs.terminus-nerdfont ]";
+    example = "[ pkgs.nerd-fonts.terminess-ttf ]";
   };
 in {
   options.global.font = {
@@ -29,7 +29,7 @@ in {
         default = "Terminess Nerd Font";
       });
       packages = lib.mkOption (packages // {
-        default = [ pkgs.terminus-nerdfont ];
+        default = [ pkgs.nerd-fonts.terminess-ttf ];
       });
     };
   };
