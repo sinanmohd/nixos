@@ -2,8 +2,6 @@
 
 let
   domain = config.global.userdata.domain;
-  fscusat = "fscusat.org";
-  mark = "themark.ing";
   storage = "/hdd/users/sftp/shr";
 in
 {
@@ -96,38 +94,6 @@ in
           proxyPass = "http://127.0.0.1:${
             builtins.toString config.services.home-assistant.config.http.server_port
           }";
-        };
-      };
-
-      "${fscusat}" = defaultOpts // {
-        useACMEHost = null;
-        enableACME = true;
-
-        globalRedirect = "www.${fscusat}";
-      };
-      "www.${fscusat}" = defaultOpts // {
-        useACMEHost = null;
-        enableACME = true;
-
-        locations."/" = {
-          return = "200 '<h1>under construction</h1>'";
-          extraConfig = "add_header Content-Type text/html;";
-        };
-      };
-
-      "${mark}" = defaultOpts // {
-        useACMEHost = null;
-        enableACME = true;
-
-        globalRedirect = "www.${mark}";
-      };
-      "www.${mark}" = defaultOpts // {
-        useACMEHost = null;
-        enableACME = true;
-
-        locations."/" = {
-          return = "200 '<h1>under construction, see you soon</h1>'";
-          extraConfig = "add_header Content-Type text/html;";
         };
       };
 
