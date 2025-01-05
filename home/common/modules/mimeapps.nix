@@ -5,6 +5,7 @@
     defaultApplications = {
       # text
       "application/javascript" = "nvim.desktop";
+      "text/vnd.trolltech.linguist" = "nvim.desktop";
       "application/json" = "nvim.desktop";
       "application/sql" = "nvim.desktop";
       "application/xml" = "nvim.desktop";
