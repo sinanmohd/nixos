@@ -11,16 +11,20 @@
     ./modules/sway/home.nix
   ];
 
-  home.packages = with pkgs; [
-    wtype
-    grim
-    slurp
-    xdg-utils
+  home = {
+    sessionVariables.NIXOS_OZONE_WL = 1;
 
-    mpv
-    imv
-    qemu
-    hoppscotch
-    element-desktop-wayland
-  ];
+    packages = with pkgs; [
+      wtype
+      grim
+      slurp
+      xdg-utils
+
+      mpv
+      imv
+      qemu
+      hoppscotch
+      element-desktop
+    ];
+  };
 }
