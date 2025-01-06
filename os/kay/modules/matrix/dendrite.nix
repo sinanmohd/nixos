@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, ... }:
 
 let
   domain = config.global.userdata.domain;
@@ -14,18 +14,11 @@ in
 
   services = {
     postgresql = {
-      enable = true;
-      package = with pkgs; postgresql_15;
-      settings = {
-        log_timezone = config.time.timeZone;
-        listen_addresses = lib.mkForce "";
-      };
       ensureDatabases = [ "dendrite" ];
       ensureUsers = [{
         name = "dendrite";
         ensureDBOwnership = true;
       }];
-      authentication = lib.mkForce "local all all trust";
     };
 
     dendrite = {

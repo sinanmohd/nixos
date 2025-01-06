@@ -14,6 +14,7 @@
     ./modules/dns
     ./modules/sshfwd.nix
     ./modules/home-assistant.nix
+    ./modules/postgresql.nix
   ];
 
   boot.consoleLogLevel = 3;

@@ -19,7 +19,7 @@ in {
     "mail.${domain}/password" = {};
   };
 
-  systemd.services.stalwart-mail.serviceConfig.loadCredential = [
+  systemd.services.stalwart-mail.serviceConfig.LoadCredential = [
     "password:${config.sops.secrets."mail.${domain}/password".path}"
 
     "dkim_rsa:${config.sops.secrets."mail.${domain}/dkim_rsa".path}"
@@ -101,10 +101,15 @@ in {
         lookup = "rocksdb";
         directory = "in-memory";
       };
-      store.rocksdb = {
-        type = "rocksdb";
-        path = "rocksdb";
-        compression = "lz4";
+      store.postgresql = {
+        type = "postgresql";
+        host = "localhost";
+        database = "stalwart";
+        user = "stalwart";
+        password = "ass";
+        timeout = "15s";
+        tls.enable = false;
+        pool.max-connections = 10;
       };
 
       directory."in-memory" = {
