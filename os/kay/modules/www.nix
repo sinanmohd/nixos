@@ -96,6 +96,14 @@ in
         };
       };
 
+      "mail.${domain}" = defaultOpts // {
+        extraConfig = "proxy_buffering off;";
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass = "http://127.0.0.1:8085";
+        };
+      };
+
       "mta-sts.${domain}" = defaultOpts // {
         locations."= /.well-known/mta-sts.txt".return = ''200 "${
           lib.strings.concatStringsSep "\\n" [

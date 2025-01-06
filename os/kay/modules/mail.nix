@@ -1,4 +1,4 @@
-{ config, ... }: let
+{ config, pkgs, ... }: let
   ipv6 = "2001:470:ee65::1337";
   domain = config.global.userdata.domain;
   username = config.global.userdata.name;
@@ -29,9 +29,33 @@ in {
     "key:${config.security.acme.certs.${domain}.directory}/key.pem"
   ];
 
+  services.postgresql = {
+    ensureDatabases = [ "stalwart" ];
+    ensureUsers = [{
+      name = "stalwart";
+      ensureDBOwnership = true;
+    }];
+  };
+
   services.stalwart-mail = {
-    enable = false;
+    enable = true;
     openFirewall = true;
+
+    # foundation db is too big to build on a 32GB ram machine, good job
+    # trillion dollar company, proud of you
+    package = pkgs.stalwart-mail.overrideAttrs {
+      buildNoDefaultFeatures = true;
+      buildFeatures = [ "postgres" ];
+      buildInputs = with pkgs; [
+        bzip2
+        openssl
+        zstd
+      ];
+      # some tests fails with -lfdb_c: No such file, just disable this for row
+      # probably because of not including foundationdb, upstream has this
+      # enabled so it's not the end of the world
+      doCheck = false;
+    };
 
     settings = {
       queue.outbound = {
@@ -57,6 +81,7 @@ in {
         imaptls = {
           bind = "[::]:993";
           protocol = "imap";
+          tls.implicit = true;
         };
         http = {
           bind = "[::]:8085";
@@ -95,10 +120,10 @@ in {
       };
 
       storage = {
-        data = "rocksdb";
-        fts = "rocksdb";
-        blob = "rocksdb";
-        lookup = "rocksdb";
+        data = "postgresql";
+        fts = "postgresql";
+        blob = "postgresql";
+        lookup = "postgresql";
         directory = "in-memory";
       };
       store.postgresql = {
@@ -106,7 +131,6 @@ in {
         host = "localhost";
         database = "stalwart";
         user = "stalwart";
-        password = "ass";
         timeout = "15s";
         tls.enable = false;
         pool.max-connections = 10;
@@ -114,20 +138,18 @@ in {
 
       directory."in-memory" = {
         type = "memory";
-        options.subaddressing = true;
-
         principals = [
           {
-            inherit email;
-            secret = "%{file:/${credentials_directory}/password}%";
+            class = "admin";
             name = username;
-            type = "admin";
+            secret = "%{file:/${credentials_directory}/password}%";
+            inherit email;
           }
           { # for mta-sts & dmarc reports
-            email = "reports${domain}";
-            secret = "%{file:/${credentials_directory}/password}%";
+            class = "individual";
             name = "reports";
-            type = "individual";
+            secret = "%{file:/${credentials_directory}/password}%";
+            email = "reports@${domain}";
           }
         ];
       };
