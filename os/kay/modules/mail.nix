@@ -91,32 +91,34 @@ in {
 
       signature = {
         rsa = {
-          private-key = "%{file:/${credentials_directory}/dkim_rsa}%";
+          private-key = "%{file:${credentials_directory}/dkim_rsa}%";
           inherit domain;
           selector = "rsa";
           headers = ["From" "To" "Date" "Subject" "Message-ID"];
           algorithm = "rsa-sha-256";
-          canonicalization = "relaxed/relaxed"; # what
+          canonicalization = "simple/simple";
 
-          expire = "10d";
+          set-body-length = true;
+          expire = "2d";
           report = true;
         };
         ed25519 = {
-          private-key = "%{file:/${credentials_directory}/dkim_ed25519}%";
+          private-key = "%{file:${credentials_directory}/dkim_ed25519}%";
           inherit domain;
           selector = "ed25519";
           headers = ["From" "To" "Date" "Subject" "Message-ID"];
           algorithm = "ed25519-sha256";
-          canonicalization = "relaxed/relaxed"; # what
+          canonicalization = "simple/simple";
 
-          expire = "10d";
+          set-body-length = true;
+          expire = "2d";
           report = true;
         };
       };
 
       certificate."default" = {
-        cert = "%{file:/${credentials_directory}/cert}%";
-        private-key = "%{file:/${credentials_directory}/key}%";
+        cert = "%{file:${credentials_directory}/cert}%";
+        private-key = "%{file:${credentials_directory}/key}%";
       };
 
       storage = {
@@ -124,7 +126,7 @@ in {
         fts = "postgresql";
         blob = "postgresql";
         lookup = "postgresql";
-        directory = "in-memory";
+        directory = "memory";
       };
       store.postgresql = {
         type = "postgresql";
@@ -136,20 +138,21 @@ in {
         pool.max-connections = 10;
       };
 
-      directory."in-memory" = {
+      directory."memory" = {
         type = "memory";
+
         principals = [
           {
             class = "admin";
             name = username;
-            secret = "%{file:/${credentials_directory}/password}%";
+            secret = "%{file:${credentials_directory}/password}%";
             inherit email;
           }
           { # for mta-sts & dmarc reports
             class = "individual";
             name = "reports";
-            secret = "%{file:/${credentials_directory}/password}%";
-            email = "reports@${domain}";
+            secret = "%{file:${credentials_directory}/password}%";
+            email = [ "reports@${domain}" ];
           }
         ];
       };
