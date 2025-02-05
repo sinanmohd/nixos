@@ -4,9 +4,13 @@
   username = config.global.userdata.name;
   email = [
     "${username}@${domain}"
-    "official@${domain}"
 
+    # used by github automation
+    # https://github.com/nocodb/nocodb/blob/32826d4b24e9285b898bb3547fdf550f81c930bb/nix/bumper/bumper.sh#L5
+    "auto@${domain}"
+    # used by mail.sinanmohd.com
     "postmaster@${domain}"
+    # used by ns1.sinanmohd.com
     "hostmaster@${domain}"
   ];
 
