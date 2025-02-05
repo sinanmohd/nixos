@@ -15,6 +15,7 @@
     ./modules/sshfwd.nix
     ./modules/home-assistant.nix
     ./modules/postgresql.nix
+    ./modules/github-runner.nix
   ];
 
   boot.consoleLogLevel = 3;
