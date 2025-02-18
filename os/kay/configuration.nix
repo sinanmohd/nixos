@@ -19,5 +19,8 @@
     ./modules/nix-cache.nix
   ];
 
-  boot.consoleLogLevel = 3;
+  boot = {
+    consoleLogLevel = 3;
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
+  };
 }
