@@ -8,6 +8,7 @@ in {
     ./modules/xdgdirs.nix
     ./modules/mimeapps.nix
     ./modules/xdg_ninja.nix
+    ./modules/ssh.nix
   ];
 
   programs.home-manager.enable = true;
