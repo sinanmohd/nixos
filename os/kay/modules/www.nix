@@ -118,6 +118,12 @@ in
       "nixbin.${domain}" = defaultOpts // {
         extraConfig = "proxy_buffering off;";
         locations = {
+          "= /files".return = "301 https://nixbin.${domain}/files/";
+          "/files/" = {
+              alias = "/nix/store/";
+              extraConfig = "autoindex on;";
+          };
+
           "= /" = {
             extraConfig = "add_header Content-Type text/html;";
             return = ''200
