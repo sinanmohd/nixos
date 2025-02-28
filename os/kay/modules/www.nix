@@ -115,6 +115,19 @@ in
         }"'';
       };
 
+      "immich.${domain}" = defaultOpts // {
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass = "http://${config.services.immich.host}:${builtins.toString config.services.immich.port}";
+        };
+
+        extraConfig = ''
+          proxy_buffering off;
+          proxy_request_buffering off;
+          client_max_body_size 0;
+        '';
+      };
+
       "nixbin.${domain}" = defaultOpts // {
         extraConfig = "proxy_buffering off;";
         locations = {

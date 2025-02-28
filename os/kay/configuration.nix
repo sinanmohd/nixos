@@ -17,6 +17,7 @@
     ./modules/postgresql.nix
     ./modules/github-runner.nix
     ./modules/nix-cache.nix
+    ./modules/immich.nix
   ];
 
   boot = {
