@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	hostmaster (
-			2025022804 ; serial
+			2025022808 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -27,7 +27,7 @@ rsa._domainkey		IN	TXT	"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCg
 
 ns1	IN	AAAA	2001:470:ee65::1
 
-mail 30	IN	A	127.0.0.1
+mail 30	IN	A	137.59.84.126
 mail	IN	AAAA	2001:470:ee65::1337
 smtp	IN	CNAME	@
 imap	IN	CNAME	@

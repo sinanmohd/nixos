@@ -1,44 +1,28 @@
-{ pkgs,  ... }: {
-   services.pppd.script = {
-      "02-ddns-ipv4" = {
-         runtimeInputs = with pkgs; [ coreutils knot-dns ];
-         type = "ip-up";
+{ pkgs, ... }:
+{
+  services.pppd.script."02-ddns-ipv6" = {
+    type = "ipv6-up";
+    runtimeInputs = with pkgs; [
+      coreutils
+      knot-dns
+      iproute2
+      gnugrep
+    ];
 
-         text = ''
-            cat <<- EOF | knsupdate
-                    server  2001:470:ee65::1
-                    zone    sinanmohd.com.
+    text = ''
+      while ! ipv6="$(ip -6 addr show dev "$1" scope global | grep -o '[0-9a-f:]*::1')"; do
+         sleep 0.2
+      done
 
-                    update  delete  sinanmohd.com.       A
-                    update  add     sinanmohd.com.       180     A       $4
+      cat <<- EOF | knsupdate
+              server  2001:470:ee65::1
+              zone    sinanmohd.com.
 
-                    update  delete  mail.sinanmohd.com.  A
-                    update  add     mail.sinanmohd.com.  180     A       $4
+              update  delete  sinanmohd.com.  AAAA
+              update  add     sinanmohd.com.  180     AAAA    $ipv6
 
-                    send
-            EOF
-         '';
-       };
-
-      "02-ddns-ipv6" = {
-         runtimeInputs = with pkgs; [ coreutils knot-dns iproute2 gnugrep ];
-         type = "ipv6-up";
-
-         text = ''
-            while ! ipv6="$(ip -6 addr show dev "$1" scope global | grep -o '[0-9a-f:]*::1')"; do
-               sleep 0.2
-            done
-
-            cat <<- EOF | knsupdate
-                    server  2001:470:ee65::1
-                    zone    sinanmohd.com.
-
-                    update  delete  sinanmohd.com.  AAAA
-                    update  add     sinanmohd.com.  180     AAAA    $ipv6
-
-                    send
-            EOF
-         '';
-       };
-    };
+              send
+      EOF
+    '';
+  };
 }
