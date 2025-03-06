@@ -44,9 +44,9 @@ in
         globalRedirect = "www.${domain}";
 
         extraConfig = ''
-          client_max_body_size ${toString
-            config.services.dendrite.settings.media_api.max_file_size_bytes
-          };
+          proxy_buffering off;
+          proxy_request_buffering off;
+          client_max_body_size 0;
         '';
 
         locations = {
@@ -58,10 +58,11 @@ in
             200 '${builtins.toJSON {
                 "m.homeserver".base_url = "https://${domain}";
                 "org.matrix.msc3575.proxy".url = "https://${domain}";
+                "m.identity_server".base_url = "https://vector.im";
             }}'
           '';
 
-          "/_matrix".proxyPass = "http://127.0.0.1:${toString
+          "~ ^(\\/_matrix|\\/_synapse\\/client)".proxyPass = "http://127.0.0.1:${toString
             config.services.dendrite.httpPort
           }";
 
@@ -87,7 +88,6 @@ in
       };
 
       "home.${domain}" = defaultOpts // {
-        extraConfig = "proxy_buffering off;";
         locations."/" = {
           proxyWebsockets = true;
           proxyPass = "http://127.0.0.1:${
@@ -97,7 +97,6 @@ in
       };
 
       "mail.${domain}" = defaultOpts // {
-        extraConfig = "proxy_buffering off;";
         locations."/" = {
           proxyWebsockets = true;
           proxyPass = "http://127.0.0.1:8085";
@@ -129,7 +128,12 @@ in
       };
 
       "nixbin.${domain}" = defaultOpts // {
-        extraConfig = "proxy_buffering off;";
+        extraConfig = ''
+          proxy_buffering off;
+          proxy_request_buffering off;
+          client_max_body_size 0;
+        '';
+
         locations = {
           "= /files".return = "301 https://nixbin.${domain}/files/";
           "/files/" = {
