@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	hostmaster (
-			2025030616 ; serial
+			2025030900 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -44,6 +44,7 @@ home	IN	CNAME	@
 nixbin	IN	CNAME	@
 immich	IN	CNAME	@
 sliding	IN	CNAME	@
+grafana	IN	CNAME	@
 
 lia	IN	A	65.0.3.127
 

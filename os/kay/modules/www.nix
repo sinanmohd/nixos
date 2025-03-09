@@ -82,6 +82,20 @@ in
         };
       };
 
+      "${config.services.grafana.settings.server.domain}" = defaultOpts // {
+        extraConfig = ''
+          proxy_buffering off;
+          proxy_request_buffering off;
+          client_max_body_size 0;
+        '';
+
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass =
+            "http://${config.services.grafana.settings.server.http_addr}:${builtins.toString config.services.grafana.settings.server.http_port}";
+        };
+      };
+
       "www.${domain}" = defaultOpts // {
         root = "/var/www/${domain}";
       };
