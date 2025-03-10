@@ -6,8 +6,11 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  # override nixos-hardware values
-  hardware.nvidia.prime.offload.enable = false;
+  hardware = {
+    # override nixos-hardware values
+    nvidia.prime.offload.enable = false;
+    bluetooth.enable = true;
+  };
   services.xserver.videoDrivers = [ "modesetting" ];
 
   swapDevices = [{
