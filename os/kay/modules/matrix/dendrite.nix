@@ -33,6 +33,7 @@ in
           index_path = "/var/lib/dendrite/searchindex";
         };
         global = {
+          metrics.enabled = true;
           server_name = domain;
           private_key = "$CREDENTIALS_DIRECTORY/private_key";
           trusted_third_party_id_servers = [

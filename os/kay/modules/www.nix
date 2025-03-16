@@ -16,8 +16,20 @@ in
     allowedUDPPorts = [ 443 ];
   };
 
+  services.prometheus.exporters = {
+    nginxlog = {
+      enable = true;
+      listenAddress = "127.0.0.1";
+    };
+    nginx = {
+      enable = true;
+      listenAddress = "127.0.0.1";
+    };
+  };
+
   services.nginx = { 
     enable = true;
+    statusPage = true;
     package = pkgs.nginxQuic;
     enableQuicBPF = true;
 

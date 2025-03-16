@@ -56,4 +56,9 @@ in {
     dhcp-host= "${wapMac},${wapIp}";
     interface = [ lanInterface ];
   };
+
+  services.prometheus.exporters.dnsmasq = {
+    enable = true;
+    listenAddress = "127.0.0.1";
+  };
 }

@@ -26,6 +26,11 @@ in {
     group = config.systemd.services.knot.serviceConfig.Group;
   };
 
+  services.prometheus.exporters.knot = {
+    enable = true;
+    listenAddress = "127.0.0.1";
+  };
+
   services.knot = {
     enable = true;
     keyFiles = [ config.sops.secrets.dns.path ];
@@ -133,5 +138,4 @@ in {
       ];
     };
   };
-
 }

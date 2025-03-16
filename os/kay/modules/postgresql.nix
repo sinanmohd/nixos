@@ -14,4 +14,9 @@
 
     settings.log_timezone = config.time.timeZone;
   };
+
+  services.prometheus.exporters.postgres = {
+    enable = true;
+    listenAddress = "127.0.0.1";
+  };
 }

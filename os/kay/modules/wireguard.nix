@@ -54,4 +54,10 @@ in {
     no-dhcp-interface = wgInterface;
     interface = [ wgInterface  ];
   };
+
+  services.prometheus.exporters.wireguard = {
+    enable = true;
+    withRemoteIp = true;
+    listenAddress = "127.0.0.1";
+  };
 }

@@ -4,16 +4,35 @@
     enable = true;
     port = 9001;
 
-    scrapeConfigs = [
-      {
-        job_name = "kay";
-        static_configs = [
-          {
-            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
-          }
-        ];
-      }
-    ];
+    scrapeConfigs = [{
+      job_name = "kay";
+      static_configs = [
+        {
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
+        }
+        {
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.knot.port}" ];
+        }
+        {
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.wireguard.port}" ];
+        }
+        {
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.dnsmasq.port}" ];
+        }
+        {
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.nginx.port}" ];
+        }
+        {
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.nginxlog.port}" ];
+        }
+        {
+          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.postgres.port}" ];
+        }
+        {
+          targets = [ "127.0.0.1:${toString config.services.dendrite.httpPort}" ];
+        }
+      ];
+    }];
 
     exporters = {
       node = {
