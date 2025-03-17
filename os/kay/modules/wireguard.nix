@@ -24,7 +24,7 @@
     AllowedIPs = 10.0.1.2/32
 
     [Peer]
-    # friendly_name = veu
+    # friendly_name = exy
     PublicKey = bJ9aqGYD2Jh4MtWIL7q3XxVHFuUdwGJwO8p7H3nNPj8=
     AllowedIPs = 10.0.1.3/32
 
@@ -37,6 +37,11 @@
     # friendly_name = pradeep
     PublicKey = BAOdbgUd53ZmQWkZP3N+zAsxdBpqv6icEwmmjRFEmxI=
     AllowedIPs = 10.0.1.5/32
+
+    [Peer]
+    # friendly_name = angelo
+    PublicKey = U6+PzFuM6lKVx0TnDWuWJMsP6Tj8o1a9zjRcD7gV53o=
+    AllowedIPs = 10.0.1.6/32
   '';
 in {
   sops.secrets."misc/wireguard" = {};
