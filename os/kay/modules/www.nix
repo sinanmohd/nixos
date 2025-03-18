@@ -2,6 +2,10 @@
 
 let
   domain = config.global.userdata.domain;
+
+  domain_angelo = "angeloantony.com";
+  ip_angelo = "10.0.1.6";
+
   storage = "/hdd/users/sftp/shr";
 in
 {
@@ -91,6 +95,22 @@ in
           proxyWebsockets = true;
           proxyPass =
             "http://${config.services.matrix-sliding-sync-dirty.settings.SYNCV3_BINDADDR}";
+        };
+      };
+
+      ".${domain_angelo}" = defaultOpts // {
+        useACMEHost = domain_angelo;
+
+        extraConfig = ''
+          proxy_buffering off;
+          proxy_request_buffering off;
+          client_max_body_size 0;
+        '';
+
+        locations."/" = {
+          proxyWebsockets = true;
+          proxyPass =
+            "http://${ip_angelo}";
         };
       };
 
