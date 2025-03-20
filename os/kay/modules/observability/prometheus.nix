@@ -12,9 +12,6 @@
           targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
         }
         {
-          targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.knot.port}" ];
-        }
-        {
           targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.wireguard.port}" ];
         }
         {
