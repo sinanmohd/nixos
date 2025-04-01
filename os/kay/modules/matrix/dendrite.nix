@@ -29,7 +29,7 @@ in
 
       settings = {
         sync_api.search = {
-          enable = true;
+          enabled = true;
           index_path = "/var/lib/dendrite/searchindex";
         };
         global = {
