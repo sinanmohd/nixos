@@ -6,6 +6,7 @@
   gponPrefix = 24;
 
   lanInterface = "enp8s0f3u1";
+  bridgeInterface = "lan";
   subnet = "192.168.43.0";
   prefix = 24;
   host = "192.168.43.1";
@@ -21,13 +22,15 @@ in {
   ];
 
   networking = {
+    bridges.${bridgeInterface}.interfaces = [ /* lanInterface */ ];
+
     nat = {
       enable = true;
       externalInterface = wanInterface;
-      internalInterfaces = [ lanInterface ];
+      internalInterfaces = [ bridgeInterface ];
     };
     interfaces = {
-      ${lanInterface}.ipv4.addresses = [{
+      ${bridgeInterface}.ipv4.addresses = [{
           address = host;
           prefixLength  = prefix;
       }];
@@ -54,7 +57,7 @@ in {
   services.dnsmasq.settings = {
     dhcp-range = [ "${leaseRangeStart},${leaseRangeEnd}" ];
     dhcp-host= "${wapMac},${wapIp}";
-    interface = [ lanInterface ];
+    interface = [ bridgeInterface ];
   };
 
   services.prometheus.exporters.dnsmasq = {
