@@ -11,6 +11,7 @@ let
 in
 {
   sops.secrets."matrix-${domain}/key" = {};
+  systemd.services.dendrite.after = [ "postgresql.service" ];
 
   services = {
     postgresql = {
