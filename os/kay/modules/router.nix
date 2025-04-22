@@ -5,7 +5,7 @@
   gponHost = "192.168.38.1";
   gponPrefix = 24;
 
-  lanInterface = "enp8s0f3u1";
+  lanInterface = "enp8s0f3u1c2";
   bridgeInterface = "lan";
   subnet = "192.168.43.0";
   prefix = 24;
@@ -22,7 +22,7 @@ in {
   ];
 
   networking = {
-    bridges.${bridgeInterface}.interfaces = [ /* lanInterface */ ];
+    bridges.${bridgeInterface}.interfaces = [ lanInterface ];
 
     nat = {
       enable = true;
