@@ -42,8 +42,12 @@ in
       rttablesExtraConfig = "200 hurricane";
     };
 
-    firewall.extraCommands =
+    firewall = {
+      extraCommands =
       "iptables -A INPUT --proto 41 --source ${remote} --jump ACCEPT";
+      extraStopCommands =
+      "iptables -D INPUT --proto 41 --source ${remote} --jump ACCEPT";
+    };
   };
 
   sops.secrets = {

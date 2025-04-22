@@ -43,13 +43,23 @@ in {
       allowedUDPPorts = [ 53 67 ];
       allowedTCPPorts = [ 53 ];
       extraCommands = ''
-        iptables -t nat -I POSTROUTING 1 \
-            -s ${subnet}/${toString prefix} \
-            -o ${wanInterface} \
-            -j MASQUERADE
         iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
             -o ${wanInterface} \
             -j TCPMSS --clamp-mss-to-pmtu
+
+        iptables -N inetfilter
+        iptables -A inetfilter -s 192.168.43.124/32 -m mac --mac-source 08:02:3c:d4:d9:f2 -j ACCEPT
+        iptables -A inetfilter -s 192.168.43.119/32 -m mac --mac-source a8:93:4a:50:c8:b3 -j ACCEPT
+        iptables -A inetfilter -j DROP
+        iptables -I FORWARD -i lan -o ppp0 -j inetfilter
+      '';
+      extraStopCommands = ''
+        iptables -t mangle -D FORWARD -p tcp --tcp-flags SYN,RST SYN \
+            -o ${wanInterface} \
+            -j TCPMSS --clamp-mss-to-pmtu
+
+        iptables -w -t filter -F inetfilter
+        iptables -w -t filter -X inetfilter
       '';
     };
   };

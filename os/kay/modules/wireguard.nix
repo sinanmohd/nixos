@@ -52,16 +52,8 @@ in {
       externalInterface = wanInterface;
       internalInterfaces = [ wgInterface ];
     };
-    firewall = {
-      allowedUDPPorts = [ port ];
-      extraCommands = ''
-        iptables -t nat -I POSTROUTING 1 \
-            -s ${subnet}/${toString prefix} \
-            -o ${wanInterface} \
-            -j MASQUERADE
-      '';
-    };
 
+    firewall.allowedUDPPorts = [ port ];
     wg-quick.interfaces.${wgInterface}.configFile = builtins.toString wgConf;
   };
 
