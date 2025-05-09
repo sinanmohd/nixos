@@ -14,9 +14,14 @@
       url = "github:sinanmohd/home-manager/sway-generators";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    alina = {
+      url = "github:sinanmohd/alina";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, sops-nix, home-manager, nixos-hardware }: let
+  outputs = { self, nixpkgs, sops-nix, home-manager, nixos-hardware, alina }: let
     lib = nixpkgs.lib;
 
     makeGlobalImports = host: [
@@ -34,6 +39,7 @@
       specialArgs = { inherit nixos-hardware; };
 
       modules = [
+        alina.nixosModules.alina
         sops-nix.nixosModules.sops
 
         ./os/${host}/configuration.nix

@@ -19,6 +19,7 @@
     ./modules/nix-cache.nix
     ./modules/immich.nix
     ./modules/observability
+    ./modules/alina.nix
   ];
 
   boot = {
