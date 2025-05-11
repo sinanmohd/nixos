@@ -1,5 +1,8 @@
 { config, pkgs, ... }: let
-  listen_addr = "2001:470:ee65::1";
+  listen_addr =  [
+    "137.59.84.126"
+    "2001:470:ee65::1"
+  ];
 
   acmeSOA = pkgs.writeText "acmeSOA" ''
     $TTL 2d
@@ -66,14 +69,14 @@ in {
           action = "transfer";
         }
         {
-          id = "localhost";
-          address = [ listen_addr ];
+          id = "ddns";
+          address = listen_addr;
           update-type = [ "A" "AAAA" ];
           action = "update";
         }
         {
           id = "acme";
-          address = [ listen_addr ];
+          address = listen_addr;
           update-type = [ "TXT" ];
           action = "update";
         }
@@ -99,7 +102,7 @@ in {
           dnssec-policy = "gtld-servers.net";
 
           notify = [ "ns1.he.net" ];
-          acl = [ "ns1.he.net" "localhost" ];
+          acl = [ "ns1.he.net" "ddns" ];
 
           zonefile-sync = "-1";
           zonefile-load = "difference";

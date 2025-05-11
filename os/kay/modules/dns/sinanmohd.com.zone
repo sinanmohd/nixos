@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	hostmaster (
-			2025030900 ; serial
+			2025051100 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -25,10 +25,11 @@ _dmarc	IN	TXT	"v=DMARC1; p=reject; rua=mailto:reports@sinanmohd.com; ruf=mailto:
 ed25519._domainkey	IN	TXT	"v=DKIM1; k=ed25519; p=EHk924AruF9Y0Xaf009rpRl+yGusjmjT1Zeho67BnDU="
 rsa._domainkey		IN	TXT	"v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4HEqO63fSC0cUnJt9vAQBssTkPfT4QefmAK/1BtAIRIOdGakf7PI7p3A1ETgwfYxuHj7BUSzUtESsHMThbhB1Wko79+AR+5ZBDBmD8CE0dOnZfzeG8xIaGfYkaL4gana6YZWiBT2oi/CimJfc22wacF01SufOs4R8cDpy4BZIgDD/zfF4bFTORQ0vMSJQJkp1zdQelERDU5CEezgxgVYgoSmdEpgkhc23PJSyj4Z7hA69N0amsb3cVVrfVXcYvSqTK3S2vLLA89ws4CUjCCpUW40gVIP8QP6CqTL76936Oo7OVWgmV3Sn3wa8FMN6IATY+fbMlrdOMsPY5PauJyEoQIDAQAB"
 
+ns1	IN	A	137.59.84.126
 ns1	IN	AAAA	2001:470:ee65::1
-
-mail 30	IN	A	137.59.84.126
+mail    IN	A	137.59.84.126
 mail	IN	AAAA	2001:470:ee65::1337
+
 smtp	IN	CNAME	@
 imap	IN	CNAME	@
 mta-sts	IN	CNAME	@
@@ -45,7 +46,5 @@ nixbin	IN	CNAME	@
 immich	IN	CNAME	@
 sliding	IN	CNAME	@
 grafana	IN	CNAME	@
-
-lia	IN	A	65.0.3.127
 
 _acme-challenge	IN	NS	ns1
