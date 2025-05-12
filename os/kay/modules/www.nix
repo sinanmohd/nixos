@@ -46,9 +46,15 @@ in
     recommendedProxySettings = true;
     recommendedBrotliSettings = true;
     eventsConfig = "worker_connections 1024;";
+    appendHttpConfig = ''
+      quic_retry on;
+      quic_gso on;
+      add_header Alt-Svc 'h3=":443"; ma=2592000; persist=1';
+    '';
 
     virtualHosts = let
       defaultOpts = {
+        # reuseport = true;
         quic = true;
         http3 = true;
         forceSSL = true;
@@ -129,17 +135,31 @@ in
       };
 
       "www.${domain}" = defaultOpts // {
+        extraConfig = ''
+          ssl_early_data on;
+        '';
+
         root = "/var/www/${domain}";
       };
 
-      "git.${domain}" = defaultOpts;
+      "git.${domain}" = defaultOpts // {
+        extraConfig = ''
+          ssl_early_data on;
+        '';
+      };
 
       "bin.${domain}" = defaultOpts // {
+        extraConfig = ''
+          ssl_early_data on;
+        '';
         root = "${storage}/bin";
         locations."= /".return = "307 https://www.${domain}";
       };
 
       "static.${domain}" = defaultOpts // {
+        extraConfig = ''
+          ssl_early_data on;
+        '';
         root = "${storage}/static";
         locations."= /".return = "301 https://www.${domain}";
       };
@@ -161,6 +181,9 @@ in
       };
 
       "mta-sts.${domain}" = defaultOpts // {
+        extraConfig = ''
+          ssl_early_data on;
+        '';
         locations."= /.well-known/mta-sts.txt".return = ''200 "${
           lib.strings.concatStringsSep "\\n" [
             "version: STSv1"
@@ -199,7 +222,10 @@ in
           };
 
           "= /" = {
-            extraConfig = "add_header Content-Type text/html;";
+            extraConfig = ''
+              add_header Content-Type text/html;
+              add_header Alt-Svc 'h3=":443"; ma=2592000; persist=1';
+            '';
             return = ''200
               '<!DOCTYPE html>
               <html lang="en">
@@ -232,6 +258,9 @@ in
         useACMEHost = null;
         enableACME = true;
         globalRedirect = "alinafs.com/home";
+        extraConfig = ''
+          ssl_early_data on;
+        '';
       };
       "alinafs.com" = defaultOpts // {
         useACMEHost = null;
