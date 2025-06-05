@@ -9,7 +9,10 @@ in {
     enable = true;
 
     settings = {
-      colors.background = "000000";
+      colors = {
+        background = "000000";
+        alpha = "0.8";
+      };
       main = {
         inherit font;
         pad = "10x10";
