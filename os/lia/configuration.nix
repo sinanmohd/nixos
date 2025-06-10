@@ -10,4 +10,6 @@
     ./modules/lxc.nix
     ./modules/sshfwd.nix
   ];
+
+  networking.hostName = "lia";
 }

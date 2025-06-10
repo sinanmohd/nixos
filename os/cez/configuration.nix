@@ -7,5 +7,8 @@
     ./modules/specialisation.nix
     ./modules/wireguard.nix
     ./modules/tlp.nix
+    ../../global/cez
   ];
+
+  networking.hostName = "cez";
 }

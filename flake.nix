@@ -33,69 +33,50 @@
     let
       lib = nixpkgs.lib;
 
-      makeGlobalImports =
-        host:
-        [
-          ./global/common
-        ]
-        ++ lib.optional (builtins.pathExists ./global/${host}) ./global/${host};
-
-      makeHomeImports =
-        host:
-        makeGlobalImports host
-        ++ [
-          ./home/common/home.nix
-        ]
-        ++ lib.optional (builtins.pathExists ./home/${host}) ./home/${host}/home.nix;
-
       makeNixos =
         host: system:
         lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit nixos-hardware; };
+
+          specialArgs = {
+            inherit alina;
+            inherit nixos-hardware;
+          };
 
           modules = [
-            alina.nixosModules.alina
-            sops-nix.nixosModules.sops
-
+            self.nixosModules.common
             ./os/${host}/configuration.nix
-            {
-              networking.hostName = host;
-              nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-            }
-
-            home-manager.nixosModules.home-manager
-            (
-              { config, ... }:
-              let
-                username = config.global.userdata.name;
-              in
-              {
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = false;
-                  users.${username} =
-                    { ... }:
-                    {
-                      imports = makeHomeImports host;
-                    };
-                };
-              }
-            )
-          ] ++ (makeGlobalImports host);
+          ];
         };
 
       makeHome =
         host: system:
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
-          modules = makeHomeImports host;
+          modules = [
+            ./home/common/home.nix
+          ] ++ lib.optional (builtins.pathExists ./home/${host}) ./home/${host}/home.nix;
         };
     in
     {
-      nixosConfigurations = lib.genAttrs [ "cez" "kay" "lia" "fscusat" "dspace" ] (
-        host: makeNixos host "x86_64-linux"
-      );
+      nixosModules = lib.genAttrs [ "common" "server" "pc" ] (host: {
+        nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+        imports = [
+          ./os/${host}/configuration.nix
+          sops-nix.nixosModules.sops
+          home-manager.nixosModules.home-manager
+        ];
+      });
+
+      nixosConfigurations = lib.genAttrs [
+        "common"
+        "server"
+        "pc"
+        "cez"
+        "kay"
+        "lia"
+        "fscusat"
+      ] (host: makeNixos host "x86_64-linux");
 
       homeConfigurations = lib.genAttrs [ "common" "wayland" "pc" "cez" ] (
         host: makeHome host "x86_64-linux"

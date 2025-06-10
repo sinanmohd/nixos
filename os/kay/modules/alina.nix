@@ -1,8 +1,10 @@
-{ config, pkgs, ... }:
+{ config, alina, ... }:
 let
   domain = "alinafs.com";
 in
 {
+  imports = [ alina.nixosModules.alina ];
+
   sops.secrets."misc/alina" = { };
 
   services.postgresql = {

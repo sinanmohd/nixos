@@ -11,6 +11,8 @@ in
     ./modules/mimeapps.nix
     ./modules/xdg_ninja.nix
     ./modules/ssh.nix
+    ./modules/dev.nix
+    ../../global/common
   ];
 
   programs.home-manager.enable = true;

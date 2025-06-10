@@ -16,11 +16,17 @@ in
     ./modules/user.nix
     ./modules/environment.nix
     ./modules/pppd.nix
+    ./modules/home-manager.nix
+    ../../global/common
   ];
 
   system.stateVersion = "24.05";
   time.timeZone = "Asia/Kolkata";
-  networking.useDHCP = false;
+
+  networking = {
+    useDHCP = false;
+    hostName = lib.mkOptionDefault "common";
+  };
 
   swapDevices = lib.mkDefault [
     {

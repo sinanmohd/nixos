@@ -21,6 +21,7 @@
     ./modules/alina.nix
   ];
 
+  networking.hostName = "kay";
   boot = {
     consoleLogLevel = 3;
     binfmt.emulatedSystems = [ "aarch64-linux" ];

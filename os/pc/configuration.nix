@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   user = config.global.userdata.name;
 in
@@ -14,6 +19,8 @@ in
     ./modules/nocodb.nix
     ./modules/firejail.nix
   ];
+
+  networking.hostName = lib.mkDefault "pc";
 
   boot = {
     consoleLogLevel = 3;
