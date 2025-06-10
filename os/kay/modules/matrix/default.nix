@@ -1,12 +1,14 @@
-{ config, ... }: let
+{ config, ... }:
+let
   domain = config.global.userdata.domain;
-in {
+in
+{
   imports = [
     ./dendrite.nix
     ./matrix-sliding-sync.nix
   ];
 
-  sops.secrets."matrix-${domain}/sliding_sync" = {};
+  sops.secrets."matrix-${domain}/sliding_sync" = { };
 
   services.matrix-sliding-sync-dirty = {
     enable = true;

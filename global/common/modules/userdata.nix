@@ -1,7 +1,9 @@
-{ config, lib, ... }: let
+{ config, lib, ... }:
+let
   cfg = config.global.userdata;
-in {
-  options.global.userdata =  {
+in
+{
+  options.global.userdata = {
     name = lib.mkOption {
       type = lib.types.str;
       default = "sinan";

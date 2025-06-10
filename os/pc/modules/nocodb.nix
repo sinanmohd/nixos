@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }: let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
   user = config.global.userdata.name;
-in {
+in
+{
   programs.firejail.wrappedBinaries.slack = {
     executable = lib.getExe pkgs.slack;
     profile = "${pkgs.firejail}/etc/firejail/slack.profile";

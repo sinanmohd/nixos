@@ -1,4 +1,5 @@
-{ pkgs, ... }: let
+{ pkgs, ... }:
+let
   container = {
     name = "ubu";
     distro = "ubuntu";
@@ -6,7 +7,8 @@
   };
 
   bridge = "lan";
-in {
+in
+{
   virtualisation.lxc.enable = true;
 
   environment.systemPackages = with pkgs; [ wget ];
@@ -22,7 +24,14 @@ in {
       RemainAfterExit = true;
     };
 
-    path = with pkgs; [ wget lxc util-linux gnutar xz gawk ];
+    path = with pkgs; [
+      wget
+      lxc
+      util-linux
+      gnutar
+      xz
+      gawk
+    ];
     script = ''
       if ! lxc-ls | grep -q ${container.name}; then
           lxc-create -n ${container.name} -t download  -- \

@@ -1,14 +1,18 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   domain = "alinafs.com";
-in {
-  sops.secrets."misc/alina" = {};
+in
+{
+  sops.secrets."misc/alina" = { };
 
   services.postgresql = {
     ensureDatabases = [ "alina" ];
-    ensureUsers = [{
-      name = "alina";
-      ensureDBOwnership = true;
-    }];
+    ensureUsers = [
+      {
+        name = "alina";
+        ensureDBOwnership = true;
+      }
+    ];
   };
 
   services.alina = {
@@ -17,7 +21,7 @@ in {
     environmentFile = config.sops.secrets."misc/alina".path;
     settings.server = {
       data = "/hdd/alina";
-      file_size_limit = 1024 * 1024 * 1024; /* 1GB */
+      file_size_limit = 1024 * 1024 * 1024; # 1GB
       public_url = "https://${domain}";
     };
   };

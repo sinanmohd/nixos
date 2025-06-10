@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   iface = "hurricane";
@@ -10,12 +15,15 @@ let
   prefix64 = "2001:470:36:72a::/64";
   prefix48 = "2001:470:ee65::/48";
 
-  makeAddr = prefix: host: let
-    split = lib.strings.splitString "/" prefix;
-  in {
-    address = "${lib.head split}${host}";
-    prefixLength = lib.toInt (lib.last split);
-  };
+  makeAddr =
+    prefix: host:
+    let
+      split = lib.strings.splitString "/" prefix;
+    in
+    {
+      address = "${lib.head split}${host}";
+      prefixLength = lib.toInt (lib.last split);
+    };
 in
 {
   networking = {
@@ -43,17 +51,15 @@ in
     };
 
     firewall = {
-      extraCommands =
-      "iptables -A INPUT --proto 41 --source ${remote} --jump ACCEPT";
-      extraStopCommands =
-      "iptables -D INPUT --proto 41 --source ${remote} --jump ACCEPT";
+      extraCommands = "iptables -A INPUT --proto 41 --source ${remote} --jump ACCEPT";
+      extraStopCommands = "iptables -D INPUT --proto 41 --source ${remote} --jump ACCEPT";
     };
   };
 
   sops.secrets = {
-    "hurricane/username" = {};
-    "hurricane/update_key" = {};
-    "hurricane/tunnel_id" = {};
+    "hurricane/username" = { };
+    "hurricane/update_key" = { };
+    "hurricane/tunnel_id" = { };
   };
 
   systemd.services."network-route-${iface}" = {
@@ -64,7 +70,10 @@ in
     ];
     before = [ "network-setup.service" ];
     bindsTo = [ "network-addresses-hurricane.service" ];
-    after = [ "network-pre.target" "network-addresses-hurricane.service" ];
+    after = [
+      "network-pre.target"
+      "network-addresses-hurricane.service"
+    ];
     # restart rather than stop+start this unit to prevent the
     # network from dying during switch-to-configuration.
     stopIfChanged = false;
@@ -95,9 +104,13 @@ in
     '';
   };
 
-
   services.pppd.script."01-${iface}" = {
-    runtimeInputs = with pkgs; [ curl coreutils iproute2 iputils ];
+    runtimeInputs = with pkgs; [
+      curl
+      coreutils
+      iproute2
+      iputils
+    ];
     text = ''
       wan_ip="$4"
       username="$(cat ${config.sops.secrets."hurricane/username".path})"

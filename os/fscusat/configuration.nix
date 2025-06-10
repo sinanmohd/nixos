@@ -10,5 +10,8 @@
     ./modules/mirror
   ];
 
-  services.openssh.ports = [ 22 465 ];
+  services.openssh.ports = [
+    22
+    465
+  ];
 }

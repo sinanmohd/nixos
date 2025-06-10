@@ -1,8 +1,8 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   home.packages = with pkgs; [ tmux ];
 
-  home.sessionVariables.TMUX_TMPDIR =
-    ''''${XDG_RUNTIME_DIR:-"/run/user/$(id -u)"}'';
+  home.sessionVariables.TMUX_TMPDIR = ''''${XDG_RUNTIME_DIR:-"/run/user/$(id -u)"}'';
   programs.bash.initExtra = lib.mkOrder 2000 ''
     if [ -z "$TMUX" ] &&
       { [ -n "$WAYLAND_DISPLAY" ] || [ -n "$SSH_TTY" ]; }; then

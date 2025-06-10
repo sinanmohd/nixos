@@ -1,6 +1,8 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   username = config.global.userdata.name;
-in {
+in
+{
   imports = [
     ./modules/git.nix
     ./modules/tmux.nix

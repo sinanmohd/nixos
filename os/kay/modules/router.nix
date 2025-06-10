@@ -1,4 +1,5 @@
-{ ... }: let
+{ ... }:
+let
   wanInterface = "ppp0";
 
   gponInterface = "enp3s0";
@@ -15,7 +16,8 @@
 
   wapMac = "40:86:cb:d7:40:49";
   wapIp = "192.168.43.2";
-in {
+in
+{
   imports = [
     ./wireguard.nix
     ./iperf3.nix
@@ -30,17 +32,24 @@ in {
       internalInterfaces = [ bridgeInterface ];
     };
     interfaces = {
-      ${bridgeInterface}.ipv4.addresses = [{
+      ${bridgeInterface}.ipv4.addresses = [
+        {
           address = host;
-          prefixLength  = prefix;
-      }];
-      ${gponInterface}.ipv4.addresses = [{
+          prefixLength = prefix;
+        }
+      ];
+      ${gponInterface}.ipv4.addresses = [
+        {
           address = gponHost;
-          prefixLength  = gponPrefix;
-      }];
+          prefixLength = gponPrefix;
+        }
+      ];
     };
     firewall = {
-      allowedUDPPorts = [ 53 67 ];
+      allowedUDPPorts = [
+        53
+        67
+      ];
       allowedTCPPorts = [ 53 ];
       extraCommands = ''
         iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
@@ -57,7 +66,7 @@ in {
 
   services.dnsmasq.settings = {
     dhcp-range = [ "${leaseRangeStart},${leaseRangeEnd}" ];
-    dhcp-host= "${wapMac},${wapIp}";
+    dhcp-host = "${wapMac},${wapIp}";
     interface = [ bridgeInterface ];
   };
 

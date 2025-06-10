@@ -1,6 +1,8 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   background = "${config.xdg.dataHome}/wayland/lockscreen";
-in {
+in
+{
   programs.swaylock = {
     enable = true;
     package = pkgs.swaylock-effects;

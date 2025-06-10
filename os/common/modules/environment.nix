@@ -1,4 +1,5 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   environment = {
     binsh = lib.getExe pkgs.dash;
     systemPackages = with pkgs; [

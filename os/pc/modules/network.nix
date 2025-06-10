@@ -1,5 +1,6 @@
-{ ... }: {
-  networking.wireless.iwd = { 
+{ ... }:
+{
+  networking.wireless.iwd = {
     enable = true;
 
     settings = {

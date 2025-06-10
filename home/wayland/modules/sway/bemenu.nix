@@ -1,12 +1,15 @@
-{ config, lib, ... }: let
+{ config, lib, ... }:
+let
   background = "#000000";
   foreground = "#FFFFFF";
   swayYellow = "#d79921";
 
-  font = config.global.font.sans.name
-    + lib.optionalString (config.global.font.sans.size != null)
-      " " + builtins.toString config.global.font.sans.size;
-in {
+  font =
+    config.global.font.sans.name
+    + lib.optionalString (config.global.font.sans.size != null) " "
+    + builtins.toString config.global.font.sans.size;
+in
+{
   programs.bemenu = {
     enable = true;
 

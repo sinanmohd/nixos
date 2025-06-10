@@ -4,19 +4,24 @@ let
   domain = "foss.fscusat.ac.in";
 in
 {
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
-  sops.secrets = let 
-    opts = {
-      owner = config.services.nginx.user;
-      group = config.services.nginx.group;
+  sops.secrets =
+    let
+      opts = {
+        owner = config.services.nginx.user;
+        group = config.services.nginx.group;
+      };
+    in
+    {
+      "cusat.ac.in/key" = opts;
+      "cusat.ac.in/crt" = opts;
     };
-  in{
-    "cusat.ac.in/key" = opts;
-    "cusat.ac.in/crt" = opts;
-  };
 
-  services.nginx = { 
+  services.nginx = {
     enable = true;
     recommendedTlsSettings = true;
     recommendedZstdSettings = true;

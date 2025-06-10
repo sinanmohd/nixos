@@ -1,7 +1,9 @@
-{ config, ... }: let
+{ config, ... }:
+let
   user = config.global.userdata.name;
   email = config.global.userdata.email;
-in {
+in
+{
   users.users.${user} = {
     uid = 1000;
     isNormalUser = true;

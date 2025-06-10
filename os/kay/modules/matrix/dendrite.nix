@@ -10,16 +10,18 @@ let
   };
 in
 {
-  sops.secrets."matrix-${domain}/key" = {};
+  sops.secrets."matrix-${domain}/key" = { };
   systemd.services.dendrite.after = [ "postgresql.service" ];
 
   services = {
     postgresql = {
       ensureDatabases = [ "dendrite" ];
-      ensureUsers = [{
-        name = "dendrite";
-        ensureDBOwnership = true;
-      }];
+      ensureUsers = [
+        {
+          name = "dendrite";
+          ensureDBOwnership = true;
+        }
+      ];
     };
 
     dendrite = {
@@ -43,10 +45,12 @@ in
           ];
           inherit database;
         };
-        logging = [{
-          type = "std";
-          level = "warn";
-        }];
+        logging = [
+          {
+            type = "std";
+            level = "warn";
+          }
+        ];
         mscs = {
           inherit database;
           mscs = [ "msc2836" ];
@@ -63,19 +67,21 @@ in
         federation_api = {
           inherit database;
           send_max_retries = 8;
-          key_perspectives = [{
-            server_name = "matrix.org";
-            keys = [
-              {
-                key_id = "ed25519:auto";
-                public_key = "Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw";
-              }
-              {
-                key_id = "ed25519:a_RXGa";
-                public_key = "l8Hft5qXKn1vfHrg3p4+W8gELQVo8N13JkluMfmn2sQ";
-              }
-            ];
-          }];
+          key_perspectives = [
+            {
+              server_name = "matrix.org";
+              keys = [
+                {
+                  key_id = "ed25519:auto";
+                  public_key = "Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw";
+                }
+                {
+                  key_id = "ed25519:a_RXGa";
+                  public_key = "l8Hft5qXKn1vfHrg3p4+W8gELQVo8N13JkluMfmn2sQ";
+                }
+              ];
+            }
+          ];
         };
 
         app_service_api = {

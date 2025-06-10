@@ -1,6 +1,8 @@
-{ config, ... }: let
+{ config, ... }:
+let
   user = config.global.userdata.name;
-in {
+in
+{
   systemd.services."getty@".serviceConfig.TTYVTDisallocate = "no";
 
   services.getty = {

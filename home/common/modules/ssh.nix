@@ -1,6 +1,8 @@
-{ config, ... }: let
+{ config, ... }:
+let
   domain = config.global.userdata.domain;
-in {
+in
+{
   programs.ssh = {
     enable = true;
     compression = true;

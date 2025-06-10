@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   specialisation.nvidia.configuration = {
     boot = {
       kernelParams = [ "transparent_hugepage=always" ];

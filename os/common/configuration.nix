@@ -1,6 +1,13 @@
-{ config, pkgs, lib, ... }: let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
   host = config.networking.hostName;
-in {
+in
+{
   disabledModules = [
     "services/networking/pppd.nix"
   ];
@@ -15,16 +22,20 @@ in {
   time.timeZone = "Asia/Kolkata";
   networking.useDHCP = false;
 
-  swapDevices = lib.mkDefault [{
-    device = "/swapfile";
-    size = 2048; # 2GB
-  }];
+  swapDevices = lib.mkDefault [
+    {
+      device = "/swapfile";
+      size = 2048; # 2GB
+    }
+  ];
 
-  services.udev.extraRules = let
-    cmd = "${pkgs.systemd}/bin/systemctl hibernate";
-  in ''
-    SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${cmd}"
-  '';
+  services.udev.extraRules =
+    let
+      cmd = "${pkgs.systemd}/bin/systemctl hibernate";
+    in
+    ''
+      SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${cmd}"
+    '';
 
   sops = {
     defaultSopsFile = ../${host}/secrets.yaml;
@@ -47,5 +58,10 @@ in {
   '';
 
   nixpkgs.config.allowUnfreePredicate =
-    pkg: builtins.elem (lib.getName pkg) [ "nvidia-x11" "slack" "spotify" ];
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "nvidia-x11"
+      "slack"
+      "spotify"
+    ];
 }

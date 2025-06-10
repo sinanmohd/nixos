@@ -1,10 +1,12 @@
-{ config, lib, ... }: let
-  font = config.global.font.monospace.name
-    + lib.optionalString (config.global.font.monospace.size != null)
-      ":size=" + builtins.toString config.global.font.monospace.size;
-in {
-  home.sessionVariables.TERMINAL =
-    lib.getExe config.programs.foot.package;
+{ config, lib, ... }:
+let
+  font =
+    config.global.font.monospace.name
+    + lib.optionalString (config.global.font.monospace.size != null) ":size="
+    + builtins.toString config.global.font.monospace.size;
+in
+{
+  home.sessionVariables.TERMINAL = lib.getExe config.programs.foot.package;
   programs.foot = {
     enable = true;
 

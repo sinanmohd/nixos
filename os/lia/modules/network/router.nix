@@ -1,6 +1,10 @@
-{ ... }: let
+{ ... }:
+let
   wanInterface = "enp9s0";
-  lanInterfaces = [ "enp1s0f0" "enp1s0f1" ];
+  lanInterfaces = [
+    "enp1s0f0"
+    "enp1s0f1"
+  ];
 
   prefix = 24;
   subnet = "192.168.1.0";
@@ -8,7 +12,10 @@
 
   leaseRangeStart = "192.168.1.100";
   leaseRangeEnd = "192.168.1.254";
-  nameServer = [ "10.0.0.2" "10.0.0.3" ];
+  nameServer = [
+    "10.0.0.2"
+    "10.0.0.3"
+  ];
 in
 {
   networking = {
@@ -21,17 +28,21 @@ in
     };
 
     interfaces.lan = {
-      ipv4.addresses = [{ 
-        address = host;
-        prefixLength  = prefix;
-      }];
+      ipv4.addresses = [
+        {
+          address = host;
+          prefixLength = prefix;
+        }
+      ];
     };
 
     firewall = {
-      allowedUDPPorts = [ 53 67 ];
+      allowedUDPPorts = [
+        53
+        67
+      ];
       allowedTCPPorts = [ 53 ];
-      extraCommands = 
-        "iptables -t nat -I POSTROUTING 1 -s ${subnet}/${toString prefix} -o ${wanInterface} -j MASQUERADE";
+      extraCommands = "iptables -t nat -I POSTROUTING 1 -s ${subnet}/${toString prefix} -o ${wanInterface} -j MASQUERADE";
     };
   };
 

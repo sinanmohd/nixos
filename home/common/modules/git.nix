@@ -1,7 +1,9 @@
-{ config, ... }: let
+{ config, ... }:
+let
   userName = config.global.userdata.nameFq;
   userEmail = config.global.userdata.email;
-in {
+in
+{
   programs.git = {
     enable = true;
     inherit userName;

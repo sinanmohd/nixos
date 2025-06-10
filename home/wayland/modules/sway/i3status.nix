@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   programs.i3status = {
     enable = true;
     enableDefault = false;
@@ -56,7 +57,7 @@
       };
 
       "wireless _first_" = {
-        position = 00;
+        position = 0;
         settings = {
           format_up = "󰤥  %quality";
           format_down = "";

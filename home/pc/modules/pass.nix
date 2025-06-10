@@ -1,7 +1,14 @@
-{ config, pkgs, lib, ... }: let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
   passStore = config.xdg.dataHome + "/pass";
   GNUPGHome = config.xdg.dataHome + "/gnupg";
-in {
+in
+{
   home = {
     file."${GNUPGHome}/gpg-agent.conf".text = ''
       pinentry-program ${lib.getExe pkgs.pinentry-bemenu}

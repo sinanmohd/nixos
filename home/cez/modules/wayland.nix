@@ -1,7 +1,9 @@
-{ pkgs, ... }: let
-  wayland-scripts = pkgs.callPackage ../../wayland/pkgs/wayland-scripts {};
+{ pkgs, ... }:
+let
+  wayland-scripts = pkgs.callPackage ../../wayland/pkgs/wayland-scripts { };
   freezshot = "${wayland-scripts}/bin/freezshot";
-in {
+in
+{
   wayland.windowManager.sway.settings = {
     # vendor hardcoded screenshot key
     bindsym."mod4+shift+s" = "exec ${freezshot}";

@@ -11,4 +11,3 @@
     ./modules/sshfwd.nix
   ];
 }
-

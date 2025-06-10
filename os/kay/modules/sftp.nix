@@ -7,7 +7,7 @@ let
 in
 {
   users = {
-    groups."sftp".members = [];
+    groups."sftp".members = [ ];
 
     users."sftp" = {
       group = "sftp";
@@ -42,7 +42,7 @@ in
     };
 
     # sandboxing
-    extraConfig  = ''
+    extraConfig = ''
       Match Group sftp
       # chroot dir should be owned by root
       # and sub dirs by %u

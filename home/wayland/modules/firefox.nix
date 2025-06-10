@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   programs.firefox = {
     enable = true;
     policies = {
@@ -47,26 +48,22 @@
         "uBlock0@raymondhill.net" = {
           installation_mode = "force_installed";
           default_area = "menupanel";
-          install_url =
-            "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
         };
         "jid1-MnnxcxisBPnSXQ@jetpack" = {
           installation_mode = "force_installed";
           default_area = "menupanel";
-          install_url =
-            "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
         };
         "{21f1ba12-47e1-4a9b-ad4e-3a0260bbeb26}" = {
           installation_mode = "force_installed";
           default_area = "menupanel";
-          install_url =
-            "https://addons.mozilla.org/firefox/downloads/latest/remove-youtube-s-suggestions/latest.xpi";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/remove-youtube-s-suggestions/latest.xpi";
         };
         "tridactyl.vim@cmcaine.co.uk" = {
           installation_mode = "force_installed";
           default_area = "menupanel";
-          install_url =
-            "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/latest.xpi";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/latest.xpi";
         };
       };
     };
@@ -78,8 +75,8 @@
         currentVersion = 1337;
 
         placements = {
-          widget-overflow-fixed-list = [];
-          unified-extensions-area = [];
+          widget-overflow-fixed-list = [ ];
+          unified-extensions-area = [ ];
           nav-bar = [
             "back-button"
             "forward-button"

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   domain = config.global.userdata.domain;
@@ -12,7 +17,10 @@ in
 
   security.acme.certs.${domain}.postRun = "systemctl reload nginx.service";
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [
+      80
+      443
+    ];
     allowedUDPPorts = [ 443 ];
   };
 
@@ -27,7 +35,7 @@ in
     };
   };
 
-  services.nginx = { 
+  services.nginx = {
     enable = true;
     statusPage = true;
     package = pkgs.nginxQuic;
@@ -48,218 +56,216 @@ in
       add_header Alt-Svc 'h3=":443"; ma=2592000; persist=1';
     '';
 
-    virtualHosts = let
-      defaultOpts = {
-        # reuseport = true;
-        quic = true;
-        http3 = true;
-        forceSSL = true;
-        useACMEHost = domain;
-      };
-    in {
-      "${domain}" = defaultOpts // {
-        default = true;
-        globalRedirect = "www.${domain}";
+    virtualHosts =
+      let
+        defaultOpts = {
+          # reuseport = true;
+          quic = true;
+          http3 = true;
+          forceSSL = true;
+          useACMEHost = domain;
+        };
+      in
+      {
+        "${domain}" = defaultOpts // {
+          default = true;
+          globalRedirect = "www.${domain}";
 
-        extraConfig = ''
-          proxy_buffering off;
-          proxy_request_buffering off;
-          client_max_body_size 0;
-        '';
-
-        locations = {
-          "/.well-known/matrix/server".return = ''
-            200 '{ "m.server": "${domain}:443" }'
+          extraConfig = ''
+            proxy_buffering off;
+            proxy_request_buffering off;
+            client_max_body_size 0;
           '';
 
-          "/.well-known/matrix/client".return = ''
-            200 '${builtins.toJSON {
-                "m.homeserver".base_url = "https://${domain}";
-                "org.matrix.msc3575.proxy".url = "https://sliding.${domain}";
-                "m.identity_server".base_url = "https://vector.im";
-            }}'
+          locations = {
+            "/.well-known/matrix/server".return = ''
+              200 '{ "m.server": "${domain}:443" }'
+            '';
+
+            "/.well-known/matrix/client".return = ''
+              200 '${
+                builtins.toJSON {
+                  "m.homeserver".base_url = "https://${domain}";
+                  "org.matrix.msc3575.proxy".url = "https://sliding.${domain}";
+                  "m.identity_server".base_url = "https://vector.im";
+                }
+              }'
+            '';
+
+            "~ ^(\\/_matrix|\\/_synapse\\/client)".proxyPass =
+              "http://127.0.0.1:${toString config.services.dendrite.httpPort}";
+          };
+        };
+
+        "sliding.${domain}" = defaultOpts // {
+          extraConfig = ''
+            proxy_buffering off;
+            proxy_request_buffering off;
+            client_max_body_size 0;
           '';
 
-          "~ ^(\\/_matrix|\\/_synapse\\/client)".proxyPass = "http://127.0.0.1:${toString
-            config.services.dendrite.httpPort
-          }";
-        };
-      };
-
-      "sliding.${domain}" = defaultOpts // {
-        extraConfig = ''
-          proxy_buffering off;
-          proxy_request_buffering off;
-          client_max_body_size 0;
-        '';
-
-        locations."/" = {
-          proxyWebsockets = true;
-          proxyPass =
-            "http://${config.services.matrix-sliding-sync-dirty.settings.SYNCV3_BINDADDR}";
-        };
-      };
-
-      "${config.services.grafana.settings.server.domain}" = defaultOpts // {
-        extraConfig = ''
-          proxy_buffering off;
-          proxy_request_buffering off;
-          client_max_body_size 0;
-        '';
-
-        locations."/" = {
-          proxyWebsockets = true;
-          proxyPass =
-            "http://${config.services.grafana.settings.server.http_addr}:${builtins.toString config.services.grafana.settings.server.http_port}";
-        };
-      };
-
-      "www.${domain}" = defaultOpts // {
-        extraConfig = ''
-          ssl_early_data on;
-        '';
-
-        root = "/var/www/${domain}";
-      };
-
-      "git.${domain}" = defaultOpts // {
-        extraConfig = ''
-          ssl_early_data on;
-        '';
-      };
-
-      "bin.${domain}" = defaultOpts // {
-        extraConfig = ''
-          ssl_early_data on;
-        '';
-        root = "${storage}/bin";
-        locations."= /".return = "307 https://www.${domain}";
-      };
-
-      "static.${domain}" = defaultOpts // {
-        extraConfig = ''
-          ssl_early_data on;
-        '';
-        root = "${storage}/static";
-        locations."= /".return = "301 https://www.${domain}";
-      };
-
-      "home.${domain}" = defaultOpts // {
-        locations."/" = {
-          proxyWebsockets = true;
-          proxyPass = "http://127.0.0.1:${
-            builtins.toString config.services.home-assistant.config.http.server_port
-          }";
-        };
-      };
-
-      "mail.${domain}" = defaultOpts // {
-        locations."/" = {
-          proxyWebsockets = true;
-          proxyPass = "http://127.0.0.1:8085";
-        };
-      };
-
-      "mta-sts.${domain}" = defaultOpts // {
-        extraConfig = ''
-          ssl_early_data on;
-        '';
-        locations."= /.well-known/mta-sts.txt".return = ''200 "${
-          lib.strings.concatStringsSep "\\n" [
-            "version: STSv1"
-            "mode: enforce"
-            "mx: mail.${domain}"
-            "max_age: 86400"
-          ]
-        }"'';
-      };
-
-      "immich.${domain}" = defaultOpts // {
-        locations."/" = {
-          proxyWebsockets = true;
-          proxyPass = "http://${config.services.immich.host}:${builtins.toString config.services.immich.port}";
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://${config.services.matrix-sliding-sync-dirty.settings.SYNCV3_BINDADDR}";
+          };
         };
 
-        extraConfig = ''
-          proxy_buffering off;
-          proxy_request_buffering off;
-          client_max_body_size 0;
-        '';
-      };
+        "${config.services.grafana.settings.server.domain}" = defaultOpts // {
+          extraConfig = ''
+            proxy_buffering off;
+            proxy_request_buffering off;
+            client_max_body_size 0;
+          '';
 
-      "nixbin.${domain}" = defaultOpts // {
-        extraConfig = ''
-          proxy_buffering off;
-          proxy_request_buffering off;
-          client_max_body_size 0;
-        '';
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://${config.services.grafana.settings.server.http_addr}:${builtins.toString config.services.grafana.settings.server.http_port}";
+          };
+        };
 
-        locations = {
-          "= /files".return = "301 https://nixbin.${domain}/files/";
-          "/files/" = {
+        "www.${domain}" = defaultOpts // {
+          extraConfig = ''
+            ssl_early_data on;
+          '';
+
+          root = "/var/www/${domain}";
+        };
+
+        "git.${domain}" = defaultOpts // {
+          extraConfig = ''
+            ssl_early_data on;
+          '';
+        };
+
+        "bin.${domain}" = defaultOpts // {
+          extraConfig = ''
+            ssl_early_data on;
+          '';
+          root = "${storage}/bin";
+          locations."= /".return = "307 https://www.${domain}";
+        };
+
+        "static.${domain}" = defaultOpts // {
+          extraConfig = ''
+            ssl_early_data on;
+          '';
+          root = "${storage}/static";
+          locations."= /".return = "301 https://www.${domain}";
+        };
+
+        "home.${domain}" = defaultOpts // {
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:${builtins.toString config.services.home-assistant.config.http.server_port}";
+          };
+        };
+
+        "mail.${domain}" = defaultOpts // {
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:8085";
+          };
+        };
+
+        "mta-sts.${domain}" = defaultOpts // {
+          extraConfig = ''
+            ssl_early_data on;
+          '';
+          locations."= /.well-known/mta-sts.txt".return = ''200 "${
+            lib.strings.concatStringsSep "\\n" [
+              "version: STSv1"
+              "mode: enforce"
+              "mx: mail.${domain}"
+              "max_age: 86400"
+            ]
+          }"'';
+        };
+
+        "immich.${domain}" = defaultOpts // {
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://${config.services.immich.host}:${builtins.toString config.services.immich.port}";
+          };
+
+          extraConfig = ''
+            proxy_buffering off;
+            proxy_request_buffering off;
+            client_max_body_size 0;
+          '';
+        };
+
+        "nixbin.${domain}" = defaultOpts // {
+          extraConfig = ''
+            proxy_buffering off;
+            proxy_request_buffering off;
+            client_max_body_size 0;
+          '';
+
+          locations = {
+            "= /files".return = "301 https://nixbin.${domain}/files/";
+            "/files/" = {
               alias = "/nix/store/";
               extraConfig = "autoindex on;";
-          };
+            };
 
-          "= /" = {
-            extraConfig = ''
-              add_header Content-Type text/html;
-              add_header Alt-Svc 'h3=":443"; ma=2592000; persist=1';
-            '';
-            return = ''200
-              '<!DOCTYPE html>
-              <html lang="en">
-                <head>
-                  <meta charset="UTF-8">
-                  <title>Nix Cache</title>
-                </head>
-                <body>
-                  <center>
-                    <h1 style="font-size: 8em">
-                      ❄️ Nix Cache
-                    </h1>
-                    <p style="font-weight: bold">
-                      Public Key: nixbin.sinanmohd.com:dXV3KDPVrm+cGJ2M1ZmTeQJqFGaEapqiVoWHgYDh03k=
-                    </p>
-                  </center>
-                </body>
-              </html>'
-            '';
-          };
+            "= /" = {
+              extraConfig = ''
+                add_header Content-Type text/html;
+                add_header Alt-Svc 'h3=":443"; ma=2592000; persist=1';
+              '';
+              return = ''
+                200
+                              '<!DOCTYPE html>
+                              <html lang="en">
+                                <head>
+                                  <meta charset="UTF-8">
+                                  <title>Nix Cache</title>
+                                </head>
+                                <body>
+                                  <center>
+                                    <h1 style="font-size: 8em">
+                                      ❄️ Nix Cache
+                                    </h1>
+                                    <p style="font-weight: bold">
+                                      Public Key: nixbin.sinanmohd.com:dXV3KDPVrm+cGJ2M1ZmTeQJqFGaEapqiVoWHgYDh03k=
+                                    </p>
+                                  </center>
+                                </body>
+                              </html>'
+              '';
+            };
 
-          "/".proxyPass = "http://${config.services.nix-serve.bindAddress}:${
-              toString config.services.nix-serve.port
-          }";
-        };
-      };
-
-
-      "www.alinafs.com" = defaultOpts // {
-        useACMEHost = null;
-        enableACME = true;
-        globalRedirect = "alinafs.com/home";
-        extraConfig = ''
-          ssl_early_data on;
-        '';
-      };
-      "alinafs.com" = defaultOpts // {
-        useACMEHost = null;
-        enableACME = true;
-
-        locations = {
-          "/metrics".return = "307 /home/";
-          "/" = {
-            proxyWebsockets = true;
-            proxyPass = "http://127.0.0.1:${builtins.toString config.services.alina.port}";
+            "/".proxyPass =
+              "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
           };
         };
 
-        extraConfig = ''
-          proxy_buffering off;
-          proxy_request_buffering off;
-          client_max_body_size 0;
-        '';
+        "www.alinafs.com" = defaultOpts // {
+          useACMEHost = null;
+          enableACME = true;
+          globalRedirect = "alinafs.com/home";
+          extraConfig = ''
+            ssl_early_data on;
+          '';
+        };
+        "alinafs.com" = defaultOpts // {
+          useACMEHost = null;
+          enableACME = true;
+
+          locations = {
+            "/metrics".return = "307 /home/";
+            "/" = {
+              proxyWebsockets = true;
+              proxyPass = "http://127.0.0.1:${builtins.toString config.services.alina.port}";
+            };
+          };
+
+          extraConfig = ''
+            proxy_buffering off;
+            proxy_request_buffering off;
+            client_max_body_size 0;
+          '';
+        };
       };
-    };
   };
 }

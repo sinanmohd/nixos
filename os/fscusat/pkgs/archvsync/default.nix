@@ -1,4 +1,5 @@
-{ lib,
+{
+  lib,
   stdenvNoCC,
   fetchFromGitLab,
   makeWrapper,
@@ -22,15 +23,29 @@ stdenvNoCC.mkDerivation {
   };
 
   strictDeps = true;
-  nativeBuildInputs = [ makeWrapper pandoc ];
-  outputs = [ "out" "man" "doc" ];
+  nativeBuildInputs = [
+    makeWrapper
+    pandoc
+  ];
+  outputs = [
+    "out"
+    "man"
+    "doc"
+  ];
 
-  patches = [ ./Makefile.patch ./common.patch ];
+  patches = [
+    ./Makefile.patch
+    ./common.patch
+  ];
 
   postInstall = ''
     for s in $out/bin/*; do
-      wrapProgram $s --prefix PATH : ${lib.makeBinPath
-        [ rsync bash hostname ]
+      wrapProgram $s --prefix PATH : ${
+        lib.makeBinPath [
+          rsync
+          bash
+          hostname
+        ]
       }
     done
   '';

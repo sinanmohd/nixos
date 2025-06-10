@@ -1,10 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.ftpsync;
-  archvsync = pkgs.callPackage ../../../pkgs/archvsync {};
+  archvsync = pkgs.callPackage ../../../pkgs/archvsync { };
 
-  formatKeyValue = k: v: '' ${k}="${v}" '';
+  formatKeyValue = k: v: ''${k}="${v}" '';
   configFormat = pkgs.formats.keyValue { mkKeyValue = formatKeyValue; };
   configFile = configFormat.generate "ftpsync.conf" cfg.settings;
 in
@@ -16,7 +21,7 @@ in
 
     settings = lib.mkOption {
       inherit (configFormat) type;
-      default = {};
+      default = { };
       description = lib.mdDoc ''
         Configuration options for ftpsync.
         See ftpsync.conf(5) man page for available options.
@@ -33,33 +38,35 @@ in
       LOGDIR = lib.mkDefault "$LOGS_DIRECTORY";
     };
 
-    systemd = let
-      name = "ftpsync";
-      meta = {
-        description = "Mirror Debian repositories of packages";
-        documentation = [ "man:ftpsync(1)" ];
-      };
-    in {
-      timers.${name} = meta // {
-        wantedBy = [ "timers.target" ];
+    systemd =
+      let
+        name = "ftpsync";
+        meta = {
+          description = "Mirror Debian repositories of packages";
+          documentation = [ "man:ftpsync(1)" ];
+        };
+      in
+      {
+        timers.${name} = meta // {
+          wantedBy = [ "timers.target" ];
 
-        timerConfig = {
-          OnCalendar = "*-*-* 00,06,12,18:00:00";
-          Unit="%i.service";
-          Persistent = true;
-          FixedRandomDelay = true;
-          RandomizedDelaySec = "6h";
+          timerConfig = {
+            OnCalendar = "*-*-* 00,06,12,18:00:00";
+            Unit = "%i.service";
+            Persistent = true;
+            FixedRandomDelay = true;
+            RandomizedDelaySec = "6h";
+          };
+        };
+
+        services.${name} = meta // {
+          serviceConfig = {
+            LogsDirectory = name;
+            StateDirectory = name;
+
+            ExecStart = "${archvsync}/bin/ftpsync sync:all";
+          };
         };
       };
-
-      services.${name} = meta // {
-        serviceConfig = {
-          LogsDirectory = name;
-          StateDirectory = name;
-
-          ExecStart = "${archvsync}/bin/ftpsync sync:all";
-        };
-      };
-    };
   };
 }

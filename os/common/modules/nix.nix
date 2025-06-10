@@ -1,8 +1,12 @@
-{ ... }: {
+{ ... }:
+{
   nix.settings = {
     auto-optimise-store = true;
     use-xdg-base-directories = true;
-    experimental-features = [ "flakes" "nix-command" ];
+    experimental-features = [
+      "flakes"
+      "nix-command"
+    ];
 
     substituters = [
       "https://nixbin.sinanmohd.com"

@@ -1,7 +1,9 @@
-{ pkgs, ... }: let
-  wayland-scripts = pkgs.callPackage ../pkgs/wayland-scripts {};
+{ pkgs, ... }:
+let
+  wayland-scripts = pkgs.callPackage ../pkgs/wayland-scripts { };
   ttyasrt = "${wayland-scripts}/bin/ttyasrt";
-in {
+in
+{
   home.packages = [ wayland-scripts ];
 
   xdg.desktopEntries = {

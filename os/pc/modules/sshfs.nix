@@ -1,9 +1,11 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   domain = config.global.userdata.domain;
   user = config.global.userdata.name;
   uid = config.users.users.${user}.uid;
   gid = config.users.groups.users.gid;
-in {
+in
+{
   sops.secrets."misc/sftp".sopsFile = ../secrets.yaml;
   system.fsPackages = with pkgs; [ sshfs ];
 
@@ -12,12 +14,12 @@ in {
     fsType = "sshfs";
 
     options = [
-      "allow_other"         # for non-root access
+      "allow_other" # for non-root access
       "uid=${toString uid}"
       "gid=${toString gid}"
-      "_netdev"             # this is a network fs
+      "_netdev" # this is a network fs
       "x-systemd.automount" # mount on demand
-      "reconnect"              # handle connection drops
+      "reconnect" # handle connection drops
       "ServerAliveInterval=15" # keep connections alive
       "IdentityFile=${config.sops.secrets."misc/sftp".path}"
     ];

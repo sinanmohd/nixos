@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   ipv6 = "2001:470:ee65::1337";
   domain = config.global.userdata.domain;
   username = config.global.userdata.name;
@@ -15,12 +16,13 @@
   ];
 
   credentials_directory = "/run/credentials/stalwart-mail.service";
-in {
+in
+{
   security.acme.certs.${domain}.postRun = "systemctl restart stalwart-mail.service";
   sops.secrets = {
-    "mail.${domain}/dkim_rsa" = {};
-    "mail.${domain}/dkim_ed25519" = {};
-    "mail.${domain}/password" = {};
+    "mail.${domain}/dkim_rsa" = { };
+    "mail.${domain}/dkim_ed25519" = { };
+    "mail.${domain}/password" = { };
   };
 
   systemd.services.stalwart-mail.serviceConfig.LoadCredential = [
@@ -35,10 +37,12 @@ in {
 
   services.postgresql = {
     ensureDatabases = [ "stalwart" ];
-    ensureUsers = [{
-      name = "stalwart";
-      ensureDBOwnership = true;
-    }];
+    ensureUsers = [
+      {
+        name = "stalwart";
+        ensureDBOwnership = true;
+      }
+    ];
   };
 
   services.stalwart-mail = {
@@ -70,7 +74,10 @@ in {
 
       server.listener = {
         smtp = {
-          bind = [ "[${ipv6}]:25" "0.0.0.0:25" ];
+          bind = [
+            "[${ipv6}]:25"
+            "0.0.0.0:25"
+          ];
           protocol = "smtp";
         };
         submission = {
@@ -98,7 +105,13 @@ in {
           private-key = "%{file:${credentials_directory}/dkim_rsa}%";
           inherit domain;
           selector = "rsa";
-          headers = ["From" "To" "Date" "Subject" "Message-ID"];
+          headers = [
+            "From"
+            "To"
+            "Date"
+            "Subject"
+            "Message-ID"
+          ];
           algorithm = "rsa-sha-256";
           canonicalization = "simple/simple";
 
@@ -110,7 +123,13 @@ in {
           private-key = "%{file:${credentials_directory}/dkim_ed25519}%";
           inherit domain;
           selector = "ed25519";
-          headers = ["From" "To" "Date" "Subject" "Message-ID"];
+          headers = [
+            "From"
+            "To"
+            "Date"
+            "Subject"
+            "Message-ID"
+          ];
           algorithm = "ed25519-sha256";
           canonicalization = "simple/simple";
 
@@ -152,7 +171,8 @@ in {
             secret = "%{file:${credentials_directory}/password}%";
             inherit email;
           }
-          { # for mta-sts & dmarc reports
+          {
+            # for mta-sts & dmarc reports
             class = "individual";
             name = "reports";
             secret = "%{file:${credentials_directory}/password}%";

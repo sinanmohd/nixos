@@ -1,5 +1,6 @@
-{ config, pkgs, ... }: let
-  listen_addr =  [
+{ config, pkgs, ... }:
+let
+  listen_addr = [
     "137.59.84.126"
     "2001:470:ee65::1"
   ];
@@ -16,7 +17,8 @@
 
         IN	NS	ns1.sinanmohd.com.
   '';
-in {
+in
+{
   imports = [ ./ddns.nix ];
 
   networking.firewall = {
@@ -39,39 +41,55 @@ in {
       remote = [
         {
           id = "ns1.he.net";
-          address = [ "2001:470:100::2" "216.218.130.2" ];
+          address = [
+            "2001:470:100::2"
+            "216.218.130.2"
+          ];
           via = "2001:470:ee65::1";
         }
         {
           id = "m.gtld-servers.net";
-          address = [ "2001:501:b1f9::30"  "192.55.83.30" ];
+          address = [
+            "2001:501:b1f9::30"
+            "192.55.83.30"
+          ];
         }
       ];
 
-      submission = [{
-        id = "gtld-servers.net";
-        parent = "m.gtld-servers.net";
-      }];
+      submission = [
+        {
+          id = "gtld-servers.net";
+          parent = "m.gtld-servers.net";
+        }
+      ];
 
-      policy = [{
-        id = "gtld-servers.net";
-        algorithm = "ecdsap384sha384";
-        ksk-lifetime = "365d";
-        ksk-submission = "gtld-servers.net";
-      }];
+      policy = [
+        {
+          id = "gtld-servers.net";
+          algorithm = "ecdsap384sha384";
+          ksk-lifetime = "365d";
+          ksk-submission = "gtld-servers.net";
+        }
+      ];
 
       # generate TSIG key with keymgr -t name
       acl = [
         {
           id = "ns1.he.net";
           key = "ns1.he.net";
-          address = [ "2001:470:600::2" "216.218.133.2" ];
+          address = [
+            "2001:470:600::2"
+            "216.218.133.2"
+          ];
           action = "transfer";
         }
         {
           id = "ddns";
           address = listen_addr;
-          update-type = [ "A" "AAAA" ];
+          update-type = [
+            "A"
+            "AAAA"
+          ];
           action = "update";
         }
         {
@@ -82,11 +100,13 @@ in {
         }
       ];
 
-      mod-rrl = [{
-        id = "default";
-        rate-limit = 200;
-        slip = 2;
-      }];
+      mod-rrl = [
+        {
+          id = "default";
+          rate-limit = 200;
+          slip = 2;
+        }
+      ];
 
       template = [
         {
@@ -102,7 +122,10 @@ in {
           dnssec-policy = "gtld-servers.net";
 
           notify = [ "ns1.he.net" ];
-          acl = [ "ns1.he.net" "ddns" ];
+          acl = [
+            "ns1.he.net"
+            "ddns"
+          ];
 
           zonefile-sync = "-1";
           zonefile-load = "difference";

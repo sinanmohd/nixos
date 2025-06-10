@@ -1,4 +1,11 @@
-{ modulesPath, nixos-hardware, config, pkgs, lib, ... }:
+{
+  modulesPath,
+  nixos-hardware,
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -13,10 +20,12 @@
   };
   services.xserver.videoDrivers = [ "modesetting" ];
 
-  swapDevices = [{
-    device = "/swapfile";
-    size = 14 * 1024; # 14GB
-  }];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 14 * 1024; # 14GB
+    }
+  ];
 
   boot = {
     kernelPackages = lib.mkForce pkgs.linuxPackages;
@@ -24,8 +33,7 @@
     blacklistedKernelModules = [ "k10temp" ];
     extraModulePackages = with config.boot.kernelPackages; [ zenpower ];
 
-    initrd.luks.devices."crypt".device =
-        "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
+    initrd.luks.devices."crypt".device = "/dev/disk/by-uuid/84acd784-caad-41a1-a2e4-39468d01fefd";
   };
 
   fileSystems = {

@@ -1,6 +1,8 @@
-{ config, pkgs, ... }: let
+{ config, pkgs, ... }:
+let
   user = config.global.userdata.name;
-in {
+in
+{
   imports = [
     ../common/configuration.nix
 
@@ -19,8 +21,8 @@ in {
   };
 
   services.pipewire = {
-      enable = true;
-      pulse.enable = true;
+    enable = true;
+    pulse.enable = true;
   };
 
   documentation.dev.enable = true;

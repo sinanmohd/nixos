@@ -3,7 +3,10 @@
 let
   inetVlan = 1003;
   wanInterface = "enp3s0";
-  nameServer = [ "1.0.0.1" "1.1.1.1" ];
+  nameServer = [
+    "1.0.0.1"
+    "1.1.1.1"
+  ];
 in
 {
   imports = [
@@ -12,9 +15,9 @@ in
   ];
 
   sops.secrets = {
-    "ppp/chap-secrets" = {};
-    "ppp/pap-secrets" = {};
-    "ppp/username" = {};
+    "ppp/chap-secrets" = { };
+    "ppp/pap-secrets" = { };
+    "ppp/username" = { };
   };
 
   networking = {

@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
   wgInterface = "wg";
   wanInterface = "ppp0";
   subnet = "10.0.1.0";
@@ -10,13 +16,17 @@
     Address = 10.0.1.1/24
     MTU = 1412
     ListenPort = 51820
-    PostUp = ${lib.getExe (pkgs.writeShellApplication {
-      name = "wg_set_key";
-      runtimeInputs = with pkgs; [ wireguard-tools ];
-      text = ''
-        wg set ${wgInterface} private-key <(cat ${config.sops.secrets."misc/wireguard".path})
-      '';
-    })}
+    PostUp = ${
+      lib.getExe (
+        pkgs.writeShellApplication {
+          name = "wg_set_key";
+          runtimeInputs = with pkgs; [ wireguard-tools ];
+          text = ''
+            wg set ${wgInterface} private-key <(cat ${config.sops.secrets."misc/wireguard".path})
+          '';
+        }
+      )
+    }
 
     [Peer]
     # friendly_name = cez
@@ -43,8 +53,9 @@
     PublicKey = U6+PzFuM6lKVx0TnDWuWJMsP6Tj8o1a9zjRcD7gV53o=
     AllowedIPs = 10.0.1.6/32
   '';
-in {
-  sops.secrets."misc/wireguard" = {};
+in
+{
+  sops.secrets."misc/wireguard" = { };
 
   networking = {
     nat = {
@@ -59,7 +70,7 @@ in {
 
   services.dnsmasq.settings = {
     no-dhcp-interface = wgInterface;
-    interface = [ wgInterface  ];
+    interface = [ wgInterface ];
   };
 
   services.prometheus.exporters.wireguard = {

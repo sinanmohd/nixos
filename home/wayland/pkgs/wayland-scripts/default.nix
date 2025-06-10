@@ -37,13 +37,27 @@ stdenvNoCC.mkDerivation {
 
   postInstall = ''
     wrapProgram $out/bin/cwall \
-      --prefix PATH : ${lib.makeBinPath [ ffmpeg libnotify sway ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          ffmpeg
+          libnotify
+          sway
+        ]
+      }
     wrapProgram $out/bin/daskpass \
       --prefix PATH : ${lib.makeBinPath [ bemenu ]}
     wrapProgram $out/bin/ttyasrt \
       --prefix PATH : ${lib.makeBinPath [ libnotify ]}
     wrapProgram $out/bin/freezshot \
-      --prefix PATH : ${lib.makeBinPath [ ffmpeg sway grim slurp imv ]}
+      --prefix PATH : ${
+        lib.makeBinPath [
+          ffmpeg
+          sway
+          grim
+          slurp
+          imv
+        ]
+      }
   '';
 
   meta = {
