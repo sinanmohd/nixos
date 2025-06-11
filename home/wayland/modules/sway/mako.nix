@@ -15,10 +15,11 @@ in
 
   services.mako = {
     enable = true;
-    defaultTimeout = 3000;
-
-    inherit font;
-    borderSize = 2;
-    backgroundColor = "#000000";
+    settings = {
+      inherit font;
+      default-timeout = 3000;
+      border-size = 3;
+      background-color = "#000000";
+    };
   };
 }
