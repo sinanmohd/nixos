@@ -16,6 +16,8 @@ in
   ];
 
   programs.home-manager.enable = true;
+  nix.settings.use-xdg-base-directories = true;
+
   home = {
     inherit username;
     stateVersion = "25.05";
