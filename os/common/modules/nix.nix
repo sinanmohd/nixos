@@ -1,8 +1,13 @@
-{ ... }:
+{ config, ... }:
+let
+  user = config.global.userdata.name;
+in
 {
   nix.settings = {
     auto-optimise-store = true;
     use-xdg-base-directories = true;
+    trusted-users = [ user ];
+
     experimental-features = [
       "flakes"
       "nix-command"
