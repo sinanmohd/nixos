@@ -7,8 +7,6 @@
 let
   wgInterface = "wg";
   wanInterface = "ppp0";
-  subnet = "10.0.1.0";
-  prefix = 24;
   port = 51820;
 
   wgConf = pkgs.writeText "wg.conf" ''
@@ -42,16 +40,6 @@ let
     # friendly_name = dad
     PublicKey = q70IyOS2IpubIRWqo5sL3SeEjtUy2V/PT8yqVExiHTQ=
     AllowedIPs = 10.0.1.4/32
-
-    [Peer]
-    # friendly_name = pradeep
-    PublicKey = BAOdbgUd53ZmQWkZP3N+zAsxdBpqv6icEwmmjRFEmxI=
-    AllowedIPs = 10.0.1.5/32
-
-    [Peer]
-    # friendly_name = angelo
-    PublicKey = U6+PzFuM6lKVx0TnDWuWJMsP6Tj8o1a9zjRcD7gV53o=
-    AllowedIPs = 10.0.1.6/32
   '';
 in
 {
