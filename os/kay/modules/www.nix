@@ -92,6 +92,8 @@ in
               }'
             '';
 
+            "/.well-known/".proxyPass = "http://127.0.0.1:8085";
+
             "~ ^(\\/_matrix|\\/_synapse\\/client)".proxyPass =
               "http://127.0.0.1:${toString config.services.dendrite.httpPort}";
           };
@@ -160,7 +162,7 @@ in
           };
         };
 
-        "mail.${domain}" = defaultOpts // {
+        "stalwart.${domain}" = defaultOpts // {
           locations."/" = {
             proxyWebsockets = true;
             proxyPass = "http://127.0.0.1:8085";

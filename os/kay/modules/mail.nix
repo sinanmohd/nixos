@@ -71,32 +71,36 @@ in
         source-ip.v6 = "['${ipv6}']";
         tls.starttls = "optional";
       };
+      http.url = "'https://stalwart.${domain}'";
 
-      server.listener = {
-        smtp = {
-          bind = [
-            "[${ipv6}]:25"
-            "0.0.0.0:25"
-          ];
-          protocol = "smtp";
-        };
-        submission = {
-          bind = "[::]:587";
-          protocol = "smtp";
-        };
-        submissions = {
-          bind = "[::]:465";
-          protocol = "smtp";
-          tls.implicit = true;
-        };
-        imaptls = {
-          bind = "[::]:993";
-          protocol = "imap";
-          tls.implicit = true;
-        };
-        http = {
-          bind = "[::]:8085";
-          protocol = "http";
+      server = {
+        hostname = "mail.${domain}";
+        listener = {
+          smtp = {
+            bind = [
+              "[${ipv6}]:25"
+              "0.0.0.0:25"
+            ];
+            protocol = "smtp";
+          };
+          submission = {
+            bind = "[::]:587";
+            protocol = "smtp";
+          };
+          submissions = {
+            bind = "[::]:465";
+            protocol = "smtp";
+            tls.implicit = true;
+          };
+          imaptls = {
+            bind = "[::]:993";
+            protocol = "imap";
+            tls.implicit = true;
+          };
+          http = {
+            bind = "[::]:8085";
+            protocol = "http";
+          };
         };
       };
 
@@ -167,14 +171,14 @@ in
         principals = [
           {
             class = "admin";
-            name = username;
+            name = "${username}@${domain}";
             secret = "%{file:${credentials_directory}/password}%";
             inherit email;
           }
           {
             # for mta-sts & dmarc reports
             class = "individual";
-            name = "reports";
+            name = "reports@${domain}";
             secret = "%{file:${credentials_directory}/password}%";
             email = [ "reports@${domain}" ];
           }
