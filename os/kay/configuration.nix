@@ -19,6 +19,7 @@
     ./modules/immich.nix
     ./modules/observability
     ./modules/alina.nix
+    ./modules/minio.nix
   ];
 
   networking.hostName = "kay";

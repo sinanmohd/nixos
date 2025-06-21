@@ -169,6 +169,50 @@ in
           };
         };
 
+        "s3.${domain}" = defaultOpts // {
+          extraConfig = ''
+            # Allow special characters in headers
+            ignore_invalid_headers off;
+            # Allow any size file to be uploaded.
+            # Set to a value such as 1000m; to restrict file size to a specific value
+            client_max_body_size 0;
+            # Disable buffering
+            proxy_buffering off;
+            proxy_request_buffering off;
+          '';
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:9000";
+            extraConfig = ''
+              proxy_connect_timeout 300;
+              chunked_transfer_encoding off;
+            '';
+          };
+        };
+
+        "minio.${domain}" = defaultOpts // {
+          extraConfig = ''
+            # Allow special characters in headers
+            ignore_invalid_headers off;
+            # Allow any size file to be uploaded.
+            # Set to a value such as 1000m; to restrict file size to a specific value
+            client_max_body_size 0;
+            # Disable buffering
+            proxy_buffering off;
+            proxy_request_buffering off;
+          '';
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:9003";
+            extraConfig = ''
+              # This is necessary to pass the correct IP to be hashed
+              real_ip_header X-Real-IP;
+              proxy_connect_timeout 300;
+              chunked_transfer_encoding off;
+            '';
+          };
+        };
+
         "mta-sts.${domain}" = defaultOpts // {
           extraConfig = ''
             ssl_early_data on;
