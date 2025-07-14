@@ -16,7 +16,7 @@ in
     ./modules/network.nix
     ./modules/wayland.nix
     ./modules/nopolkit.nix
-    ./modules/nocodb.nix
+    ./modules/work.nix
     ./modules/firejail.nix
   ];
 
