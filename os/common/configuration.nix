@@ -28,6 +28,7 @@ in
     hostName = lib.mkOptionDefault "common";
   };
 
+  zramSwap.enable = true;
   swapDevices = lib.mkDefault [
     {
       device = "/swapfile";
@@ -51,6 +52,7 @@ in
   boot = {
     loader.timeout = 1;
     initrd.systemd.enable = true;
+    tmp.cleanOnBoot = true;
   };
 
   programs.bash.promptInit = ''
