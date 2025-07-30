@@ -3,7 +3,7 @@
   imports = [ ../common/configuration.nix ];
 
   networking.hostName = lib.mkOptionDefault "server";
-  sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = false;
 
   services.openssh = {
     enable = true;
