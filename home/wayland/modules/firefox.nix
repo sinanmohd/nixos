@@ -11,7 +11,7 @@
       OverrideFirstRunPage = "";
       NoDefaultBookmarks = true;
       DontCheckDefaultBrowser = true;
-      SanitizeOnShutdown = true;
+      # SanitizeOnShutdown = true;
 
       FirefoxHome = {
         Locked = true;
@@ -70,6 +70,7 @@
 
     profiles."default".settings = {
       "media.ffmpeg.vaapi.enabled" = true;
+      "browser.ml.chat.provider" = "https://grok.com/";
 
       "browser.uiCustomization.state" = builtins.toJSON {
         currentVersion = 1337;
