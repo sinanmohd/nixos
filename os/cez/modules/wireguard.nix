@@ -52,7 +52,6 @@ in
     bud = {
       autostart = true;
       address = [ "10.54.132.2/24" ];
-      dns = [ "10.54.132.1" ];
       mtu = 1420;
       privateKeyFile = config.sops.secrets."misc/wireguard".path;
 
