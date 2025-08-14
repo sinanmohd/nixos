@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -29,6 +30,7 @@
       home-manager,
       nixos-hardware,
       alina,
+      determinate,
     }:
     let
       lib = nixpkgs.lib;
@@ -65,6 +67,7 @@
           ./os/${host}/configuration.nix
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
+          determinate.nixosModules.default
         ];
       });
 
