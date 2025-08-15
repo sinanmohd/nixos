@@ -7,7 +7,6 @@ in
     auto-optimise-store = true;
     use-xdg-base-directories = true;
     trusted-users = [ user ];
-    bash-prompt-prefix = "";
 
     experimental-features = [
       "flakes"

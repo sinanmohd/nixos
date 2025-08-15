@@ -16,7 +16,11 @@ in
   ];
 
   programs.home-manager.enable = true;
-  nix.settings.use-xdg-base-directories = true;
+
+  nix.settings = {
+    use-xdg-base-directories = true;
+    bash-prompt-prefix = "";
+  };
 
   home = {
     inherit username;
