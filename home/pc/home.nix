@@ -5,5 +5,8 @@
     ../wayland/home.nix
   ];
 
-  home.packages = with pkgs; [ ffmpeg ];
+  home.packages = with pkgs; [
+    ffmpeg
+    mosh
+  ];
 }
