@@ -20,7 +20,8 @@ in
         # samsung files only support PEM, hence RSA key
         # https://r1.community.samsung.com/t5/galaxy-s/unable-to-remotely-connect-to-sftp-server-through-my-files/m-p/16347552/highlight/true#M105871
         "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCqe7CcXJw+dhXKUVeuj1iGOcV7KhyiJ55PxhGDXfQdu1YS5gi/pBnOk39pL22+QBFZX0trU/JNHpCMZWyFp/Fz9GBxp2LJERHwkANu0lk0PJ7QZdg79YN5lKpWTo2GpA3gHHC555Rm5V5BknwbZwVXWvGhSR93g/2b6AjcSZn4ZUwFF8soSb2EYsRa7blVbBv2njV2SGI9FezfHBF+N3CNOP7kxk63Pilk9NEUQuvYF1tmF7z/zIXbyLNaLT1MJE8KCbayM7E/WZuonSBqFf3fsmQge0La/LveRehQHb503uHNHzlFHXdMMZQrzOAHHyFQUHhYECvhLNDhGJb1KrjZcEiKmqCMmvHCG4JssRdJB5mq6J0g05ZmMrKt0srIT6lginkHy89AKkqt83xHHvXhZEw40zoGcq2rZD1dPN3toNZL/uGaIK0u1eMxFbuVKK3OjMg2UwzaHX1DDZyJdRes5huG/uXTgN7xamUu/TIBOK+WgibJeNf93i3GbsYezTs= sftp@paq"
-      ] ++ pubKeys;
+      ]
+      ++ pubKeys;
     };
 
     users."nazer" = {

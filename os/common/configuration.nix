@@ -46,7 +46,7 @@ in
 
   sops = {
     defaultSopsFile = ../${host}/secrets.yaml;
-    age.keyFile = "/var/secrets/${host}.sops";
+    age.keyFile = "/var/lib/sops-nix/key.txt";
   };
 
   boot = {

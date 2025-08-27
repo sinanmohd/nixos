@@ -57,7 +57,8 @@
           pkgs = nixpkgs.legacyPackages.${system};
           modules = [
             ./home/common/home.nix
-          ] ++ lib.optional (builtins.pathExists ./home/${host}) ./home/${host}/home.nix;
+          ]
+          ++ lib.optional (builtins.pathExists ./home/${host}) ./home/${host}/home.nix;
         };
     in
     {
