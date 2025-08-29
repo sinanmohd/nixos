@@ -2,6 +2,7 @@
 {
   imports = [
     ./modules/pass.nix
+    ./modules/k9s.nix
     ../wayland/home.nix
   ];
 
