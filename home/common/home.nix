@@ -12,6 +12,7 @@ in
     ./modules/xdg_ninja.nix
     ./modules/ssh.nix
     ./modules/dev.nix
+    ./modules/neovim
     ../../global/common
   ];
 

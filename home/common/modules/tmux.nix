@@ -43,5 +43,8 @@
     set -g status-left ""
     set -g status-right ""
     set -g status-justify right
+
+    # nvim.checkhealth: without this |'autoread'| may not work
+    set-option -g focus-events on
   '';
 }
