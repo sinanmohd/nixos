@@ -7,6 +7,8 @@
     # lazy
     gcc
     gnumake
+    # toggleterm
+    tmux
   ];
 
   xdg.configFile.nvim.source = ./config;
