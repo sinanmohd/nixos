@@ -28,4 +28,5 @@ require('lazy').setup({
   require 'pacman.plugins.lint',
   require 'pacman.plugins.autopairs',
   require 'pacman.plugins.neo-tree',
+  require 'pacman.plugins.neogit',
 })
