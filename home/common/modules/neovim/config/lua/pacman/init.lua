@@ -29,4 +29,6 @@ require('lazy').setup({
   require 'pacman.plugins.autopairs',
   require 'pacman.plugins.neo-tree',
   require 'pacman.plugins.neogit',
+}, {
+  lockfile = vim.fn.stdpath('data') .. "/lazy-lock.json",
 })
