@@ -1,4 +1,3 @@
-{ ... }:
 {
   imports = [
     ../pc/configuration.nix
