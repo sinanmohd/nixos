@@ -13,6 +13,7 @@ in
     ./modules/ssh.nix
     ./modules/dev.nix
     ./modules/neovim
+    ./modules/nnn.nix
     ../../global/common
   ];
 
@@ -33,7 +34,6 @@ in
       htop
       curl
       file
-      nnn
       ps_mem
 
       dig

@@ -21,7 +21,7 @@ let
   i3status = lib.getExe config.programs.i3status.package;
   swaylock = lib.getExe config.programs.swaylock.package;
 
-  nnn = lib.getExe pkgs.nnn;
+  nnn = lib.getExe (config.programs.nnn.package);
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   brightnessctl = lib.getExe pkgs.brightnessctl;
   freezshot = "${wayland-scripts}/bin/freezshot";
@@ -52,7 +52,6 @@ in
   home = {
     packages = [
       pkgs.wl-clipboard
-      pkgs.nnn
       pkgs.bemenu
       pkgs.swayidle
       pkgs.brightnessctl
@@ -159,7 +158,7 @@ in
         "${mod}+return" = "exec ${foot}";
         "${mod}+o" = "exec ${bemenu}";
         "${mod}+w" = "exec ${firefox}";
-        "${mod}+n" = "exec ${foot} -- ${nnn} -decC";
+        "${mod}+n" = "exec ${foot} -- ${nnn} -dec";
 
         XF86MonBrightnessDown = "exec ${brightnessctl} set 1%-";
         XF86MonBrightnessUp = "exec ${brightnessctl} set 1%+";
