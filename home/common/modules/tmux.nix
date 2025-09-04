@@ -43,6 +43,8 @@
     set -g status-left ""
     set -g status-right ""
     set -g status-justify right
+    set -g window-status-current-format '#{window_index}:#(basename #{pane_current_path})(#{pane_current_command})*'
+    set -g window-status-format '#{window_index}:#(basename #{pane_current_path})(#{pane_current_command})'
 
     # nvim.checkhealth: without this |'autoread'| may not work
     set-option -g focus-events on

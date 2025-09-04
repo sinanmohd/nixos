@@ -9,6 +9,8 @@ return {
         local session_name = "_nvim_toggleterm_" .. vim.fn.getcwd() .. "_$(date +%s%4N)"
         term:send("exec tmux new-session -A -s " .. session_name)
         term:send("tmux set-option destroy-unattached")
+        term:send("tmux set window-status-current-format '#{window_index}:#{pane_current_command}'")
+        term:send("tmux set window-status-format '#{window_index}:#{pane_current_command}'")
         term:clear()
       end,
     },
