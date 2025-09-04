@@ -26,6 +26,7 @@
       qemu
       hoppscotch
       element-desktop
+      gimp3
     ];
   };
 }
