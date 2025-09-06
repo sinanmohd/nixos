@@ -5,11 +5,11 @@ in
 {
   programs.ssh = {
     enable = true;
-    compression = true;
+    enableDefaultConfig = false;
 
-    extraConfig = ''
-      Host kay
-        HostName ${domain}
-    '';
+    matchBlocks = {
+      "*".compression = true;
+      "kay".hostname = domain;
+    };
   };
 }
