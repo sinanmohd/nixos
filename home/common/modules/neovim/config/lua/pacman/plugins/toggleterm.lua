@@ -1,3 +1,14 @@
+math.randomseed(os.time())
+local session_name = "_nvim_toggleterm_" .. vim.fn.getcwd() .. math.random()
+session_name = session_name:gsub('%W', '')
+
+local cmd = "tmux new-session -ds " .. session_name ..
+    [[ \; set -t ]] .. session_name .. " destroy-unattached " ..
+    [[ \; set -t ]] ..
+    session_name .. " window-status-current-format '#{window_index}:#{pane_current_command}' " ..
+    [[ \; set -t ]] .. session_name .. " window-status-format '#{window_index}:#{pane_current_command}' " ..
+    [[ \; attach -t ]] .. session_name
+
 return {
   {
     "akinsho/toggleterm.nvim",
@@ -5,14 +16,7 @@ return {
     opts = {
       direction = "float",
       open_mapping = [[<c-\>]],
-      on_create = function(term)
-        local session_name = "_nvim_toggleterm_" .. vim.fn.getcwd() .. "_$(date +%s%4N)"
-        term:send("exec tmux new-session -A -s " .. session_name)
-        term:send("tmux set-option destroy-unattached")
-        term:send("tmux set window-status-current-format '#{window_index}:#{pane_current_command}'")
-        term:send("tmux set window-status-format '#{window_index}:#{pane_current_command}'")
-        term:clear()
-      end,
+      shell = cmd,
     },
   }
 }
