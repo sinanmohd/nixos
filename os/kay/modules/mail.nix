@@ -49,22 +49,6 @@ in
     enable = true;
     openFirewall = true;
 
-    # foundation db is too big to build on a 32GB ram machine, good job
-    # trillion dollar company, proud of you
-    package = pkgs.stalwart-mail.overrideAttrs {
-      buildNoDefaultFeatures = true;
-      buildFeatures = [ "postgres" ];
-      buildInputs = with pkgs; [
-        bzip2
-        openssl
-        zstd
-      ];
-      # some tests fails with -lfdb_c: No such file, just disable this for row
-      # probably because of not including foundationdb, upstream has this
-      # enabled so it's not the end of the world
-      doCheck = false;
-    };
-
     settings = {
       queue.outbound = {
         ip-strategy = "ipv6_then_ipv4";
