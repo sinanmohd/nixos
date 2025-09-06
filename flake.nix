@@ -42,6 +42,7 @@
 
           specialArgs = {
             inherit alina;
+            inherit determinate;
             inherit nixos-hardware;
           };
 
@@ -68,7 +69,6 @@
           ./os/${host}/configuration.nix
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
-          determinate.nixosModules.default
         ];
       });
 
