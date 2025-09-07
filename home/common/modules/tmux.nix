@@ -19,6 +19,9 @@
     setw -g pane-base-index 1
     set -g history-limit 10000
 
+    # kill the current pane
+    bind -n C-x kill-pane
+
     # vim
     set -g mode-keys vi
     bind -T copy-mode-vi v send -X begin-selection

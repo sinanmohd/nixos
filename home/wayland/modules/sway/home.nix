@@ -21,7 +21,58 @@ let
   i3status = lib.getExe config.programs.i3status.package;
   swaylock = lib.getExe config.programs.swaylock.package;
 
-  nnn = lib.getExe (config.programs.nnn.package);
+  termux_sway_yazi = pkgs.writeShellApplication {
+    name = "termux_sway_yazi";
+
+    runtimeInputs = with pkgs; [
+      tmux
+      coreutils
+      jq
+      sway
+      inotify-tools
+    ];
+
+    text = ''
+      session_name="_root_session_managed_by_home_manager"
+      tmux_sock_path="$XDG_RUNTIME_DIR/tmux-$UID/default"
+
+      is_foot_running() {
+        while read -r window_name; do
+          if [ "$window_name" == "foot" ]; then
+              return 0
+          fi
+          echo "$window_name"
+        done < <(swaymsg -t get_tree | jq -r '.. | (.nodes? // empty)[] | select(.pid) | {name} + .rect | "\(.name)"')
+
+        return 1
+      }
+
+      is_tmux_running() {
+        ss -lx | grep -q "$tmux_sock_path"
+      }
+
+      tmux_wait() {
+        while inotifywait -re create "$XDG_RUNTIME_DIR"; do
+          if is_tmux_running; then
+            break
+          fi
+        done
+      }
+
+      if ! is_foot_running; then
+        setsid foot &
+      fi
+      if ! is_tmux_running; then
+        tmux_wait
+      else
+        tmux new-window -t "$session_name"
+      fi
+
+      tmux send-keys -t "$session_name" '${config.programs.yazi.shellWrapperName} && echo -en "\033[2A\033[0J"' Enter
+    '';
+  };
+  yazi = lib.getExe termux_sway_yazi;
+
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   brightnessctl = lib.getExe pkgs.brightnessctl;
   freezshot = "${wayland-scripts}/bin/freezshot";
@@ -56,6 +107,7 @@ in
       pkgs.swayidle
       pkgs.brightnessctl
       wayland-scripts
+      termux_sway_yazi
     ];
 
     sessionVariables = {
@@ -158,7 +210,7 @@ in
         "${mod}+return" = "exec ${foot}";
         "${mod}+o" = "exec ${bemenu}";
         "${mod}+w" = "exec ${firefox}";
-        "${mod}+n" = "exec ${foot} -- ${nnn} -dec";
+        "${mod}+backslash" = "exec ${yazi}";
 
         XF86MonBrightnessDown = "exec ${brightnessctl} set 1%-";
         XF86MonBrightnessUp = "exec ${brightnessctl} set 1%+";

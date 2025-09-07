@@ -13,7 +13,7 @@ in
     ./modules/ssh.nix
     ./modules/dev.nix
     ./modules/neovim
-    ./modules/nnn.nix
+    ./modules/yazi.nix
     ../../global/common
   ];
 

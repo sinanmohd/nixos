@@ -27,7 +27,7 @@
       "text/x-python" = "nvim.desktop";
 
       # misc
-      "inode/directory" = "nnn.desktop";
+      "inode/directory" = "yazi.desktop";
     };
   };
 }

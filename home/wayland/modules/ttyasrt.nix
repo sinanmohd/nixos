@@ -7,13 +7,13 @@ in
   home.packages = [ wayland-scripts ];
 
   xdg.desktopEntries = {
-    "nnn".settings = {
+    "yazi".settings = {
       Type = "Application";
-      Name = "nnn";
+      Name = "yazi";
       Comment = "Terminal file manager";
-      TryExec = "nnn";
-      Exec = "${ttyasrt} nnn -decC";
-      Icon = "nnn";
+      TryExec = "yazi";
+      Exec = "${ttyasrt} yazi";
+      Icon = "yazi";
       MimeType = "inode/directory";
       Categories = "System;FileTools;FileManager";
       Keywords = "File;Manager;Management;Explorer;Launcher";
