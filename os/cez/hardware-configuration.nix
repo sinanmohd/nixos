@@ -14,9 +14,9 @@
   ];
 
   hardware = {
+    bluetooth.enable = true;
     # override nixos-hardware values
     nvidia.prime.offload.enable = false;
-    bluetooth.enable = true;
   };
   services.xserver.videoDrivers = [ "modesetting" ];
 
@@ -44,6 +44,31 @@
     "/" = {
       device = "/dev/disk/by-uuid/e063c9ad-b48f-4b6c-b94e-4c21d2238bce";
       fsType = "ext4";
+    };
+  };
+
+  specialisation.nvidia.configuration = {
+    boot = {
+      kernelParams = [ "transparent_hugepage=always" ];
+      kernel.sysctl."vm.max_map_count" = 2147483642;
+    };
+
+    environment.variables = {
+      DRI_PRIME = 1;
+      __NV_PRIME_RENDER_OFFLOAD = 1;
+      __VK_LAYER_NV_optimus = "NVIDIA_only";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
+
+    hardware.nvidia = {
+      open = true;
+      nvidiaSettings = false;
+      prime.sync.enable = true;
+    };
+
+    services = {
+      xserver.videoDrivers = [ "nvidia" ];
+      tlp.settings.PLATFORM_PROFILE_ON_AC = lib.mkForce "performance";
     };
   };
 }
