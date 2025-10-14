@@ -20,6 +20,7 @@
     ./modules/observability
     ./modules/alina.nix
     ./modules/minio.nix
+    ./modules/headscale.nix
   ];
 
   networking.hostName = "kay";

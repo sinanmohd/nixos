@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	hostmaster (
-			2025062100 ; serial
+			2025101400 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -37,17 +37,18 @@ mta-sts	IN	CNAME	@
 _mta-sts     IN	TXT	"v=STSv1; id=2024022500"
 _smtp._tls   IN	TXT	"v=TLSRPTv1; rua=mailto:reports@sinanmohd.com"
 
-www	 IN	CNAME	@
-git	 IN	CNAME	@
-bin	 IN	CNAME	@
-static	 IN	CNAME	@
-home	 IN	CNAME	@
-nixbin	 IN	CNAME	@
-immich	 IN	CNAME	@
-sliding	 IN	CNAME	@
-grafana	 IN	CNAME	@
-stalwart IN	CNAME	@
-minio	 IN	CNAME	@
-s3	 IN	CNAME	@
+www	 	IN	CNAME	@
+git	 	IN	CNAME	@
+bin	 	IN	CNAME	@
+static	 	IN	CNAME	@
+home	 	IN	CNAME	@
+nixbin	 	IN	CNAME	@
+immich	 	IN	CNAME	@
+sliding	 	IN	CNAME	@
+grafana	 	IN	CNAME	@
+stalwart 	IN	CNAME	@
+minio	 	IN	CNAME	@
+s3	 	IN	CNAME	@
+headscale	IN	CNAME	@
 
 _acme-challenge	IN	NS	ns1

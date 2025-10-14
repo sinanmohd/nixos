@@ -112,6 +112,17 @@ in
           };
         };
 
+        "headscale.${domain}" = defaultOpts // {
+          locations = {
+            "/" = {
+              proxyWebsockets = true;
+              proxyPass = "http://localhost:${toString config.services.headscale.port}";
+            };
+            "= /".return = "307 https://headscale.${domain}/admin";
+            "/admin".proxyPass = "http://localhost:${toString config.services.headplane.settings.server.port}";
+          };
+        };
+
         "${config.services.grafana.settings.server.domain}" = defaultOpts // {
           extraConfig = ''
             proxy_buffering off;
