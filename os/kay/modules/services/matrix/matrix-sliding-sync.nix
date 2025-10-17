@@ -7,7 +7,7 @@
 
 let
   cfg = config.services.matrix-sliding-sync-dirty;
-  matrix-sliding-sync = pkgs.callPackage ../../pkgs/matrix-sliding-sync.nix { };
+  matrix-sliding-sync = pkgs.callPackage ../../../pkgs/matrix-sliding-sync.nix { };
 in
 {
   imports = [

@@ -6,7 +6,7 @@ in
   sops.secrets."misc/headscale" = { };
   networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
 
-  services.tailscale = {
+  tailscale = {
     enable = true;
     interfaceName = "headscale";
     openFirewall = true;

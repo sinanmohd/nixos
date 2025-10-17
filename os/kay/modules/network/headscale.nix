@@ -5,7 +5,7 @@
   ...
 }:
 let
-  domain = "headscale.${config.global.userdata.domain}";
+  url = "https://headscale.${config.global.userdata.domain}";
   stunPort = 3478;
 
   # A workaround generate a valid Headscale config accepted by Headplane when `config_strict == true`.
@@ -32,6 +32,22 @@ let
       "tag:cusat" = [ "group:owner" ];
       "tag:gaijin" = [ "group:owner" ];
     };
+    autoApprovers = {
+      routes = {
+        "192.168.43.0/24" = [
+          "group:owner"
+          "tag:internal"
+        ];
+        "192.168.38.0/24" = [
+          "group:owner"
+          "tag:internal"
+        ];
+      };
+      exitNode = [
+        "group:owner"
+        "tag:internal"
+      ];
+    };
     acls = [
       {
         action = "accept";
@@ -49,13 +65,19 @@ let
 in
 {
   sops.secrets = {
+    # server
     "headplane/cookie_secret".owner = config.services.headscale.user;
     "headplane/preauth_key".owner = config.services.headscale.user;
     "headscale/noise_private_key".owner = config.services.headscale.user;
     "headscale/derp_private_key".owner = config.services.headscale.user;
+    # client
+    "headscale/pre_auth_key" = { };
   };
 
-  networking.firewall.interfaces.ppp0.allowedUDPPorts = [ stunPort ];
+  networking.firewall = {
+    interfaces.ppp0.allowedUDPPorts = [ stunPort ];
+    trustedInterfaces = [ config.services.tailscale.interfaceName ];
+  };
 
   services = {
     headscale = {
@@ -64,7 +86,7 @@ in
 
       settings = {
         logtail.enabled = false;
-        server_url = "https://${domain}";
+        server_url = url;
         noise.private_key_path = config.sops.secrets."headscale/noise_private_key".path;
         dns = {
           base_domain = "tsnet.${config.global.userdata.domain}";
@@ -97,7 +119,7 @@ in
           cookie_secret_path = config.sops.secrets."headplane/cookie_secret".path;
         };
         headscale = {
-          url = "https://${domain}";
+          inherit url;
           config_path = "${headscaleConfig}";
         };
         integration.agent = {
@@ -106,6 +128,24 @@ in
         };
       };
     };
+
+    tailscale = {
+      enable = true;
+      interfaceName = "headscale";
+      openFirewall = true;
+
+      authKeyFile = config.sops.secrets."headscale/pre_auth_key".path;
+      extraUpFlags = [
+        "--login-server=${url}"
+        "--advertise-exit-node"
+        "--advertise-routes=192.168.43.0/24,192.168.38.0/24"
+      ];
+    };
+  };
+
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = true;
+    "net.ipv6.conf.all.forwarding" = true;
   };
 
   environment.systemPackages = [ config.services.headscale.package ];
