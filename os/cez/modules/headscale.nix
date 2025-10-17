@@ -6,7 +6,7 @@ in
   sops.secrets."misc/headscale" = { };
   networking.firewall.trustedInterfaces = [ config.services.tailscale.interfaceName ];
 
-  tailscale = {
+  services.tailscale = {
     enable = true;
     interfaceName = "headscale";
     openFirewall = true;
@@ -14,6 +14,7 @@ in
     authKeyFile = config.sops.secrets."misc/headscale".path;
     extraUpFlags = [
       "--login-server=${headScaleUrl}"
+      "--accept-routes"
     ];
   };
 }
