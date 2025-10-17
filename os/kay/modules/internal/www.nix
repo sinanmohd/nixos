@@ -10,11 +10,6 @@ let
   storage = "/hdd/users/sftp/shr";
 in
 {
-  imports = [
-    ./matrix
-    ./cgit.nix
-  ];
-
   security.acme.certs.${domain}.postRun = "systemctl reload nginx.service";
   networking.firewall = {
     allowedTCPPorts = [

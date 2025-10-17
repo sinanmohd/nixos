@@ -18,11 +18,6 @@ let
   wapIp = "192.168.43.2";
 in
 {
-  imports = [
-    ./wireguard.nix
-    ./iperf3.nix
-  ];
-
   networking = {
     bridges.${bridgeInterface}.interfaces = [ lanInterface ];
 

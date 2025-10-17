@@ -5,22 +5,24 @@
     ../server/configuration.nix
     ./hardware-configuration.nix
 
-    ./modules/network.nix
-    ./modules/www.nix
-    ./modules/sftp.nix
-    ./modules/acme.nix
-    ./modules/mail.nix
     ./modules/dns
-    ./modules/sshfwd.nix
-    ./modules/home-assistant.nix
-    ./modules/postgresql.nix
-    ./modules/github-runner.nix
-    ./modules/nix-cache.nix
-    ./modules/immich.nix
+    ./modules/network
     ./modules/observability
-    ./modules/alina.nix
-    ./modules/minio.nix
-    ./modules/headscale.nix
+
+    ./modules/internal/www.nix
+    ./modules/internal/acme.nix
+    ./modules/internal/postgresql.nix
+
+    ./modules/services/sftp.nix
+    ./modules/services/mail.nix
+    ./modules/services/home-assistant.nix
+    ./modules/services/github-runner.nix
+    ./modules/services/nix-cache.nix
+    ./modules/services/immich.nix
+    ./modules/services/alina.nix
+    ./modules/services/minio.nix
+    ./modules/services/matrix
+    ./modules/services/cgit.nix
   ];
 
   networking.hostName = "kay";
