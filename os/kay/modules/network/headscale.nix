@@ -97,9 +97,14 @@ in
     "headscale/pre_auth_key" = { };
   };
 
-  networking.firewall = {
-    interfaces.ppp0.allowedUDPPorts = [ stunPort ];
-    trustedInterfaces = [ config.services.tailscale.interfaceName ];
+  networking = {
+    nameservers = [ "100.100.100.100" ];
+    search = [ config.services.headscale.settings.dns.base_domain ];
+
+    firewall = {
+      interfaces.ppp0.allowedUDPPorts = [ stunPort ];
+      trustedInterfaces = [ config.services.tailscale.interfaceName ];
+    };
   };
   # for exit node only
   boot.kernel.sysctl = {
