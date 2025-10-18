@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  headplane,
   ...
 }:
 let
@@ -64,6 +65,11 @@ let
   };
 in
 {
+  imports = [ headplane.nixosModules.headplane ];
+
+  nixpkgs.overlays = [ headplane.overlays.default ];
+  environment.systemPackages = [ config.services.headscale.package ];
+
   sops.secrets = {
     # server
     "headplane/cookie_secret".owner = config.services.headscale.user;
@@ -77,6 +83,11 @@ in
   networking.firewall = {
     interfaces.ppp0.allowedUDPPorts = [ stunPort ];
     trustedInterfaces = [ config.services.tailscale.interfaceName ];
+  };
+  # for exit node only
+  boot.kernel.sysctl = {
+    "net.ipv4.ip_forward" = true;
+    "net.ipv6.conf.all.forwarding" = true;
   };
 
   services = {
@@ -142,11 +153,4 @@ in
       ];
     };
   };
-
-  boot.kernel.sysctl = {
-    "net.ipv4.ip_forward" = true;
-    "net.ipv6.conf.all.forwarding" = true;
-  };
-
-  environment.systemPackages = [ config.services.headscale.package ];
 }

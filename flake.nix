@@ -48,6 +48,7 @@
 
           specialArgs = {
             inherit alina;
+            inherit headplane;
             inherit determinate;
             inherit nixos-hardware;
           };
@@ -75,12 +76,6 @@
           ./os/${host}/configuration.nix
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
-
-          headplane.nixosModules.headplane
-          {
-            # provides `pkgs.headplane`
-            nixpkgs.overlays = [ headplane.overlays.default ];
-          }
         ];
       });
 
