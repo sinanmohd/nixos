@@ -25,6 +25,11 @@
       url = "github:sinanmohd/alina";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    namescale = {
+      url = "github:sinanmohd/namescale";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -37,6 +42,7 @@
       alina,
       determinate,
       headplane,
+      namescale,
     }:
     let
       lib = nixpkgs.lib;
@@ -48,6 +54,7 @@
 
           specialArgs = {
             inherit alina;
+            inherit namescale;
             inherit headplane;
             inherit determinate;
             inherit nixos-hardware;

@@ -3,6 +3,7 @@
   pkgs,
   lib,
   headplane,
+  namescale,
   ...
 }:
 let
@@ -28,8 +29,9 @@ let
       ];
     };
     tagOwners = {
-      "tag:bud_clients" = [ "group:bud" ];
+      "tag:namescale" = [ "group:owner" ];
       "tag:internal" = [ "group:owner" ];
+      "tag:bud_clients" = [ "group:bud" ];
       "tag:cusat" = [ "group:owner" ];
       "tag:gaijin" = [ "group:owner" ];
     };
@@ -67,11 +69,20 @@ let
         src = [ "group:bud" ];
         dst = [ "tag:bud_clients:*" ];
       }
+
+      {
+        action = "accept";
+        src = [ "*" ];
+        dst = [ "tag:namescale:${toString config.services.namescale.settings.port}" ];
+      }
     ];
   };
 in
 {
-  imports = [ headplane.nixosModules.headplane ];
+  imports = [
+    headplane.nixosModules.headplane
+    namescale.nixosModules.namescale
+  ];
 
   nixpkgs.overlays = [ headplane.overlays.default ];
   environment.systemPackages = [ config.services.headscale.package ];
@@ -108,6 +119,9 @@ in
         dns = {
           base_domain = "tsnet.${config.global.userdata.domain}";
           override_local_dns = false;
+          nameservers.split."${config.services.headscale.settings.dns.base_domain}" = [
+            config.services.namescale.settings.host
+          ];
         };
         derp = {
           server = {
@@ -156,7 +170,17 @@ in
         "--login-server=${url}"
         "--advertise-exit-node"
         "--advertise-routes=192.168.43.0/24,192.168.38.0/24"
+        "--advertise-tags=tag:internal,tag:namescale"
       ];
+    };
+
+    namescale = {
+      enable = true;
+      settings = {
+        host = "100.64.0.6";
+        port = 53;
+        base_domain = config.services.headscale.settings.dns.base_domain;
+      };
     };
   };
 }

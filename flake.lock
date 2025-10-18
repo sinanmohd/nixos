@@ -226,6 +226,26 @@
         "type": "github"
       }
     },
+    "namescale": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760768972,
+        "narHash": "sha256-bNnfcWlRJ8HWxzyjMyFz0zb7RNyZ2NJdGPIu03Ds3lY=",
+        "owner": "sinanmohd",
+        "repo": "namescale",
+        "rev": "12e26359e79cd3c88508b0f770d0e5136e53b176",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sinanmohd",
+        "repo": "namescale",
+        "type": "github"
+      }
+    },
     "nix": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -345,6 +365,7 @@
         "determinate": "determinate",
         "headplane": "headplane",
         "home-manager": "home-manager",
+        "namescale": "namescale",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "sops-nix": "sops-nix"
