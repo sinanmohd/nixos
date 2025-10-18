@@ -52,6 +52,12 @@ let
     acls = [
       {
         action = "accept";
+        src = [ "headplane@" ];
+        dst = [ "*:*" ];
+      }
+
+      {
+        action = "accept";
         src = [ "group:owner" ];
         dst = [ "*:*" ];
       }
