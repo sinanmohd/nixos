@@ -12,7 +12,6 @@ in
   imports = [
     ./router.nix
     ./hurricane.nix
-    ./wireguard.nix
     ./headscale.nix
   ];
 
