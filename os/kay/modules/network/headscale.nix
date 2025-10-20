@@ -68,6 +68,11 @@ let
         src = [ "group:owner" ];
         dst = [ "*:*" ];
       }
+      {
+        action = "accept";
+        src = [ "nazer@" ];
+        dst = [ "autogroup:internet:*" ];
+      }
 
       {
         action = "accept";
