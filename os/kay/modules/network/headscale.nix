@@ -54,6 +54,11 @@ let
     acls = [
       {
         action = "accept";
+        src = [ "*" ];
+        dst = [ "tag:namescale:${toString config.services.namescale.settings.port}" ];
+      }
+      {
+        action = "accept";
         src = [ "headplane@" ];
         dst = [ "*:*" ];
       }
@@ -69,11 +74,10 @@ let
         src = [ "group:bud" ];
         dst = [ "tag:bud_clients:*" ];
       }
-
       {
         action = "accept";
-        src = [ "*" ];
-        dst = [ "tag:namescale:${toString config.services.namescale.settings.port}" ];
+        src = [ "tag:bud_clients" ];
+        dst = [ "tag:bud_clients:80,443" ];
       }
     ];
   };
