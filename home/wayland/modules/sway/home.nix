@@ -106,6 +106,7 @@ in
       pkgs.bemenu
       pkgs.swayidle
       pkgs.brightnessctl
+      pkgs.pwvucontrol
       wayland-scripts
       termux_sway_yazi
     ];
