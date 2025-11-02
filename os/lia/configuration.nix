@@ -8,6 +8,7 @@
     ./modules/network
     ./modules/users.nix
     ./modules/lxc.nix
+    ./modules/headscale.nix
   ];
 
   networking.hostName = "lia";
