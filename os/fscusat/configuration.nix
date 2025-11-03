@@ -5,7 +5,8 @@
     ../server/configuration.nix
     ./hardware-configuration.nix
 
-    ./modules/network.nix
+    ./modules/network/lan.nix
+    ./modules/network/headscale.nix
     ./modules/www.nix
     ./modules/mirror
   ];
