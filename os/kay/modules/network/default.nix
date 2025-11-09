@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 let
   inetVlan = 1003;
@@ -55,6 +55,15 @@ in
         lcp-echo-interval 1
         lcp-echo-failure 5
       '';
+
+      script."01-ipv6-ra" = {
+        type = "ip-up";
+        runtimeInputs = [ pkgs.procps ];
+
+        text = ''
+          sysctl net.ipv6.conf.ppp0.accept_ra=2
+        '';
+      };
 
       peers.keralavision = {
         enable = true;
