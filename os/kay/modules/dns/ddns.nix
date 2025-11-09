@@ -10,7 +10,7 @@
     ];
 
     text = ''
-      while ! ipv6="$(ip -6 addr show dev "$1" scope global | grep -o '[0-9a-f:]*::1')"; do
+      while ! ipv6="$(ip -6 addr show dev "$1" scope global | grep -o '[0-9a-f:]*::1337')"; do
          sleep 0.2
       done
 
