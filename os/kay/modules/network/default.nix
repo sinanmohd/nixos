@@ -47,7 +47,7 @@ in
 
         nic-wan
         defaultroute
-        ipv6 ::1,
+        ipv6 ::1337,
         noauth
 
         persist
