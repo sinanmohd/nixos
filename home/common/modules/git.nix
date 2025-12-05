@@ -1,15 +1,16 @@
 { config, ... }:
 let
-  userName = config.global.userdata.nameFq;
-  userEmail = config.global.userdata.email;
+  name = config.global.userdata.nameFq;
+  email = config.global.userdata.email;
 in
 {
   programs.git = {
     enable = true;
-    inherit userName;
-    inherit userEmail;
-
-    extraConfig = {
+    settings = {
+      user = {
+        inherit name;
+        inherit email;
+      };
       color.ui = "auto";
       init.defaultBranch = "master";
     };
