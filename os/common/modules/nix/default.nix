@@ -17,8 +17,6 @@ let
   };
 in
 {
-  imports = [ determinate.nixosModules.default ];
-
   nix = {
     package = lib.mkForce nixWithFix;
 
