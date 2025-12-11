@@ -1,25 +1,12 @@
 {
   config,
-  pkgs,
-  determinate,
-  lib,
   ...
 }:
 let
   user = config.global.userdata.name;
-
-  nixWithFix = determinate.inputs.nix.packages.${pkgs.stdenv.system}.nix-everything.override {
-    nix-cli = determinate.inputs.nix.packages.${pkgs.stdenv.system}.nix-cli.overrideAttrs (oldAttrs: {
-      patches = (oldAttrs.patches or [ ]) ++ [
-        ./nix.patch
-      ];
-    });
-  };
 in
 {
   nix = {
-    package = lib.mkForce nixWithFix;
-
     gc = {
       automatic = true;
       dates = "weekly";

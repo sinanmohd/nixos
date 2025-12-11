@@ -12,7 +12,7 @@ in
     "services/networking/pppd.nix"
   ];
   imports = [
-    ./modules/nix
+    ./modules/nix.nix
     ./modules/user.nix
     ./modules/environment.nix
     ./modules/pppd.nix
