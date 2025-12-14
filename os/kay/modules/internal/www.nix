@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
@@ -33,7 +32,6 @@ in
   services.nginx = {
     enable = true;
     statusPage = true;
-    package = pkgs.nginxQuic;
     enableQuicBPF = true;
 
     recommendedTlsSettings = true;
