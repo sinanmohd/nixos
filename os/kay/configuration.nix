@@ -16,7 +16,6 @@
     ./modules/services/sftp.nix
     ./modules/services/mail.nix
     ./modules/services/home-assistant.nix
-    ./modules/services/github-runner.nix
     ./modules/services/nix-cache.nix
     ./modules/services/immich.nix
     ./modules/services/alina.nix
