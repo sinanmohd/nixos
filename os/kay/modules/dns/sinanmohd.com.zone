@@ -2,7 +2,7 @@ $ORIGIN sinanmohd.com.
 $TTL 2d
 
 @	IN	SOA	ns1	hostmaster (
-			2025101400 ; serial
+			2025122500 ; serial
 			2h         ; refresh
 			5m         ; retry
 			1d         ; expire
@@ -50,5 +50,6 @@ stalwart 	IN	CNAME	@
 minio	 	IN	CNAME	@
 s3	 	IN	CNAME	@
 headscale	IN	CNAME	@
+jellyfin	IN	CNAME	@
 
 _acme-challenge	IN	NS	ns1

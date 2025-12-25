@@ -22,6 +22,7 @@
     ./modules/services/minio.nix
     ./modules/services/matrix
     ./modules/services/cgit.nix
+    ./modules/services/nixarr.nix
   ];
 
   networking.hostName = "kay";

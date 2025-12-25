@@ -173,6 +173,13 @@ in
           };
         };
 
+        "jellyfin.${domain}" = defaultOpts // {
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:8096";
+          };
+        };
+
         "s3.${domain}" = defaultOpts // {
           extraConfig = ''
             # Allow special characters in headers

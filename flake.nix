@@ -30,6 +30,11 @@
       url = "github:sinanmohd/namescale";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixarr = {
+      url = "github:rasmus-kirk/nixarr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -43,6 +48,7 @@
       determinate,
       headplane,
       namescale,
+      nixarr,
     }:
     let
       lib = nixpkgs.lib;
@@ -54,6 +60,7 @@
 
           specialArgs = {
             inherit alina;
+            inherit nixarr;
             inherit namescale;
             inherit headplane;
             inherit determinate;
