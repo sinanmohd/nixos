@@ -29,7 +29,6 @@ let
       ];
     };
     tagOwners = {
-      "tag:namescale" = [ "group:owner" ];
       "tag:internal" = [ "group:owner" ];
       "tag:bud_clients" = [ "group:bud" ];
       "tag:cusat" = [ "group:owner" ];
@@ -55,7 +54,7 @@ let
       {
         action = "accept";
         src = [ "*" ];
-        dst = [ "tag:namescale:${toString config.services.namescale.settings.port}" ];
+        dst = [ "namescale@:53" ];
       }
       {
         action = "accept";
@@ -100,6 +99,7 @@ in
     # server
     "headplane/cookie_secret".owner = config.services.headscale.user;
     "headplane/preauth_key".owner = config.services.headscale.user;
+    "namescale/preauth_key" = { };
     "headscale/noise_private_key".owner = config.services.headscale.user;
     "headscale/derp_private_key".owner = config.services.headscale.user;
     # client
@@ -134,7 +134,8 @@ in
           base_domain = "tsnet.${config.global.userdata.domain}";
           override_local_dns = false;
           nameservers.split."${config.services.headscale.settings.dns.base_domain}" = [
-            config.services.namescale.settings.host
+            "100.64.0.12"
+            "fd7a:115c:a1e0::c"
           ];
         };
         derp = {
@@ -184,17 +185,14 @@ in
         "--login-server=${url}"
         "--advertise-exit-node"
         "--advertise-routes=192.168.43.0/24,192.168.38.0/24"
-        "--advertise-tags=tag:internal,tag:namescale"
+        "--advertise-tags=tag:internal"
       ];
     };
 
     namescale = {
       enable = true;
-      settings = {
-        host = "100.64.0.6";
-        port = 53;
-        base_domain = config.services.headscale.settings.dns.base_domain;
-      };
+      environmentFile = config.sops.secrets."namescale/preauth_key".path;
+      settings.tsnet.coordination_server_url = url;
     };
   };
 }
