@@ -1,11 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   environment = {
-    binsh = lib.getExe pkgs.dash;
-    systemPackages = with pkgs; [
-      dash
-      neovim
-    ];
+    systemPackages = with pkgs; [ neovim ];
 
     variables = {
       EDITOR = "nvim";
