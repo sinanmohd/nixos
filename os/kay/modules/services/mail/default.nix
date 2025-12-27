@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   ipv6 = "2001:470:ee65::1337";
   domain = config.global.userdata.domain;
@@ -20,9 +20,9 @@ in
 {
   security.acme.certs.${domain}.postRun = "systemctl restart stalwart-mail.service";
   sops.secrets = {
-    "mail.${domain}/dkim_rsa" = { };
-    "mail.${domain}/dkim_ed25519" = { };
-    "mail.${domain}/password" = { };
+    "mail.${domain}/dkim_rsa".sopsFile = ./secrets.yaml;
+    "mail.${domain}/dkim_ed25519".sopsFile = ./secrets.yaml;
+    "mail.${domain}/password".sopsFile = ./secrets.yaml;
   };
 
   systemd.services.stalwart-mail.serviceConfig.LoadCredential = [

@@ -57,9 +57,9 @@ in
   };
 
   sops.secrets = {
-    "hurricane/username" = { };
-    "hurricane/update_key" = { };
-    "hurricane/tunnel_id" = { };
+    "hurricane/username".sopsFile = ./secrets.yaml;
+    "hurricane/update_key".sopsFile = ./secrets.yaml;
+    "hurricane/tunnel_id".sopsFile = ./secrets.yaml;
   };
 
   systemd.services."network-route-${iface}" = {

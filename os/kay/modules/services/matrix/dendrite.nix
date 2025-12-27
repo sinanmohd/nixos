@@ -10,7 +10,7 @@ let
   };
 in
 {
-  sops.secrets."matrix-${domain}/key" = { };
+  sops.secrets."matrix-${domain}/key".sopsFile = ./secrets.yaml;
   systemd.services.dendrite.after = [ "postgresql.service" ];
 
   services = {

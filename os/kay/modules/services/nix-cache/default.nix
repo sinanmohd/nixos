@@ -3,7 +3,7 @@ let
   keyname = "misc/nixbin.${config.global.userdata.domain}";
 in
 {
-  sops.secrets.${keyname} = { };
+  sops.secrets.${keyname}.sopsFile = ./secrets.yaml;
 
   services.nix-serve = {
     enable = true;

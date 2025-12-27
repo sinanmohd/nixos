@@ -97,13 +97,25 @@ in
 
   sops.secrets = {
     # server
-    "headplane/cookie_secret".owner = config.services.headscale.user;
-    "headplane/preauth_key".owner = config.services.headscale.user;
-    "namescale/preauth_key" = { };
-    "headscale/noise_private_key".owner = config.services.headscale.user;
-    "headscale/derp_private_key".owner = config.services.headscale.user;
+    "headplane/cookie_secret" = {
+      owner = config.services.headscale.user;
+      sopsFile = ./secrets.yaml;
+    };
+    "headplane/preauth_key" = {
+      owner = config.services.headscale.user;
+      sopsFile = ./secrets.yaml;
+    };
+    "namescale/preauth_key".sopsFile = ./secrets.yaml;
+    "headscale/noise_private_key" = {
+      owner = config.services.headscale.user;
+      sopsFile = ./secrets.yaml;
+    };
+    "headscale/derp_private_key" = {
+      owner = config.services.headscale.user;
+      sopsFile = ./secrets.yaml;
+    };
     # client
-    "headscale/pre_auth_key" = { };
+    "headscale/pre_auth_key".sopsFile = ./secrets.yaml;
   };
 
   networking = {

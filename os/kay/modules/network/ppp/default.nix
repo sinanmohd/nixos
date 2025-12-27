@@ -9,16 +9,10 @@ let
   ];
 in
 {
-  imports = [
-    ./router.nix
-    ./hurricane.nix
-    ./headscale.nix
-  ];
-
   sops.secrets = {
-    "ppp/chap-secrets" = { };
-    "ppp/pap-secrets" = { };
-    "ppp/username" = { };
+    "ppp/chap-secrets".sopsFile = ./secrets.yaml;
+    "ppp/pap-secrets".sopsFile = ./secrets.yaml;
+    "ppp/username".sopsFile = ./secrets.yaml;
   };
 
   networking = {

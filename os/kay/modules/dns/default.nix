@@ -29,6 +29,7 @@ in
   sops.secrets.dns = {
     owner = config.systemd.services.knot.serviceConfig.User;
     group = config.systemd.services.knot.serviceConfig.Group;
+    sopsFile = ./secrets.yaml;
   };
 
   services.knot = {

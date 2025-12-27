@@ -5,7 +5,7 @@ in
 {
   imports = [ alina.nixosModules.alina ];
 
-  sops.secrets."misc/alina" = { };
+  sops.secrets."misc/alina".sopsFile = ./secrets.yaml;
 
   services.postgresql = {
     ensureDatabases = [ "alina" ];

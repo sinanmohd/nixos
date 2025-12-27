@@ -8,7 +8,7 @@ in
     ./matrix-sliding-sync.nix
   ];
 
-  sops.secrets."matrix-${domain}/sliding_sync" = { };
+  sops.secrets."matrix-${domain}/sliding_sync".sopsFile = ./secrets.yaml;
 
   services.matrix-sliding-sync-dirty = {
     enable = true;
