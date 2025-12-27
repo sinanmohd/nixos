@@ -180,6 +180,13 @@ in
           };
         };
 
+        "vaultwarden.${domain}" = defaultOpts // {
+          locations."/" = {
+            proxyWebsockets = true;
+            proxyPass = "http://127.0.0.1:${toString config.services.vaultwarden.config.ROCKET_PORT}";
+          };
+        };
+
         "s3.${domain}" = defaultOpts // {
           extraConfig = ''
             # Allow special characters in headers

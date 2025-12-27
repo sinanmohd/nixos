@@ -26,6 +26,7 @@
     ./modules/services/matrix
     ./modules/services/cgit.nix
     ./modules/services/nixarr.nix
+    ./modules/services/vaultwarden
   ];
 
   networking.hostName = "kay";
