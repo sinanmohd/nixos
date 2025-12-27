@@ -37,11 +37,6 @@
           icon = "briefcase";
           color = "yellow";
         }
-        {
-          name = "work_sandbox";
-          icon = "briefcase";
-          color = "green";
-        }
       ];
 
       ExtensionSettings = {
@@ -64,6 +59,11 @@
           installation_mode = "force_installed";
           default_area = "menupanel";
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/tridactyl-vim/latest.xpi";
+        };
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
+          installation_mode = "force_installed";
+          default_area = "menupanel";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden_password_manager/latest.xpi";
         };
       };
     };
