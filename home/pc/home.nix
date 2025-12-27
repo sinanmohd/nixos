@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
-    ./modules/pass.nix
+    ./modules/vaultwarden.nix
     ./modules/k9s.nix
     ../wayland/home.nix
   ];
