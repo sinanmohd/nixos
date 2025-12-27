@@ -15,6 +15,7 @@
     ./modules/internal/www.nix
     ./modules/internal/acme.nix
     ./modules/internal/postgresql.nix
+    ./modules/internal/k3s
 
     ./modules/services/sftp.nix
     ./modules/services/mail
