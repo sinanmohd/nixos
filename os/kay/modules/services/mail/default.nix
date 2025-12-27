@@ -22,11 +22,13 @@ in
   sops.secrets = {
     "mail.${domain}/dkim_rsa".sopsFile = ./secrets.yaml;
     "mail.${domain}/dkim_ed25519".sopsFile = ./secrets.yaml;
-    "mail.${domain}/password".sopsFile = ./secrets.yaml;
+    "mail.${domain}/password/admin".sopsFile = ./secrets.yaml;
+    "mail.${domain}/password/noreply".sopsFile = ./secrets.yaml;
   };
 
   systemd.services.stalwart-mail.serviceConfig.LoadCredential = [
-    "password:${config.sops.secrets."mail.${domain}/password".path}"
+    "password_admin:${config.sops.secrets."mail.${domain}/password/admin".path}"
+    "password_noreply:${config.sops.secrets."mail.${domain}/password/noreply".path}"
 
     "dkim_rsa:${config.sops.secrets."mail.${domain}/dkim_rsa".path}"
     "dkim_ed25519:${config.sops.secrets."mail.${domain}/dkim_ed25519".path}"
@@ -151,23 +153,37 @@ in
 
       directory."memory" = {
         type = "memory";
-
         principals = [
           {
             class = "admin";
             name = "${username}@${domain}";
-            secret = "%{file:${credentials_directory}/password}%";
+            secret = "%{file:${credentials_directory}/password_admin}%";
             inherit email;
+          }
+          {
+            class = "individual";
+            name = "no-reply@${domain}";
+            secret = "%{file:${credentials_directory}/password_noreply}%";
+            email = [ "no-reply@${domain}" ];
           }
           {
             # for mta-sts & dmarc reports
             class = "individual";
             name = "reports@${domain}";
-            secret = "%{file:${credentials_directory}/password}%";
+            secret = "%{file:${credentials_directory}/password_admin}%";
             email = [ "reports@${domain}" ];
           }
         ];
       };
+
+      sieve.trusted.scripts.noreply_reject_ingress.contents = ''
+        require ["envelope", "reject"];
+
+        if envelope :localpart :is "to" "no-reply" {
+            reject "550 This is a no-reply address";
+            stop;
+        }
+      '';
     };
   };
 }
