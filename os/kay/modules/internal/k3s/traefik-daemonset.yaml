@@ -12,6 +12,6 @@ spec:
         externalTrafficPolicy: Local
     ports:
       web:
-        hostPort: 8080
+        exposedPort: 8080
       websecure:
-        hostPort: 8443
+        exposedPort: 8443
