@@ -35,6 +35,11 @@
       url = "github:rasmus-kirk/nixarr";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -49,6 +54,7 @@
       headplane,
       namescale,
       nixarr,
+      nix-index-database,
     }:
     let
       lib = nixpkgs.lib;
@@ -91,6 +97,11 @@
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
           determinate.nixosModules.default
+
+          nix-index-database.nixosModules.default
+          {
+            programs.nix-index-database.comma.enable = true;
+          }
         ];
       });
 
