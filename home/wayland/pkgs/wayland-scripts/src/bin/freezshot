@@ -1,51 +1,28 @@
 #!/usr/bin/env bash
 
-tmp="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}"
-tmp="$(mktemp -d "${tmp}/freezhot.XXXX")"
-out="${GRIM_DEFAULT_DIR:-${XDG_PICTURES_DIR:-.}}"
+out_dir="${GRIM_DEFAULT_DIR:-${XDG_PICTURES_DIR:-.}}"
 
-wl_res()
-{
-	swaymsg -pt get_outputs | while read -r line; do
-		case "$line" in
-		"Current mode"*)
-			line="${line#*Current mode: }"
-			echo "${line%% *}"
-			return
-		esac
-	done
+info() {
+	notify-send "   freezhot" "$1"
+	printf "\033[32;1merr: %b\032[0m\n" "$1"
+}
+
+focused_clinet_name() {
+	name="$(swaymsg -t get_tree | jq -r '.. | select(.focused? == true) | .name')"
+	if [ -z "$name" ]; then
+		echo "screenshot"
+	else
+		echo "$name"
+	fi
 }
 
 ########
 # MAIN #
 ########
 
-if [ ! -d "$out" ]; then
-	mkdir -p "$out"
+if [ ! -d "$out_dir" ]; then
+	mkdir -p "$out_dir"
 fi
-GRIM_DEFAULT_DIR="$tmp" grim
-trap 'rm -r "$tmp"' EXIT
-imv -f "$tmp"/* &
-view_pid=$!
+out="$out_dir/$(date +'%Y%m%d-%Hh%Mm%Ss')-$(focused_clinet_name).png"
 
-region=$(slurp -f '%wx%h %x:%y') > /dev/null 2>&1
-r=$?
-kill $view_pid
-if [ $r != 0 ]; then
-	exit 1
-fi
-
-img="$(ls "$tmp")"
-res="${region% *}"
-if [ "$res" = "$(wl_res)" ]; then
-	cp "$tmp/$img" "$out"
-else
-	width=${res%x*}
-	hight="${res#*x}"
-	position="${region#* }"
-	ffmpeg \
-		-loglevel quiet \
-		-i "$tmp/$img" \
-		-vf "crop=$width:$hight:$position" \
-		"$out/$img"
-fi
+grim "$out" && info "Screenshot saved to $out"

@@ -5,27 +5,26 @@ bgdesk="$bgroot/desktop"
 bglock="$bgroot/lockscreen"
 walldir="$HOME/pix/wall"
 
-die()
-{
-	command -v notify-send > /dev/null &&
-		notify-send "  cwall" "$1"
+info() {
+	notify-send "   cwall" "$1"
+	printf "\033[32;1m%b\033[0m\n" "$1"
+}
 
+die() {
+	notify-send "   cwall" "err: $1"
 	printf "\033[31;1merr: %b\033[0m\n" "$1" 1>&2
 	exit "${2:-1}"
 }
 
-usage()
-{
-	echo 'Usage: cwall [wallpaper.img|directory]'
+usage() {
+	info 'Usage: cwall [wallpaper.img|directory]'
 }
 
-mimetype()
-{
+mimetype() {
 	file --brief --dereference --mime-type "$1"
 }
 
-randimg()
-{
+randimg() {
 	# usage: randbg dir
 	: "${1:?}"
 	maxattempts=10
@@ -60,8 +59,7 @@ randimg()
 	done
 }
 
-updatewall()
-{
+updatewall() {
 	: "${1:?}"
 
 	rm -f "$bgdesk" "$bglock"
@@ -98,7 +96,7 @@ case "$(mimetype "$input")" in
 		die "no image file in $input"
 	fi
 
-	updatewall "$img"
+	updatewall "$img" && info "Wallpaper updated to $img"
 	;;
 *)
 	die "invalid input $input"

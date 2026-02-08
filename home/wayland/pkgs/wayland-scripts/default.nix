@@ -7,10 +7,9 @@
   sway,
   ffmpeg,
   libnotify,
-  imv,
-  grim,
-  slurp,
   bemenu,
+  jq,
+  coreutils,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -51,11 +50,10 @@ stdenvNoCC.mkDerivation {
     wrapProgram $out/bin/freezshot \
       --prefix PATH : ${
         lib.makeBinPath [
-          ffmpeg
+          libnotify
           sway
-          grim
-          slurp
-          imv
+          jq
+          coreutils
         ]
       }
   '';
