@@ -19,7 +19,7 @@ usage()
 {
 	cat <<- EOF
 	Usage: damb [ command ] [ option ]
-	a bookmark manager using dmenu
+	sete ambiance using dmenu
 	Commands:
 	  help	 show this help cruft
 	  save	 <key> <value>, save a new key

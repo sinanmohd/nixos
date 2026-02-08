@@ -76,6 +76,8 @@ let
   wpctl = "${pkgs.wireplumber}/bin/wpctl";
   brightnessctl = lib.getExe pkgs.brightnessctl;
   freezshot = "${wayland-scripts}/bin/freezshot";
+  damb = "${wayland-scripts}/bin/damb";
+  dbook = "${wayland-scripts}/bin/dbook";
   mako = lib.getExe config.services.mako.package;
   firefox = lib.getExe config.programs.firefox.finalPackage;
 
@@ -217,6 +219,8 @@ in
         # exec
         "print" = "exec ${freezshot}";
         "${mod}+return" = "exec ${foot}";
+        "${mod}+a" = "exec ${damb}";
+        "${mod}+d" = "exec ${dbook}";
         "${mod}+o" = "exec ${bemenu}";
         "${mod}+w" = "exec ${firefox}";
         "${mod}+backslash" = "exec ${yazi}";
