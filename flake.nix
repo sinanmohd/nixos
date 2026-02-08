@@ -31,11 +31,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixarr = {
-      url = "github:rasmus-kirk/nixarr";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,7 +48,6 @@
       determinate,
       headplane,
       namescale,
-      nixarr,
       nix-index-database,
     }:
     let
@@ -66,7 +60,6 @@
 
           specialArgs = {
             inherit alina;
-            inherit nixarr;
             inherit namescale;
             inherit headplane;
             inherit determinate;

@@ -173,13 +173,6 @@ in
           };
         };
 
-        "jellyfin.${domain}" = defaultOpts // {
-          locations."/" = {
-            proxyWebsockets = true;
-            proxyPass = "http://127.0.0.1:8096";
-          };
-        };
-
         "vaultwarden.${domain}" = defaultOpts // {
           locations."/" = {
             proxyWebsockets = true;
