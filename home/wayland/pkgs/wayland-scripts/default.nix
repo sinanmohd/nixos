@@ -10,6 +10,16 @@
   bemenu,
   jq,
   coreutils,
+  mpv,
+  util-linux,
+  gnugrep,
+  file,
+  wl-clipboard,
+  xdg-utils,
+  wtype,
+  curl,
+  tailscale,
+  bc,
 }:
 
 stdenvNoCC.mkDerivation {
@@ -54,6 +64,59 @@ stdenvNoCC.mkDerivation {
           sway
           jq
           coreutils
+        ]
+      }
+    wrapProgram $out/bin/damb \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          libnotify
+          bemenu
+          mpv
+          util-linux
+          gnugrep
+          coreutils
+          file
+        ]
+      }
+    wrapProgram $out/bin/dbook \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          libnotify
+          file
+          bemenu
+          coreutils
+          wl-clipboard
+          xdg-utils
+          wtype
+        ]
+      }
+    wrapProgram $out/bin/pirowatch \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          libnotify
+          curl
+          bemenu
+          coreutils
+          gnugrep
+          # webtorrent
+        ]
+      }
+    wrapProgram $out/bin/tcsv \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          libnotify
+          curl
+          bemenu
+          bc
+          # webtorrent
+        ]
+      }
+    wrapProgram $out/bin/vpn \
+      --prefix PATH : ${
+        lib.makeBinPath [
+          libnotify
+          gnugrep
+          tailscale
         ]
       }
   '';

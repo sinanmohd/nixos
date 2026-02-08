@@ -1,0 +1,300 @@
+#!/bin/sh
+
+damb_conf="${XDG_CONFIG_HOME:-$HOME/.config}/damb/damb.conf"
+damb_data="${XDG_DATA_HOME:-$HOME/.local/share}/damb"
+damb_pids="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/damb.pids"
+damb_dlim="|"
+
+w_menu="bemenu"
+x_menu="dmenu"
+
+ico_damb="󰎆 "
+ico_locl="󱝟 "
+ico_ytbe=" "
+ico_sndc=" "
+ico_gurl="󰌹 "
+ico_what=" "
+
+usage()
+{
+	cat <<- EOF
+	Usage: damb [ command ] [ option ]
+	a bookmark manager using dmenu
+	Commands:
+	  help	 show this help cruft
+	  save	 <key> <value>, save a new key
+	  rm	 <key>, remove a key
+
+	EOF
+}
+
+die()
+{
+	: "${1:?}"
+
+	command -v notify-send > /dev/null &&
+		notify-send "${ico_damb}  damb" "$1"
+
+	printf "\033[31;1merr: %b\033[0m\n" "$1"
+	exit "${2:-1}"
+}
+
+dep_check()
+{
+	: "${1:?}"
+
+	for dep; do
+		command -v "$dep" 1>/dev/null ||
+			die "$dep not found, please install it" 127
+	done
+
+	unset dep
+}
+
+trim()
+{
+	: "${1:?}"
+
+	_trimstr="${1#"${1%%[![:space:]]*}"}"
+	_trimstr="${_trimstr%"${_trimstr##*[![:space:]]}"}"
+
+	echo "$_trimstr"
+}
+
+gen_ico()
+{
+	case "$1" in
+	https://www.youtube.com/*|https://youtu.be/*)
+		echo "$ico_ytbe" ;;
+	https://soundcloud.com/*)
+		echo "$ico_sndc" ;;
+	http*)
+		echo "$ico_gurl" ;;
+	/*)
+		echo "$ico_locl" ;;
+	*)
+		echo "$ico_what" ;;
+	esac
+}
+
+parse_keys()
+{
+	# usage parse_data [ getval <key> ]
+	line=
+	_key=
+	_value=
+
+	[ -s "$damb_conf" ] || return 1
+
+	while read -r line
+	do
+		[ -z "$line" ] && continue
+
+		_key="${line%%"$damb_dlim"*}"
+		_key="$(trim "$_key")"
+
+		case "$_key" in
+		\#*) continue
+		esac
+
+		if [ "$1" = "getval" ]; then
+			[ "$2" != "$_key" ] && continue
+
+			_value="${line##*"$damb_dlim"}"
+			_value="$(trim "$_value")"
+			echo "$_value"
+			return 0
+		else
+			echo "$_key"
+		fi
+	done < "$damb_conf"
+
+	unset _key _value
+	[ "$1" = "getval" ] && return 1
+}
+
+rm_key()
+{
+	# usage rm_data <key>
+	: "${1:?}"
+	cl=
+	line=
+	file=
+	value=
+	old_ifs="$IFS"
+
+	IFS=
+	while read -r line
+	do
+		cl="$line\n"
+
+		key="$(trim "${cl%%"$damb_dlim"*}")"
+		# catch match
+		if [ "$key" = "$1" ]; then
+			value="$(trim "${cl##*"$damb_dlim"}")"
+
+			# delete if saved
+			case "$value" in
+			"$damb_data"*) rm -f "$value"
+			esac
+			continue
+		fi
+
+		file="${file}${cl}"
+	done < "$damb_conf"
+
+	IFS="$old_ifs"
+	# shellcheck disable=SC2059
+	printf "$file" > "$damb_conf"
+	unset cl line file value old_ifs
+}
+
+verify_val()
+{
+	# verify_val <value>
+
+	case "$1" in
+	*"\n"*|*$damb_dlim*) return 1 ;;
+	esac
+
+	case "$(file --brief --dereference --mime-type "$1")" in
+	audio/*|video/*) ;;
+	*)
+		echo "$1" | grep -qxE '^(https?://)?[^/]*\.[A-Za-z0-9]*(/.*)?' ||
+			return 1
+	esac
+}
+
+write_kv()
+{
+	# verify_val <key> <value>
+	: "${1:?}"
+	: "${2:?}"
+
+	key="$(echo "$1" | tr -d "$damb_dlim")"
+	key="$(trim "$key")"
+	val="$(trim "$2")"
+
+	case "$key" in
+	[[:print:]]*) key="$(gen_ico "$val") ${key}" ;;
+	esac
+
+	parse_keys getval "$key" > /dev/null &&
+		die "keys must be unique"
+	verify_val "$val" ||
+		die "invalid: $val"
+
+	echo "${key:?} $damb_dlim $val" >> "$damb_conf"
+}
+
+kill_ambs()
+{
+	while read -r pid; do
+		kill -9 "$pid"
+	done < "$damb_pids"
+
+	rm "$damb_pids"
+}
+
+play_amb()
+{
+	: "${1:?}"
+
+	mpv --no-video --no-cache --no-resume-playback "$@" &
+	echo "$!" >> "$damb_pids"
+}
+
+set_menu()
+{
+	if [ -n "$WAYLAND_DISPLAY" ]; then
+		menu="$w_menu"
+	elif [ -n "$DISPLAY" ]; then
+		menu="$x_menu"
+	else
+		die "tty not supported"
+	fi
+
+	dep_check "$menu"
+}
+
+set_clip()
+{
+	if [ -n "$WAYLAND_DISPLAY" ]; then
+		dep_check "wl-paste"
+		_clip="$(wl-paste -n)"
+	elif [ -n "$DISPLAY" ]; then
+		dep_check "xclip"
+		_clip="$(xclip -o)"
+	fi
+
+	verify_val "$_clip"
+}
+
+gen_opts()
+{
+
+	[ -s "$damb_pids" ] && while read -r pid; do
+		if [ -d "/proc/${pid}" ]; then
+			echo "  stop the ambiances"
+			break;
+		fi
+	done < "$damb_pids"
+
+	set_clip &&
+		echo "$(gen_ico "$_clip") $_clip (from clipboard)"
+
+	parse_keys
+}
+
+gen_menu()
+{
+	[ -s "$damb_conf" ] || die "empty, try damb save"
+	key="$(gen_opts | bemenu -l 25)" || return 1
+
+	case "$key" in
+	*"stop the ambiances")
+		kill_ambs ;;
+	*"from clipboard)")
+		set_clip
+		play_amb "$_clip" ;;
+	*)
+		play_amb --loop "$(parse_keys getval "$key")" ;;
+	esac
+}
+
+########
+# MAIN #
+########
+
+[ -d "$damb_data" ] || mkdir -p "$damb_data"
+[ -d "${damb_conf%/*}" ] || mkdir -p "${damb_conf%/*}"
+
+set_menu
+dep_check mpv
+
+case "$1" in
+rm)
+	key="$(parse_keys | "$menu" -l 25)" || exit 1
+	rm_key "$key"
+	;;
+save)
+	[ "$#" -ne 3 ] &&
+		die "invalid usage, try damb help"
+
+	if [ -f "$3" ]; then
+		cp "$3" "$damb_data"
+		val="${damb_data}/${3##*/}"
+	fi
+
+	write_kv "$2" "${val:-$3}"
+	;;
+"")
+	gen_menu
+	;;
+help)
+	usage
+	;;
+*)
+	die "invalid usage $*, try damb help"
+	;;
+esac

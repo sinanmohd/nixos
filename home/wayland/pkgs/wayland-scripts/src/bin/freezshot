@@ -4,7 +4,7 @@ out_dir="${GRIM_DEFAULT_DIR:-${XDG_PICTURES_DIR:-.}}"
 
 info() {
 	notify-send "   freezhot" "$1"
-	printf "\033[32;1merr: %b\032[0m\n" "$1"
+	printf "\033[32;1m%b\033[0m\n" "$1"
 }
 
 focused_clinet_name() {

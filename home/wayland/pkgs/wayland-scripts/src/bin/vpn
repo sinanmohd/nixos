@@ -1,0 +1,19 @@
+#!/bin/sh
+
+exit_node="${1:-kay}"
+
+note()
+{
+	command -v notify-send > /dev/null &&
+		notify-send "󰒒  vpn" "$1"
+	printf "%s\n" "$1"
+}
+
+if tailscale exit-node list | grep -q "selected"; then
+	tailscale set --exit-node= &&
+		note "Connection was dropped"
+
+else
+	tailscale set --exit-node="$exit_node" &&
+		note "Traffic routed through $exit_node"
+fi

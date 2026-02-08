@@ -1,0 +1,313 @@
+#!/bin/sh
+
+book_conf="${XDG_CONFIG_HOME:-$HOME/.config}/dbook/dbook.conf"
+book_data="${XDG_DATA_HOME:-$HOME/.local/share}/dbook"
+w_menu="bemenu"
+x_menu="dmenu"
+ico_dbk=" "
+ico_url="󰖟 "
+ico_doc=" "
+ico_pic=" "
+ico_vid=" "
+ico_mus="󰸪 "
+ico_fil=" "
+ico_txt=" "
+ico_dir=" "
+
+usage()
+{
+	cat <<- EOF
+	Usage: dbook [ command ] [ option ]
+	a bookmark manager using dmenu
+	Commands:
+	  help	 show this help cruft
+	  insert [ value [ key ] ], inset a new key
+	  save	 [ value [ key ] ], inset but make a cp if it's a file
+	  rm	 [ key ], delete a key
+	Options:
+	  -t	 [ key ], type the vlaue
+	  -c	 [ key ], copy the value to clipboard
+
+	EOF
+}
+
+note()
+{
+	: "${1:?}"
+
+	command -v notify-send > /dev/null &&
+		notify-send -- "${ico_dbk} dbook" "$1"
+}
+
+die()
+{
+	: "${1:?}"
+
+	note "$1"
+	printf "\033[31;1merr: %b\033[0m\n" "$1" 1>&2
+	exit "${2:-1}"
+}
+
+warn()
+{
+	: "${1:?}"
+
+	note "$1"
+	printf "\033[33;1merr: %b\033[0m\n" "$1" 1>&2
+}
+
+dep_check()
+{
+	: "${1:?}"
+
+	for dep; do
+		command -v "$dep" 1>/dev/null ||
+			die "$dep not found, please install it" 127
+	done
+
+	unset dep
+}
+
+trim()
+{
+	: "${1:?}"
+
+	_trimstr="${1#"${1%%[![:space:]]*}"}"
+	_trimstr="${_trimstr%"${_trimstr##*[![:space:]]}"}"
+
+	echo "$_trimstr"
+}
+
+load_icon()
+{
+	case "$(file --brief --dereference --mime-type "$1")" in
+	image/*) printf "%s" "$ico_pic" ;;
+	video/*) printf "%s" "$ico_vid" ;;
+	audio/*) printf "%s" "$ico_mus" ;;
+	text/*)	 printf "%s" "$ico_txt" ;;
+	inode/*) printf "%s" "$ico_dir" ;;
+	application/pdf) printf "%s" "$ico_doc" ;;
+
+	*'No such file or directory)')
+		if echo "$1" | grep -qxE '^(https?://)?[^/]*\.[A-Za-z0-9]*(/.*)?'; then
+			printf "%s" "$ico_url"
+		else
+			printf "%s" "$ico_fil"
+		fi
+	esac
+}
+
+parse_data()
+{
+	# usage parse_data [ getval <key> ]
+	line=
+	_key=
+	_value=
+
+	while read -r line
+	do
+		[ -z "$line" ] && continue
+
+		_key="${line%%|*}"
+		_key="$(trim "$_key")"
+
+		case "$_key" in
+		#*) continue
+		esac
+
+		if [ "$1" = "getval" ]; then
+			[ "$2" != "$_key" ] && continue
+
+			_value="${line##*|}"
+			_value="$(trim "$_value")"
+			echo "$_value"
+			return 0
+		else
+			echo "$_key"
+		fi
+	done < "$book_conf"
+
+	unset _key _value
+	[ "$1" = "getval" ] && return 1
+}
+
+rm_data()
+{
+	# usage rm_data <key>
+	: "${1:?}"
+	cl=
+	line=
+	file=
+	value=
+	old_ifs="$IFS"
+
+	IFS=
+	while read -r line
+	do
+		cl="$line\n"
+
+		key="$(trim "${cl%%|*}")"
+		# catch match
+		if [ "$key" = "$1" ]; then
+			value="$(trim "${cl##*|}")"
+
+			# delete if saved
+			case "$value" in
+			"$book_data"*) rm -f "$value"
+			esac
+			continue
+		fi
+
+		file="${file}${cl}"
+	done < "$book_conf"
+
+	IFS="$old_ifs"
+	# shellcheck disable=SC2059
+	printf "$file" > "$book_conf"
+	unset cl line file value old_ifs
+}
+
+clip()
+{
+	# usage: clip [ file/text ] <value>
+	: "${1:?}"
+	: "${2:?}"
+
+	if [ -n "$WAYLAND_DISPLAY" ]; then
+		dep_check "wl-copy"
+
+		[ "$1" = "text" ] &&
+			printf "%s" "$2" | wl-copy
+		[ "$1" = "file" ] &&
+			printf "file://%s" "$2" | wl-copy -t text/uri-list
+	elif [ -n "$DISPLAY" ]; then
+		dep_check "xclip"
+
+		[ "$1" = "text" ] &&
+			printf "%s" "$2" | xclip -selection clipboard
+		[ "$1" = "file" ] &&
+			printf "file://%s" "$2" | xclip -selection clipboard "$1" -t text/uri-list
+	fi
+
+	note "${1} coppied to clipboard"
+}
+
+set_menu()
+{
+	if [ -n "$WAYLAND_DISPLAY" ]; then
+		menu="$w_menu"
+	elif [ -n "$DISPLAY" ]; then
+		menu="$x_menu"
+	else
+		die "tty not supported"
+	fi
+}
+
+ip_menu()
+{
+	printf "" | "$menu" -p "${ico_dbk} ${1:?} "
+}
+
+key_menu()
+{
+	parse_data | "$menu" -l 25 -p "${ico_dbk} key " || return 1
+}
+
+
+########
+# MAIN #
+########
+
+key=
+value=
+
+[ -d "$book_data" ] ||
+	mkdir -p "$book_data"
+[ -d "$book_conf" ] ||
+	mkdir -p "${book_conf%/*}"
+
+set_menu
+case "$1" in
+-*) ;;
+"") ;;
+*)  command="$1" && shift
+esac
+
+case "$command" in
+insert|save)
+	value="${1:-$(ip_menu "value")}" || exit 1
+	key="${2:-$(ip_menu "key")}" || exit 1
+	value="$(trim "$value")"
+	key="$(trim "$key")"
+
+	parse_data getval "$key" > /dev/null &&
+		die "key already in use"
+
+	case "$command" in 
+	insert)
+		[ -e "$value" ] &&
+			value="$(realpath "$value")"
+		;;
+	save)
+		[  -d "$value" ] &&
+			warn "${value} is a directory, will not be saved"
+		if [ -f "$value" ]; then
+			cp "$value" "$book_data"
+			value="${book_data}/$(basename "$value")"
+		fi
+		;;
+	esac
+
+	case "$key" in
+	[![:cntrl:][:print:]]*) ;; # check for unicode chars
+	*)			icon="$(load_icon "$value")"
+	esac
+
+	printf "%s\t|\t%s\n" "${icon:+$icon }$key" "$value" >> "$book_conf"
+	;;
+rm)
+	key="${1:-$(key_menu)}" || exit 1
+
+	val="$(parse_data getval "$key")"
+	case "$val" in
+	${book_data}/*) rm "$val";;
+	esac
+
+	rm_data "$key"
+	;;
+"")
+	dep_check "xdg-open"
+	[ -s "$book_conf" ] ||
+		die "no bookmarks, try dbook -h"
+
+	key="${2:-$(key_menu)}" || exit 1
+	value="$(parse_data getval "$key")" ||
+		die "${key}: no such key"
+
+	case "$1" in
+	-t)
+		if [ -z "$WAYLAND_DISPLAY" ]
+		then
+			dep_check "xdotool"
+			xdotool type --delay 20 "$value"
+		else
+			dep_check "wtype"
+			wtype -d 20 "$value"
+		fi
+		;;
+	-c)
+		case "$(file --brief --dereference --mime-type "$value")" in
+		text/*)                        clip text "$(cat "$value")" ;;
+		*'No such file or directory)') clip text "$value" ;;
+		*)                             clip file "$value"
+		esac
+		;;
+	"")
+		xdg-open "$value" 2> /dev/null || clip text "$value" ;;
+	*)
+		die "${1}: invalid option"
+	esac
+	;;
+help)   usage ;;
+*)      die "$command, invalid command"
+esac
