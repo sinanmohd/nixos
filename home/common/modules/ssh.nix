@@ -10,6 +10,10 @@ in
     matchBlocks = {
       "*".compression = true;
       "kay".hostname = domain;
+      "exy" = {
+        port = 8022;
+        user = "u0_a369";
+      };
     };
   };
 }
