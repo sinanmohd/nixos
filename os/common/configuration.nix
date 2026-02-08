@@ -72,4 +72,10 @@ in
       "slack"
       "spotify"
     ];
+
+  programs.mosh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+  };
 }
