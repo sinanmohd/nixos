@@ -17,7 +17,6 @@ in
     ./modules/wayland.nix
     ./modules/nopolkit.nix
     ./modules/work
-    ./modules/firejail.nix
   ];
 
   networking.hostName = lib.mkDefault "pc";

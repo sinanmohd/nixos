@@ -70,7 +70,6 @@ in
     builtins.elem (lib.getName pkg) [
       "nvidia-x11"
       "slack"
-      "spotify"
     ];
 
   programs.mosh.enable = true;
