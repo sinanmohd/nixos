@@ -127,6 +127,8 @@ in
     config = null;
 
     settings = {
+      inherit font;
+
       assign = {
         "[app_id=foot]" = 1;
         "[app_id=firefox]" = 2;
@@ -240,12 +242,15 @@ in
         return = "mode default";
       };
 
-      exec = [ mako ];
+      exec = [
+        mako
+        "swaymsg 'workspace 1; layout tabbed'"
+      ];
+
       gaps.inner = 10;
       default_border.pixel = 2;
       floating_modifier = "${mod} normal";
       output."*".background = "${background} fill";
-      "client.focused" = "#4c7899 #285577 #ffffff #285577";
     };
   };
 }
