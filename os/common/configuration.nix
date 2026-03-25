@@ -73,8 +73,15 @@ in
     ];
 
   programs.mosh.enable = true;
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
+  services = {
+    resolved = {
+      enable = true;
+      dnssec = "allow-downgrade";
+      dnsovertls = "opportunistic";
+    };
+    openssh = {
+      enable = true;
+      settings.PasswordAuthentication = false;
+    };
   };
 }
