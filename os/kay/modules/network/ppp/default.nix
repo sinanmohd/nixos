@@ -3,6 +3,7 @@
 let
   inetVlan = 1003;
   wanInterface = "enp3s0";
+  vlanInterface = "wan";
 in
 {
   sops.secrets = {
@@ -11,17 +12,27 @@ in
     "ppp/username".sopsFile = ./secrets.yaml;
   };
 
-  networking = {
-    tempAddresses = "disabled";
-    vlans.wan = {
-      id = inetVlan;
-      interface = wanInterface;
+  systemd.network = {
+    enable = true;
+    netdevs."20-vlan-${toString inetVlan}" = {
+      netdevConfig = {
+        Kind = "vlan";
+        Name = vlanInterface;
+      };
+      vlanConfig.Id = inetVlan;
+    };
+    networks."30-${wanInterface}" = {
+      matchConfig.Name = wanInterface;
+      vlan = [ vlanInterface ];
+      networkConfig.LinkLocalAddressing = "no";
+      linkConfig.RequiredForOnline = "carrier";
     };
   };
 
+  networking.tempAddresses = "disabled";
+
   services.pppd = {
     enable = true;
-
     config = ''
       plugin pppoe.so
       debug
@@ -36,7 +47,6 @@ in
       lcp-echo-interval 1
       lcp-echo-failure 5
     '';
-
     script."01-ipv6-ra" = {
       type = "ip-up";
       runtimeInputs = [ pkgs.procps ];
@@ -45,13 +55,11 @@ in
         sysctl net.ipv6.conf.ppp0.accept_ra=2
       '';
     };
-
     peers.keralavision = {
       enable = true;
       autostart = true;
       configFile = config.sops.secrets."ppp/username".path;
     };
-
     secret = {
       chap = config.sops.secrets."ppp/chap-secrets".path;
       pap = config.sops.secrets."ppp/pap-secrets".path;
