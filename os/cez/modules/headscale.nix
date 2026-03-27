@@ -37,7 +37,6 @@ in
 
   services.tailscale = {
     enable = true;
-    interfaceName = "headscale";
     openFirewall = true;
 
     authKeyFile = config.sops.secrets."misc/headscale".path;

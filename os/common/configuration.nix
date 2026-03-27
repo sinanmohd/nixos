@@ -27,6 +27,7 @@ in
     useDHCP = false;
     hostName = lib.mkOptionDefault "common";
   };
+  systemd.network.enable = true;
 
   zramSwap.enable = true;
   swapDevices = lib.mkDefault [
