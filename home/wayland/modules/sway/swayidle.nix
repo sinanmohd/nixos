@@ -56,7 +56,7 @@ in
 
   services.swayidle = {
     enable = true;
-    systemdTarget = "sway-session.target";
+    systemdTargets = [ "sway-session.target" ];
     events."before-sleep" = swaylock;
 
     timeouts = [

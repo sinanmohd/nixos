@@ -20,7 +20,7 @@ in
     ../../global/common
   ];
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "26.05";
   time.timeZone = "Asia/Kolkata";
 
   networking = {
@@ -77,8 +77,10 @@ in
   services = {
     resolved = {
       enable = true;
-      dnssec = "allow-downgrade";
-      dnsovertls = "opportunistic";
+      settings.Resolve = {
+        DNSOverTLS = "opportunistic";
+        DNSSEC = "allow-downgrade";
+      };
     };
     openssh = {
       enable = true;

@@ -26,7 +26,7 @@ in
 
   home = {
     inherit username;
-    stateVersion = "25.05";
+    stateVersion = "26.05";
     homeDirectory = "/home/${config.home.username}";
 
     packages = with pkgs; [

@@ -32,6 +32,6 @@ in
   };
 
   documentation.dev.enable = true;
-  programs.adb.enable = true;
+  environment.systemPackages = [ pkgs.android-tools ];
   users.users.${user}.extraGroups = [ "adbusers" ];
 }
