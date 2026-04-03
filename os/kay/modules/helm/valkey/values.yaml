@@ -1,0 +1,14 @@
+valkey:
+  enabled: true
+  architecture: "replication"
+  replicaCount: 3
+  persistence:
+    enabled: true
+    storageClass: "local-path"
+    size: "8Gi"
+  sentinel:
+    enabled: true
+    masterName: "master"
+  auth:
+    enabled: true
+    password: "valkey"

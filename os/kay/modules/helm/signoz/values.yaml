@@ -1,0 +1,10 @@
+signoz:
+  enabled: true
+  clickhouse:
+    enabled: false
+  externalClickhouse: todo
+  signoz:
+    env:
+      signoz_emailing_enabled: todo
+    persistence:
+      enabled: false

@@ -1,0 +1,39 @@
+apiVersion: clickhouse.altinity.com/v1
+kind: ClickHouseInstallation
+metadata:
+  name: master
+spec:
+  configuration:
+    zookeeper:
+      nodes:
+        - host: zookeeper.zookeeper
+          port: 2181
+    clusters:
+      - name: master
+        layout:
+          shardsCount: 1
+          replicasCount: 2
+        templates:
+          podTemplate: clickhouse-pod
+          volumeClaimTemplate: clickhouse-storage
+
+  templates:
+    podTemplates:
+      - name: clickhouse-pod
+        spec:
+          containers:
+            - name: clickhouse
+              image: altinity/clickhouse-server:25.3.8.10042.altinitystable
+
+    volumeClaimTemplates:
+      - name: clickhouse-storage
+        reclaimPolicy: {{ .Values.reclaimPolicy | required "A valid reclaimPolicy is required" | quote }}
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: {{ .Values.size | required "A valid size is required" | quote }}
+          {{- if .Values.storageClass }}
+          storageClassName: {{ .Values.storageClass | quote }}
+          {{- end }}

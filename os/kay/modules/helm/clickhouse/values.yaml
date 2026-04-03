@@ -1,0 +1,6 @@
+storageClass: local-path
+size: 8Gi
+reclaimPolicy: Delete # Retain
+
+altinity-clickhouse-operator:
+  enabled: true

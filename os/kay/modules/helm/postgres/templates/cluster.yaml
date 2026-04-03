@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.9
+  storage:
+    {{- if .Values.storageClass }}
+    storageClass: {{ .Values.storageClass | quote }}
+    {{- end }}
+    size: {{ .Values.size | required "A valid size is required" | quote }}
