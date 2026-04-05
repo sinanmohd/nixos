@@ -1,93 +1,85 @@
 { ... }:
 let
-  wanInterface = "ppp0";
+  # wanInterface = "ppp0";
 
   gponInterface = "enp3s0";
   gponHost = "192.168.38.1";
   gponPrefix = 24;
 
-  lanInterface = "enp8s0f3u1c2";
+  lanInterface_1 = "enp8s0f3u1c2";
   lanBridgeInterface = "lan";
   lanPrefix = 24;
   lanHost = "192.168.43.1";
 
-  lanLeaseRangeStart = "192.168.43.100";
-  lanLeaseRangeEnd = "192.168.43.254";
   # lanWapMac = "40:86:cb:d7:40:49";
   # lanWapIp = "192.168.43.2";
 in
 {
-  networking = {
-    bridges.${lanBridgeInterface}.interfaces = [ lanInterface ];
+  systemd.network = {
+    enable = true;
+    netdevs = {
+      "20-${lanBridgeInterface}" = {
+        netdevConfig = {
+          Kind = "bridge";
+          Name = lanBridgeInterface;
+        };
+      };
+    };
+    networks = {
+      "30-${lanInterface_1}" = {
+        matchConfig.Name = lanInterface_1;
+        networkConfig.Bridge = lanBridgeInterface;
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "40-${lanBridgeInterface}" = {
+        matchConfig.Name = lanBridgeInterface;
+        linkConfig.RequiredForOnline = "routable";
+        networkConfig = {
+          Address = "${lanHost}/${toString lanPrefix}";
+          DHCPServer = true;
 
-    nat = {
-      enable = true;
-      externalInterface = wanInterface;
-      internalInterfaces = [ lanBridgeInterface ];
+          IPMasquerade = "ipv4";
+          IPv6Forwarding = true;
+        };
+        dhcpServerConfig = {
+          PoolOffset = 100;
+          DNS = "_server_address";
+        };
+      };
+      "40-${gponInterface}" = {
+        matchConfig.Name = gponInterface;
+        networkConfig.Address = "${gponHost}/${toString gponPrefix}";
+        linkConfig.RequiredForOnline = "routable";
+      };
     };
-    interfaces = {
-      ${lanBridgeInterface}.ipv4.addresses = [
-        {
-          address = lanHost;
-          prefixLength = lanPrefix;
-        }
-      ];
-      ${gponInterface}.ipv4.addresses = [
-        {
-          address = gponHost;
-          prefixLength = gponPrefix;
-        }
-      ];
-    };
+  };
+  networking = {
+    # nat = {
+    #   enable = true;
+    #   externalInterface = wanInterface;
+    #   internalInterfaces = [ lanBridgeInterface ];
+    # };
     firewall = {
       allowedUDPPorts = [
         53
         67
       ];
       allowedTCPPorts = [ 53 ];
-      extraCommands = ''
-        iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
-            -o ${wanInterface} \
-            -j TCPMSS --clamp-mss-to-pmtu
-      '';
-      extraStopCommands = ''
-        iptables -t mangle -D FORWARD -p tcp --tcp-flags SYN,RST SYN \
-            -o ${wanInterface} \
-            -j TCPMSS --clamp-mss-to-pmtu
-      '';
+      # extraCommands = ''
+      #   iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
+      #       -o ${wanInterface} \
+      #       -j TCPMSS --clamp-mss-to-pmtu
+      # '';
+      # extraStopCommands = ''
+      #   iptables -t mangle -D FORWARD -p tcp --tcp-flags SYN,RST SYN \
+      #       -o ${wanInterface} \
+      #       -j TCPMSS --clamp-mss-to-pmtu
+      # '';
     };
   };
 
-  services = {
-    kea.dhcp4 = {
-      enable = true;
-      settings = {
-        interfaces-config.interfaces = [ lanBridgeInterface ];
-        lease-database = {
-          persist = true;
-          type = "memfile";
-          name = "/var/lib/kea/dhcp4.leases";
-        };
-        subnet4 = [
-          {
-            id = 1;
-            pools = [
-              {
-                pool = "${lanLeaseRangeStart} - ${lanLeaseRangeEnd}";
-              }
-            ];
-            subnet = "${lanHost}/${toString lanPrefix}";
-          }
-        ];
-        rebind-timer = 2000;
-        renew-timer = 1000;
-        valid-lifetime = 4000;
-      };
-    };
-
-    resolved = {
-      enable = true;
-      settings.Resolve.DNSStubListenerExtra = lanHost;
-    };
+  services.resolved = {
+    enable = true;
+    settings.Resolve.DNSStubListenerExtra = lanHost;
   };
 }
