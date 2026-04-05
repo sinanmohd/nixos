@@ -25,7 +25,6 @@
     ./modules/services/alina
     ./modules/services/minio.nix
     ./modules/services/matrix
-    ./modules/services/cgit.nix
     ./modules/services/vaultwarden
   ];
 

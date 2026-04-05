@@ -137,12 +137,6 @@ in
           root = "/var/www/${domain}";
         };
 
-        "git.${domain}" = defaultOpts // {
-          extraConfig = ''
-            ssl_early_data on;
-          '';
-        };
-
         "bin.${domain}" = defaultOpts // {
           extraConfig = ''
             ssl_early_data on;

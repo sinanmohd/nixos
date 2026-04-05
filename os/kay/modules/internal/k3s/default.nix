@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  lanHost = "192.168.43.1,fe80::caa3:62ff:fe90:cc13";
+in
 {
   systemd.services.k3s.path = [ pkgs.criu ];
 
@@ -15,6 +18,7 @@
     gracefulNodeShutdown.enable = true;
     clusterInit = true;
     role = "server";
+    nodeIP = lanHost;
     extraFlags = [
       "--write-kubeconfig-group users"
       "--write-kubeconfig-mode 0640"

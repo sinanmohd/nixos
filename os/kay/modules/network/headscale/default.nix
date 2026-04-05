@@ -178,7 +178,7 @@ in
         integration.agent = {
           enabled = true;
           host_name = "headplane";
-          pre_authkey_path = config.sops.secrets."headplane/preauth_key".path;
+          # pre_authkey_path = config.sops.secrets."headplane/preauth_key".path;
         };
       };
     };

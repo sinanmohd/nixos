@@ -87,9 +87,7 @@ in
 
     resolved = {
       enable = true;
-      extraConfig = ''
-        DNSStubListenerExtra=${lanHost}
-      '';
+      settings.Resolve.DNSStubListenerExtra = lanHost;
     };
   };
 }

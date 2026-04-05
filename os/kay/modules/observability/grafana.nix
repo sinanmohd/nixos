@@ -41,6 +41,7 @@ in
           admin_user = user;
           admin_email = email;
           admin_password = "$__file{${config.sops.secrets."misc/default_password".path}}";
+          secret_key = "SW2YcwTIb9zpOOhoPsMm";
         };
       };
     };

@@ -26,7 +26,7 @@ in
     "mail.${domain}/password/noreply".sopsFile = ./secrets.yaml;
   };
 
-  systemd.services.stalwart-mail.serviceConfig.LoadCredential = [
+  systemd.services.stalwart.serviceConfig.LoadCredential = [
     "password_admin:${config.sops.secrets."mail.${domain}/password/admin".path}"
     "password_noreply:${config.sops.secrets."mail.${domain}/password/noreply".path}"
 
@@ -47,7 +47,7 @@ in
     ];
   };
 
-  services.stalwart-mail = {
+  services.stalwart = {
     enable = true;
     openFirewall = true;
 
