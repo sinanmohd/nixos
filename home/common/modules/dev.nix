@@ -9,6 +9,6 @@
     man-pages-posix
 
     nil
-    nodePackages.bash-language-server
+    bash-language-server
   ];
 }
