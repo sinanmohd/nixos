@@ -15,7 +15,8 @@
       done
 
       cat <<- EOF | knsupdate
-              server  2001:470:ee65::1
+              server  127.0.0.153
+              local   127.0.0.153
               zone    sinanmohd.com.
 
               update  delete  sinanmohd.com.  AAAA
