@@ -21,11 +21,20 @@ in
       };
       vlanConfig.Id = inetVlan;
     };
-    networks."30-${wanInterface}" = {
-      matchConfig.Name = wanInterface;
-      vlan = [ vlanInterface ];
-      networkConfig.LinkLocalAddressing = "no";
-      linkConfig.RequiredForOnline = "carrier";
+    networks = {
+      "30-${wanInterface}" = {
+        matchConfig.Name = wanInterface;
+        networkConfig = {
+          LinkLocalAddressing = "no";
+          VLAN = vlanInterface;
+        };
+        linkConfig.RequiredForOnline = "carrier";
+      };
+      "30-${vlanInterface}" = {
+        matchConfig.Name = vlanInterface;
+        networkConfig.LinkLocalAddressing = "no";
+        linkConfig.RequiredForOnline = "carrier";
+      };
     };
   };
 

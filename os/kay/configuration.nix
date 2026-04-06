@@ -7,7 +7,7 @@
     ./modules/dns
     ./modules/network/ppp
     ./modules/network/headscale
-    # ./modules/network/hurricane
+    ./modules/network/hurricane
     ./modules/network/router.nix
 
     ./modules/observability
