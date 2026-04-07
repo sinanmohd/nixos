@@ -1,0 +1,12 @@
+{{- range $.Values.autoCreateDB }}
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: {{ . }}
+spec:
+  name: {{ . }}
+  owner: {{ . }}
+  cluster:
+    name: postgres
+---
+{{- end -}}

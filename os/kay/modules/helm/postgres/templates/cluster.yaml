@@ -3,10 +3,22 @@ kind: Cluster
 metadata:
   name: postgres
 spec:
-  instances: 3
+  instances: {{ .Values.instances }}
   imageName: ghcr.io/cloudnative-pg/postgresql:17.9
   storage:
     {{- if .Values.storageClass }}
     storageClass: {{ .Values.storageClass | quote }}
     {{- end }}
     size: {{ .Values.size | required "A valid size is required" | quote }}
+  {{- if .Values.autoCreateDB }}
+  managed:
+    roles:
+    {{- range $.Values.autoCreateDB }}
+    - name: {{ . }}
+      ensure: present
+      login: true
+      superuser: false
+      passwordSecret:
+        name: "{{ . }}-cnpg-user"
+    {{- end -}}
+  {{- end -}}

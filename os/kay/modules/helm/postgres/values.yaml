@@ -1,3 +1,4 @@
+instances: 1
 storageClass: local-path
 size: 16Gi
 
@@ -5,3 +6,6 @@ cloudnative-pg:
   enabled: true
   config:
     clusterWide: false
+
+autoCreateDB:
+  - signoz
