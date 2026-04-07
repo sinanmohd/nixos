@@ -2,7 +2,7 @@
 {
   imports = [
     ./modules/vaultwarden.nix
-    ./modules/k9s.nix
+    ./modules/k8s
     ../wayland/home.nix
   ];
 
