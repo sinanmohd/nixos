@@ -1,6 +1,11 @@
+image: altinity/clickhouse-server:25.3.8.10042.altinitystable
 storageClass: local-path
 size: 8Gi
-reclaimPolicy: Delete # Retain
+reclaimPolicy: Delete # (Retain|Delete)
+replicaCount: 1
+
+autoCreateDB:
+  - signoz
 
 altinity-clickhouse-operator:
   enabled: true
