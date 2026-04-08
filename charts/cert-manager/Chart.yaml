@@ -1,0 +1,17 @@
+apiVersion: v2
+
+name: cert-manager
+description: A Helm Chart for Cert Manager
+type: application
+version: 0.1.0
+
+maintainers:
+  - name: "sinanmohd"
+    email: "sinan@sinanmohd.com"
+    url: "https://www.sinanmohd.com"
+
+dependencies:
+  - name: cert-manager
+    version: 1.20.1
+    repository: https://charts.jetstack.io
+    condition: cert-manager.enabled
