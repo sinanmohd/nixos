@@ -8,6 +8,7 @@ users:
   - name: signoz
     grants:
       - SELECT(host_name, host_address, port, cluster) ON system.clusters
+      - SELECT(name, type) ON system.disks
       - SELECT(entry, cluster, query, host, port, status, exception_code) ON system.distributed_ddl_queue
       - SELECT(host, port) ON system.zookeeper_connection
 
