@@ -12,7 +12,7 @@ spec:
         - host: zookeeper.zookeeper
           port: 2181
     clusters:
-      - name: master
+      - name: cluster
         layout:
           shardsCount: 1
           replicasCount: {{ .Values.replicaCount }}

@@ -6,6 +6,7 @@ signoz:
   externalClickhouse:
     host: clickhouse-clickhouse-clickhouse.clickhouse
     user: signoz
+    cluster: cluster
     password: signoz
     database: signoz_metrics
     traceDatabase: signoz_traces
@@ -14,12 +15,13 @@ signoz:
 
   signoz:
     env:
-      #  TODO: setup email
+      #  TODO: setup email & jwt
       # signoz_emailing_enabled: todo
       # signoz_emailing_smtp_address: todo
       # signoz_emailing_smtp_from: todo
       # signoz_emailing_smtp_auth_username: todo
       # signoz_emailing_smtp_auth_password: todo
+      # signoz_tokenizer_jwt_secret: todo
       signoz_sqlstore_provider: postgres
       signoz_sqlstore_postgres_dsn: postgres://signoz:signoz@postgres-rw.postgres:5432/signoz?sslmode=disable
     persistence:

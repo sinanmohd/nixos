@@ -1,4 +1,4 @@
-image: altinity/clickhouse-server:25.3.8.10042.altinitystable
+image: altinity/clickhouse-server:26.1.6.20001.altinityantalya
 storageClass: local-path
 size: 8Gi
 reclaimPolicy: Delete # (Retain|Delete)
@@ -6,6 +6,16 @@ replicaCount: 1
 
 users:
   - name: signoz
+    grants:
+      - SELECT(host_name, host_address, port, cluster) ON system.clusters
+      - SELECT(entry, cluster, query, host, port, status, exception_code) ON system.distributed_ddl_queue
+      - SELECT(host, port) ON system.zookeeper_connection
+
+      - CLUSTER ON *.*
+      - REMOTE ON *.*
+
+      - ALL ON signoz_metadata.*
+      - ALL ON signoz_analytics.*
     databases:
       - signoz_metrics
       - signoz_traces

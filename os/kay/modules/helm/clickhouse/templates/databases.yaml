@@ -30,21 +30,24 @@ data:
     clickhouse-client \
       --host clickhouse-{{ .Release.Name }}-clickhouse <<- EOF
     {{- range $.Values.users }}
+      {{ $name := .name -}}
+
       CREATE USER IF NOT EXISTS {{ .name }} IDENTIFIED
       WITH sha256_password BY '{{ .name }}' {{- if not .databases -}} ; {{- end }}
-
-      {{- if .databases }}
+      {{ if .databases -}}
       DEFAULT DATABASE {{ first .databases }};
-      {{- end -}}
+      {{- end }}
 
-      {{- $name := .name -}}
-      {{- range .databases }}
+      {{ range .grants -}}
+      grant {{ . }} TO '{{ $name }}';
+      {{ end }}
+
+      {{ range .databases -}}
       CREATE DATABASE IF NOT EXISTS {{ . }};
-      GRANT ALL ON {{ . }}.* TO {{ $name }};
-      {{- end -}}
+      grant ALL ON {{ . }}.* TO {{ $name }};
+      {{ end -}}
     {{- end }}
     EOF
-    echo "Database initialization complete"
 ---
 apiVersion: batch/v1
 kind: Job
