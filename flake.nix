@@ -68,7 +68,7 @@
 
           modules = [
             self.nixosModules.common
-            ./os/${host}/configuration.nix
+            ./nix/os/${host}/configuration.nix
           ];
         };
 
@@ -77,16 +77,16 @@
         home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.${system};
           modules = [
-            ./home/common/home.nix
+            ./nix/home/common/home.nix
           ]
-          ++ lib.optional (builtins.pathExists ./home/${host}) ./home/${host}/home.nix;
+          ++ lib.optional (builtins.pathExists ./nix/home/${host}) ./nix/home/${host}/home.nix;
         };
     in
     {
       nixosModules = lib.genAttrs [ "common" "server" "pc" ] (host: {
         nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
         imports = [
-          ./os/${host}/configuration.nix
+          ./nix/os/${host}/configuration.nix
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
           determinate.nixosModules.default

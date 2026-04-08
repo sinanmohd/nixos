@@ -6,23 +6,23 @@ keys:
   - &machine_fscusat age1yqma4xm4qss787cnwv2v7j2e0eswhm5k9f27n6zhp74euyydv9essxdrmn
 
 creation_rules:
-  - path_regex: (os|home)/(pc|cez)/.*
+  - path_regex: nix/(os|home)/(pc|cez)/.*
     key_groups:
       - age:
         - *sinan
         - *machine_cez
-  - path_regex: os/kay/.*
+  - path_regex: nix/os/kay/.*
     key_groups:
       - age:
         - *sinan
         - *machine_kay
 
-  - path_regex: os/lia/.*
+  - path_regex: nix/os/lia/.*
     key_groups:
       - age:
         - *sinan
         - *machine_lia
-  - path_regex: os/fscusat/.*
+  - path_regex: nix/os/fscusat/.*
     key_groups:
       - age:
         - *sinan
