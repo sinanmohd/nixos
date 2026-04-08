@@ -13,6 +13,21 @@ signoz:
     logDatabase: signoz_logs
     meterDatabase: signoz_meter
 
+  otelCollector:
+    ports:
+      otlp-http:
+        enabled: false
+      metrics:
+        enabled: false
+      jaeger-thrift:
+        enabled: false
+      jaeger-grpc:
+        enabled: false
+      logsjson:
+        enabled: false
+      logsheroku:
+        enabled: false
+
   signoz:
     env:
       #  TODO: setup email & jwt
