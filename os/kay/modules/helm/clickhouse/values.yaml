@@ -4,8 +4,13 @@ size: 8Gi
 reclaimPolicy: Delete # (Retain|Delete)
 replicaCount: 1
 
-autoCreateDB:
-  - signoz
+users:
+  - name: signoz
+    databases:
+      - signoz_metrics
+      - signoz_traces
+      - signoz_logs
+      - signoz_meter
 
 altinity-clickhouse-operator:
   enabled: true

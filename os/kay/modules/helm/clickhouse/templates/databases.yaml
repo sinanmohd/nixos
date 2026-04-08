@@ -1,4 +1,4 @@
-{{- if .Values.autoCreateDB }}
+{{- if .Values.users }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -29,12 +29,19 @@ data:
     echo "Creating databases..."
     clickhouse-client \
       --host clickhouse-{{ .Release.Name }}-clickhouse <<- EOF
-    {{- range $.Values.autoCreateDB }}
-      CREATE USER IF NOT EXISTS {{ . }} IDENTIFIED
-      WITH sha256_password
-      BY '{{ . }}' DEFAULT DATABASE {{ . }};
+    {{- range $.Values.users }}
+      CREATE USER IF NOT EXISTS {{ .name }} IDENTIFIED
+      WITH sha256_password BY '{{ .name }}' {{- if not .databases -}} ; {{- end }}
+
+      {{- if .databases }}
+      DEFAULT DATABASE {{ first .databases }};
+      {{- end -}}
+
+      {{- $name := .name -}}
+      {{- range .databases }}
       CREATE DATABASE IF NOT EXISTS {{ . }};
-      GRANT ALL ON {{ . }}.* TO {{ . }};
+      GRANT ALL ON {{ . }}.* TO {{ $name }};
+      {{- end -}}
     {{- end }}
     EOF
     echo "Database initialization complete"
@@ -42,7 +49,7 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ .Release.Name }}-clickhouse-db-create-{{ join "-" $.Values.autoCreateDB | sha256sum  | trunc 8 }}"
+  name: "{{ .Release.Name }}-clickhouse-db-create-{{ $.Values.users | toJson | sha256sum | trunc 8 }}"
 spec:
   ttlSecondsAfterFinished: 86400 # 1Day
   template:
