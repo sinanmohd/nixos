@@ -2,9 +2,25 @@ signoz:
   enabled: true
   clickhouse:
     enabled: false
-  externalClickhouse: todo
+
+  externalClickhouse:
+    host: clickhouse-clickhouse-clickhouse.clickhouse
+    user: signoz
+    password: signoz
+    database: signoz_metrics
+    traceDatabase: signoz_traces
+    logDatabase: signoz_logs
+    meterDatabase: signoz_meter
+
   signoz:
     env:
-      signoz_emailing_enabled: todo
+      #  TODO: setup email
+      # signoz_emailing_enabled: todo
+      # signoz_emailing_smtp_address: todo
+      # signoz_emailing_smtp_from: todo
+      # signoz_emailing_smtp_auth_username: todo
+      # signoz_emailing_smtp_auth_password: todo
+      signoz_sqlstore_provider: postgres
+      signoz_sqlstore_postgres_dsn: postgres://signoz:signoz@postgres-rw.postgres:5432/signoz?sslmode=disable
     persistence:
       enabled: false
