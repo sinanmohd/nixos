@@ -10,7 +10,7 @@ variable "api_key" {
   default     = null
 }
 
-variable "dashboards" {
+variable "dashboard_urls" {
   description = "List of URLs for SigNoz dashboards"
   type        = list(string)
   default = [
@@ -18,13 +18,14 @@ variable "dashboards" {
     "https://raw.githubusercontent.com/SigNoz/dashboards/main/postgresql/postgresql.json",
     "https://raw.githubusercontent.com/SigNoz/dashboards/main/redis/redis-overview.json",
 
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/host-metrics.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/k8s-events-receiver.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-cluster-metrics.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-node-metrics-detailed.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-node-metrics-overall.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-pod-metrics-detailed.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-pod-metrics-overall.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-pvc-metrics.json",
+    # modifed and mvoed to ./dashboards/*
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/host-metrics.json",
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/k8s-events-receiver.json",
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-cluster-metrics.json",
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-node-metrics-detailed.json",
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-node-metrics-overall.json",
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-pod-metrics-detailed.json",
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-pod-metrics-overall.json",
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-pvc-metrics.json",
   ]
 }
