@@ -34,8 +34,8 @@ resource "signoz_dashboard" "imported" {
   variables        = jsonencode(lookup(jsondecode(each.value), "variables", {}))
 
   # TODO: produced an unexpected new value: .version: was cty.StringVal("v4"), but now cty.StringVal("v5").
-  # version          = lookup(jsondecode(each.value), "version", "")
-  version = "v5"
+  # version = "v5"
+  version          = lookup(jsondecode(each.value), "version", "")
 
   widgets = jsonencode(lookup(jsondecode(each.value), "widgets", []))
 

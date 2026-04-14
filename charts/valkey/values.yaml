@@ -2,6 +2,8 @@ valkey:
   enabled: true
   architecture: "replication"
   replicaCount: 3
+  metrics:
+    enabled: false
   persistence:
     enabled: true
     storageClass: "local-path"

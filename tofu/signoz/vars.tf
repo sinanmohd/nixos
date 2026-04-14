@@ -16,9 +16,10 @@ variable "dashboard_urls" {
   default = [
     "https://raw.githubusercontent.com/SigNoz/dashboards/main/clickhouse/clickhouse-overview.json",
     "https://raw.githubusercontent.com/SigNoz/dashboards/main/postgresql/postgresql.json",
-    "https://raw.githubusercontent.com/SigNoz/dashboards/main/redis/redis-overview.json",
 
     # modifed and mvoed to ./dashboards/*
+    # "https://raw.githubusercontent.com/SigNoz/dashboards/main/redis/redis-overview.json",
+
     # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/host-metrics.json",
     # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/k8s-events-receiver.json",
     # "https://raw.githubusercontent.com/SigNoz/dashboards/refs/heads/main/k8s-infra-metrics/kubernetes-cluster-metrics.json",
