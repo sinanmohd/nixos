@@ -30,6 +30,6 @@ maintainers:
 
 dependencies:
   - name: valkey
-    version: 0.18.0
+    version: 0.19.0
     repository: oci://registry-1.docker.io/cloudpirates
     condition: valkey.enabled
