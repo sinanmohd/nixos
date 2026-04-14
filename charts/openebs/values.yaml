@@ -1,0 +1,44 @@
+openebs:
+  enabled: true
+
+  # disable legacy observability
+  alloy:
+    enabled: false
+  loki:
+    enabled: false
+
+  mayastor:
+    # disable call home metrics
+    # https://openebs.io/docs/user-guides/replicated-storage-user-guide/replicated-pv-mayastor/advanced-operations/call-home-metrics
+    obs:
+      callhome:
+        enabled: false
+    eventing:
+      enabled: false
+    nats:
+      cluster:
+        enabled: true
+        replicas: 1
+
+    # allow single node cluster
+    etcd:
+      replicaCount: 1
+
+    # disable default storageClass
+    storageClass:
+      enabled: false
+
+  # only enable lvm engine
+  engines:
+    local:
+      zfs:
+        enabled: false
+  localpv-provisioner:
+    analytics:
+      enabled: false
+    hostpathClass:
+      enabled: false
+  zfs-localpv:
+    crds:
+      zfsLocalPv:
+        enabled: false
