@@ -1,0 +1,15 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+provisioner: local.csi.openebs.io
+allowVolumeExpansion: true
+volumeBindingMode: Immediate
+reclaimPolicy: Delete
+metadata:
+  name: openebs-lvm
+parameters:
+  fsType: ext4
+  shared: "yes"
+  storage: "lvm"
+  thinProvision: "yes"
+  volgroup: "vg1"
+  # thin pool name: "vg1_thinpool"
