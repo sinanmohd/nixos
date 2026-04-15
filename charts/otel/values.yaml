@@ -1,2 +1,7 @@
+monitoring:
+  redis:
+    endpoint: "valkey.valkey:6379"
+    password: "valkey"
+
 opentelemetry-operator:
   enabled: true

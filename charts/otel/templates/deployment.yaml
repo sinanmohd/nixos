@@ -19,13 +19,15 @@ spec:
       k8s_events:
         auth_type: serviceAccount
       redis:
-        endpoint: valkey.valkey:6379
-        collection_interval: 60s
-        password: valkey
+        endpoint: {{ .Values.monitoring.redis.endpoint | quote }}
+        password: {{ .Values.monitoring.redis.password | quote }}
+        collection_interval: 16s
         metrics:
           redis.maxmemory:
             enabled: true
           redis.cmd.latency:
+            enabled: true
+          redis.db.keys:
             enabled: true
       {{/* prometheus: */}}
       {{/*   config: */}}
