@@ -1,0 +1,24 @@
+{{- if .Values.users }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-clickhouse-db-create-{{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum | trunc 8 }}"
+spec:
+  ttlSecondsAfterFinished: 86400 # 1Day
+  template:
+    spec:
+      volumes:
+        - name: "{{ .Release.Name }}-clickhouse-db-create-script"
+          configMap:
+            name: "{{ .Release.Name }}-clickhouse-db-create-script"
+      containers:
+      - name: clickhouse-db-create
+        image: "{{ .Values.image }}"
+        volumeMounts:
+          - mountPath: "/var/script.sh"
+            name: "{{ .Release.Name }}-clickhouse-db-create-script"
+            subPath: script.sh
+            readOnly: true
+        command: ["/bin/bash", "/var/script.sh"]
+      restartPolicy: Never
+{{- end }}
