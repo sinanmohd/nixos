@@ -1,0 +1,15 @@
+image: "percona/percona-server-mongodb:8.0.19-7"
+imagePullPolicy: "Always"
+storage:
+  size: 3Gi
+  class: openebs-lvm
+
+users:
+  - name: novu
+    db: novu
+    roles:
+      - name: dbOwner
+        db: novu
+
+psmdb-operator:
+  enabled: true
