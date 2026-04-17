@@ -29,6 +29,17 @@ spec:
             enabled: true
           redis.db.keys:
             enabled: true
+      postgresql:
+        endpoint: {{ .Values.monitoring.postgres.endpoint | quote }}
+        collection_interval: 16s
+        username: {{ .Values.monitoring.postgres.username | quote }}
+        password: {{ .Values.monitoring.postgres.password | quote }}
+        tls:
+          insecure: true
+        metrics:
+          postgresql.database.locks:
+            enabled: true
+
       {{/* prometheus: */}}
       {{/*   config: */}}
       {{/*     scrape_configs: */}}
@@ -111,7 +122,7 @@ spec:
     service:
       pipelines:
         metrics:
-          receivers: [k8s_cluster, redis]
+          receivers: [k8s_cluster, redis, postgresql]
           processors: [memory_limiter, batch, k8s_attributes, transform]
           exporters: [debug, otlp_grpc]
         logs:

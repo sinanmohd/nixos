@@ -11,3 +11,7 @@ users:
   - name: "signoz"
     db:
       - "signoz"
+  - name: "monitoring"
+    inRoles:
+      - pg_monitor
+      - pg_read_all_stats
