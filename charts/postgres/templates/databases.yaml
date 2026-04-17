@@ -1,12 +1,15 @@
-{{- range $.Values.autoCreateDB }}
+{{- range $.Values.users }}
+{{ $user := .name -}}
+{{- range .db }}
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: {{ . }}
+  name: {{ $user }}-{{ . }}
 spec:
   name: {{ . }}
-  owner: {{ . }}
+  owner: {{ $user }}
   cluster:
     name: postgres
 ---
+{{- end -}}
 {{- end -}}

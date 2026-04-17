@@ -7,5 +7,7 @@ cloudnative-pg:
   config:
     clusterWide: false
 
-autoCreateDB:
-  - signoz
+users:
+  - name: "signoz"
+    db:
+      - "signoz"

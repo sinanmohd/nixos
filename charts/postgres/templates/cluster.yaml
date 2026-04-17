@@ -10,15 +10,21 @@ spec:
     storageClass: {{ .Values.storageClass | quote }}
     {{- end }}
     size: {{ .Values.size | required "A valid size is required" | quote }}
-  {{- if .Values.autoCreateDB }}
+  {{- if $.Values.users }}
   managed:
     roles:
-    {{- range $.Values.autoCreateDB }}
-    - name: {{ . }}
+    {{- range $.Values.users }}
+    - name: {{ .name }}
       ensure: present
       login: true
       superuser: false
       passwordSecret:
-        name: "{{ . }}-cnpg-user"
+        name: "{{ .name }}-cnpg-user"
+      {{- if .inRoles }}
+      inRoles:
+        {{- range .inRoles }}
+        - {{ . }}
+        {{- end -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
