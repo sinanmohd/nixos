@@ -21,7 +21,7 @@ spec:
       redis:
         endpoint: {{ .Values.monitoring.redis.endpoint | quote }}
         password: {{ .Values.monitoring.redis.password | quote }}
-        collection_interval: 16s
+        collection_interval: 8s
         metrics:
           redis.maxmemory:
             enabled: true
@@ -29,9 +29,21 @@ spec:
             enabled: true
           redis.db.keys:
             enabled: true
+      mongodb:
+        hosts:
+          - endpoint: {{ .Values.monitoring.mongodb.endpoint | quote }}
+        username: {{ .Values.monitoring.mongodb.username | quote }}
+        password: {{ .Values.monitoring.mongodb.password | quote }}
+        collection_interval: 8s
+        initial_delay: 1s
+        tls:
+          insecure: true
+        metrics:
+          mongodb.operation.latency.time:
+            enabled: true
       postgresql:
         endpoint: {{ .Values.monitoring.postgres.endpoint | quote }}
-        collection_interval: 16s
+        collection_interval: 8s
         username: {{ .Values.monitoring.postgres.username | quote }}
         password: {{ .Values.monitoring.postgres.password | quote }}
         tls:
@@ -127,7 +139,7 @@ spec:
     service:
       pipelines:
         metrics:
-          receivers: [k8s_cluster, redis, postgresql, prometheus/clickhouse]
+          receivers: [k8s_cluster, redis, postgresql, prometheus/clickhouse, mongodb]
           processors: [memory_limiter, batch, k8s_attributes, transform]
           exporters: [debug, otlp_grpc]
         logs:

@@ -17,7 +17,9 @@ spec:
   users:
     {{- range .Values.users }}
     - name: {{ .name }}
+      {{- if .db }}
       db: {{ .db }}
+      {{- end }}
       passwordSecretRef:
         name: mongodb-users
         key: {{ .name }}_pass

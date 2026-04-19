@@ -10,6 +10,10 @@ users:
     roles:
       - name: dbOwner
         db: novu
+  - name: monitoring
+    roles:
+      - name: clusterMonitor
+        db: admin
 
 psmdb-operator:
   enabled: true
