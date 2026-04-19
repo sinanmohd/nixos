@@ -1,0 +1,11 @@
+{{- range $name, $spec := .Values.users }}
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaUser
+metadata:
+  name: {{ $name | quote }}
+  labels:
+    strimzi.io/cluster: kafka
+spec:
+{{- toYaml $spec | nindent 2 }}
+---
+{{- end }}
