@@ -41,11 +41,6 @@
         };
       };
 
-      "cpu_temperature 0" = {
-        position = 30;
-        settings.format = "%degrees°C";
-      };
-
       "cpu_usage" = {
         position = 20;
         settings.format = "  %usage";
