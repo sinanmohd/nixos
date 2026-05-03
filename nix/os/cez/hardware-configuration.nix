@@ -2,8 +2,6 @@
   modulesPath,
   nixos-hardware,
   config,
-  pkgs,
-  lib,
   ...
 }:
 
@@ -28,7 +26,6 @@
   ];
 
   boot = {
-    kernelPackages = lib.mkForce pkgs.linuxPackages;
     loader.systemd-boot.enable = true;
     blacklistedKernelModules = [ "k10temp" ];
     extraModulePackages = with config.boot.kernelPackages; [ zenpower ];
