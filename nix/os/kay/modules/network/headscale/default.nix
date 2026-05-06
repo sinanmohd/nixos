@@ -25,15 +25,19 @@ let
       "group:owner" = [ "sinan@" ];
       "group:bud" = [
         "sinan@"
-        "ann@"
+        "bud@"
       ];
     };
+
     tagOwners = {
       "tag:internal" = [ "group:owner" ];
-      "tag:bud_clients" = [ "group:bud" ];
       "tag:cusat" = [ "group:owner" ];
       "tag:gaijin" = [ "group:owner" ];
+
+      "tag:bud_staff" = [ "group:bud" ];
+      "tag:bud_internal" = [ "group:bud" ];
     };
+
     autoApprovers = {
       routes = {
         "192.168.43.0/24" = [
@@ -50,6 +54,7 @@ let
         "tag:internal"
       ];
     };
+
     acls = [
       {
         action = "accept";
@@ -69,6 +74,11 @@ let
       }
       {
         action = "accept";
+        src = [ "tag:internal" ];
+        dst = [ "*:*" ];
+      }
+      {
+        action = "accept";
         src = [ "nazer@" ];
         dst = [ "autogroup:internet:*" ];
       }
@@ -76,12 +86,12 @@ let
       {
         action = "accept";
         src = [ "group:bud" ];
-        dst = [ "tag:bud_clients:*" ];
+        dst = [ "group:bud:*" ];
       }
       {
         action = "accept";
-        src = [ "tag:bud_clients" ];
-        dst = [ "tag:bud_clients:80,443" ];
+        src = [ "group:bud" ];
+        dst = [ "tag:bud_clients:*" ];
       }
     ];
   };
