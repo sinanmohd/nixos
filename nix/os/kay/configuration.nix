@@ -23,7 +23,6 @@
     ./modules/services/nix-cache
     ./modules/services/immich.nix
     ./modules/services/alina
-    ./modules/services/minio.nix
     ./modules/services/matrix
     ./modules/services/vaultwarden
   ];

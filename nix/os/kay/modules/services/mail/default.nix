@@ -50,6 +50,7 @@ in
   services.stalwart = {
     enable = true;
     openFirewall = true;
+    stateVersion = "25.11";
 
     settings = {
       queue.outbound = {

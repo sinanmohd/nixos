@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  headplane,
   namescale,
   ...
 }:
@@ -98,11 +97,9 @@ let
 in
 {
   imports = [
-    headplane.nixosModules.headplane
     namescale.nixosModules.namescale
   ];
 
-  nixpkgs.overlays = [ headplane.overlays.default ];
   environment.systemPackages = [ config.services.headscale.package ];
 
   sops.secrets = {
@@ -188,7 +185,7 @@ in
         integration.agent = {
           enabled = true;
           host_name = "headplane";
-          # pre_authkey_path = config.sops.secrets."headplane/preauth_key".path;
+          pre_authkey_path = config.sops.secrets."headplane/preauth_key".path;
         };
       };
     };

@@ -6,11 +6,6 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
-    headplane = {
-      url = "github:tale/headplane";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,7 +41,6 @@
       nixos-hardware,
       alina,
       determinate,
-      headplane,
       namescale,
       nix-index-database,
     }:
@@ -61,7 +55,6 @@
           specialArgs = {
             inherit alina;
             inherit namescale;
-            inherit headplane;
             inherit determinate;
             inherit nixos-hardware;
           };
