@@ -6,7 +6,7 @@ terraform {
     }
     signoz = {
       source  = "signoz/signoz"
-      version = "0.0.11"
+      version = "0.0.16"
     }
   }
 }

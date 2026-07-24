@@ -10,6 +10,12 @@ variable "api_key" {
   default     = null
 }
 
+variable "alert_channels" {
+  description = "SigNoz Notification Channels from Settings -> Notification Channels"
+  type        = list(string)
+  default     = ["webhook"]
+}
+
 variable "dashboard_urls" {
   description = "List of URLs for SigNoz dashboards"
   type        = list(string)
