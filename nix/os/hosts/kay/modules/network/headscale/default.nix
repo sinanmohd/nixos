@@ -73,6 +73,11 @@ let
       {
         action = "accept";
         src = [ "tag:bud_internal" ];
+        dst = [ "tag:bud_internal:*" ];
+      }
+      {
+        action = "accept";
+        src = [ "tag:bud_internal" ];
         dst = [ "tag:bud_clients:*" ];
       }
       {
