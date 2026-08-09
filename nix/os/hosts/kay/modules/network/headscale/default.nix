@@ -97,7 +97,7 @@ in
       owner = config.services.headscale.user;
       sopsFile = ./secrets.yaml;
     };
-    "headplane/preauth_key" = {
+    "headplane/api_key" = {
       owner = config.services.headscale.user;
       sopsFile = ./secrets.yaml;
     };
@@ -164,12 +164,12 @@ in
         };
         headscale = {
           inherit url;
+          api_key_path = config.sops.secrets."headplane/api_key".path;
           config_path = "${headscaleConfig}";
         };
         integration.agent = {
           enabled = true;
           host_name = "headplane";
-          pre_authkey_path = config.sops.secrets."headplane/preauth_key".path;
         };
       };
     };

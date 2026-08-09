@@ -2,7 +2,7 @@
   description = "sinan's reproducible systems";
 
   inputs = {
-    nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:eyJhb/nixpkgs/stalwart-webadmin-fix-wasm";
 
     deploy-rs = {
       url = "github:serokell/deploy-rs";
