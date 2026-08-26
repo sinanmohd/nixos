@@ -224,7 +224,8 @@
         "lanzaboote": "lanzaboote",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "website": "website"
       }
     },
     "rust-overlay": {
@@ -298,6 +299,26 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "website": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787731780,
+        "narHash": "sha256-zzDN+6BSO4OhQovalPyhc7KWUtpJIvyIfpdeAHCyAns=",
+        "owner": "sinanmohd",
+        "repo": "website",
+        "rev": "445eaa6df1d22e479d44582ce1a69937660c8801",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sinanmohd",
+        "repo": "website",
         "type": "github"
       }
     }

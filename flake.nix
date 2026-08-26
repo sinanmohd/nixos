@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:eyJhb/nixpkgs/stalwart-webadmin-fix-wasm";
 
+    website = {
+      url = "github:sinanmohd/website";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,7 +50,8 @@
       lanzaboote,
       nix-index-database,
       disko,
-    }:
+      website,
+    }@inputs:
     let
       lib = nixpkgs.lib;
 
@@ -66,6 +72,7 @@
         host: system:
         lib.nixosSystem {
           inherit system;
+          specialArgs = { inherit inputs; };
           modules = nixosImports ++ [
             ./nix/os/hosts/${host}
           ];

@@ -1,6 +1,8 @@
 {
   config,
   lib,
+  pkgs,
+  inputs,
   ...
 }:
 
@@ -120,7 +122,7 @@ in
             ssl_early_data on;
           '';
 
-          root = "/var/www/${domain}";
+          root = inputs.website.packages.${pkgs.stdenv.hostPlatform.system}.website + "/share/www";
         };
 
         "bin.${domain}" = defaultOpts // {
