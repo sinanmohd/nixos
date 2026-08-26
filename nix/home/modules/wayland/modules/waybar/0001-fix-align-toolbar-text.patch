@@ -1,4 +1,4 @@
-From 1a47e66fb850b3bad58dd8f46f5a970557792821 Mon Sep 17 00:00:00 2001
+From f0cefc2567b17127fef861c4491eb8e97ec61c7f Mon Sep 17 00:00:00 2001
 From: sinanmohd <sinan@sinanmohd.com>
 Date: Tue, 12 May 2026 22:46:13 +0530
 Subject: [PATCH] fix: align toolbar text
@@ -8,10 +8,10 @@ Subject: [PATCH] fix: align toolbar text
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/main.rs b/src/main.rs
-index 2b168d7..3c8a4ee 100644
+index 4828923..88f4ecb 100644
 --- a/src/main.rs
 +++ b/src/main.rs
-@@ -237,7 +237,7 @@ fn main() {
+@@ -230,7 +230,7 @@ fn main() {
              .unwrap_or("?");
  
          tooltip += &format!(
@@ -20,15 +20,15 @@ index 2b168d7..3c8a4ee 100644
              if args.nerd { "󰖜" } else { "🌅" },
              format_ampm_time(day, "sunrise", args.ampm),
              if args.nerd { "󰖛" } else { "🌇" },
-@@ -261,7 +261,7 @@ fn main() {
-             }
+@@ -255,7 +255,7 @@ fn main() {
  
+             let sep = if args.tabs { "\t" } else { " " };
              let mut tooltip_line = format!(
--                "{} {} {} {}",
+-                "{}{sep}{}{sep}{}{sep}{}",
 +                "{}  \t{}  \t{}  \t{}",
                  format_time(hour["time"].as_str().unwrap(), args.ampm),
                  if args.nerd {
                      WEATHER_CODES_NERD
 -- 
-2.53.0
+2.54.0
 
