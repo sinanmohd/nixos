@@ -20,6 +20,7 @@ $TTL 2d
 	IN	MX   10	mail
 
 	IN	TXT	"v=spf1 mx -all"
+	IN	TXT	"google-site-verification=tJtkicGdrsIoEcqykA7diwIIPrLTzdoAbJFlDnbiA7Y"
 _dmarc	IN	TXT	"v=DMARC1; p=reject; rua=mailto:reports@sinanmohd.com; ruf=mailto:reports@sinanmohd.com; adkim=s; aspf=s"
 
 ed25519._domainkey	IN	TXT	"v=DKIM1; k=ed25519; p=EHk924AruF9Y0Xaf009rpRl+yGusjmjT1Zeho67BnDU="
